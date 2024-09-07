@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="hu" xml:lang="hu"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Társas hálózatok elemzése - 6&nbsp; Kitekintés</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="next">
+<link href="./05_specialis_kapcsolatok.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nincs találat",
+    "search-matching-documents-text": "egyező dokumentumok",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Mégse",
+    "search-submit-button-title": "OK",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./06_kitekintes.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Kitekintés</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Társas hálózatok elemzése</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/abarik/tarsas_halozatok_elemzese_2024_25_1" title="Forráskód" class="quarto-navigation-tool px-1" aria-label="Forráskód"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A kurzusról</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tematika.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tematika</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_halozatok_R_ben.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Hálózatok az R-ben</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_alapfogalmak.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Alapfogalmak</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_fontos_csucsok.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Fontos csúcsok</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_halozat_szerkezete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A hálózat szerkezete</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_specialis_kapcsolatok.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Speciális kapcsolatok</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_kitekintes.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Kitekintés</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hivatkozások</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tartalomjegyzék</h2>
+   
+  <ul>
+  <li><a href="#szociometria" id="toc-szociometria" class="nav-link active" data-scroll-target="#szociometria"><span class="header-section-number">6.1</span> Szociometria</a>
+  <ul>
+  <li><a href="#moreno-szociometriája" id="toc-moreno-szociometriája" class="nav-link" data-scroll-target="#moreno-szociometriája"><span class="header-section-number">6.1.1</span> Moreno szociometriája</a>
+  <ul class="collapse">
+  <li><a href="#a-hudson-i-elmélet" id="toc-a-hudson-i-elmélet" class="nav-link" data-scroll-target="#a-hudson-i-elmélet"><span class="header-section-number">6.1.1.1</span> A Hudson-i elmélet</a></li>
+  </ul></li>
+  <li><a href="#több-szempontú-szociogram" id="toc-több-szempontú-szociogram" class="nav-link" data-scroll-target="#több-szempontú-szociogram"><span class="header-section-number">6.1.2</span> Több szempontú szociogram</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Kitekintés</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="szociometria" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="szociometria"><span class="header-section-number">6.1</span> Szociometria</h2>
+<p>A következő összefoglaló nem teljes, a részletes áttekintésekért érdemes a szakirodalmat tanulmányozni:</p>
+<ul>
+<li><span class="citation" data-cites="Merei1998">Mérei (<a href="references.html#ref-Merei1998" role="doc-biblioref">1998</a>)</span></li>
+<li><span class="citation" data-cites="Hoffmann2023">Hoffmann és mtsai. (<a href="references.html#ref-Hoffmann2023" role="doc-biblioref">2023</a>)</span></li>
+<li><span class="citation" data-cites="HoffmanTamas2022">Hoffman és mtsai. (<a href="references.html#ref-HoffmanTamas2022" role="doc-biblioref">2022</a>)</span></li>
+<li><span class="citation" data-cites="SallayPerge2007">Sallay &amp; Perge (<a href="references.html#ref-SallayPerge2007" role="doc-biblioref">2007</a>)</span></li>
+<li><span class="citation" data-cites="nkollar20171">N. Kollár (<a href="references.html#ref-nkollar20171" role="doc-biblioref">2017</a>)</span><br>
+</li>
+<li><span class="citation" data-cites="Keszi2022">Keszi &amp; Lohner (<a href="references.html#ref-Keszi2022" role="doc-biblioref">2022</a>)</span></li>
+<li><span class="citation" data-cites="kurtosi2011">Kürtösi (<a href="references.html#ref-kurtosi2011" role="doc-biblioref">2011</a>)</span></li>
+</ul>
+<p>A szociometria módszere alkalmas egy kis csoport tagjai közötti érzelmi kapcsolatok struktúrájának objektív felmérésére és a csoporttagok szociális pozíciójának feltérképezésére.</p>
+<p>Három változatát dolgozták ki:</p>
+<ol type="1">
+<li>egy szempontú szociometria (Moreno 1934) – rokonszenvi kérdések.</li>
+<li>több szempontú szociometria (Mérei) – rokonszenvi, közösségi funkcióra, egyéni tulajdonságokra/készségekre/képességekre, népszerűségre/közösségi helyzetre/érvényesülésre vonatkozó kérdések.</li>
+<li>hiearchikus szociomteria (Járóka, Veres 1978)– még differenciáltabb kategória rendszer.</li>
+</ol>
+<p>A több szempontú szociometriai felmérés lépései</p>
+<ol type="1">
+<li><p>Vizsgálandó csoport jellemzői</p>
+<ul>
+<li>A vizsgálat elvégzése előtt tájékozódunk a csoport életről: közös élmények, a csoportra váró fontos események, feladatok, az együttlétek lefolyása, stb.(A kérdések megfogalmazásánál ez fontos támpont lesz!)</li>
+<li>10-20 fős csoport, akik minimum 1 hónapja, napi rendszerességgel vagy minimum 6 hónapja heti rendszerességgel vannak együtt(pl. idősek klubja, iskolai osztály, sportolói csapat, munkahelyi team stb.)</li>
+</ul></li>
+<li><p>Vizsgálat elvégzésének feltételei</p></li>
+</ol>
+<p>A csoport működésének helyszínén (pl. osztályterem, edzés helyszíne) minden tag legyen jelen a kérdőív kitöltésekor!</p>
+<ol start="3" type="1">
+<li><p>Szociometriai kérdéssor összeállításának kritériumai</p>
+<ul>
+<li>Az instrukcióban jelöljék meg, hogy:
+<ul>
+<li>a tanulmányaikhoz kérik a kitöltő segítségét,</li>
+<li>az adott közösségre vonatkozó kérdéseket fognak feltenni,</li>
+<li>a kérdésekre a közösség tagjainak nevével kell a kitöltőnek válaszolnia, minden kérdésre legfeljebb 3 társanevét írhatja be azonosíthatóan(ezt a kérdéseket követő három pontozott sorral/vonallal lehet jelölni),</li>
+<li>ugyanakkor biztosítsák arról, hogy válaszait bizalmasanfogják kezelni, az anonimitás szabályait betartva a házi dolgozatban már nem lesznek beazonosíthatóak a megkérdezettek!</li>
+</ul></li>
+<li>A kérdések megfogalmazásakor konkretizálni kell a csoportra vonatkozóan a kérdések tartalmát (életkori sajátosságok + a csoport által reálisan átélhető és konkrét helyzetek). pl. Ha kisbusszal utazik a csapat egy-egy mérkőzés helyszínére, akkor ezt az információt építsük be a rokonszenvi kérdésbe: Ha a csapat egyik mérkőzése egy távolabbi településen van, az utazás során ki mellé ülne szívesen a buszon?</li>
+</ul></li>
+</ol>
+<section id="moreno-szociometriája" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="moreno-szociometriája"><span class="header-section-number">6.1.1</span> Moreno szociometriája</h3>
+<p>Moreno vizsgálta először a társas alakzatokat, és abban határozta meg az egyén helyét. Előtte is felismerték már a kiscsoportok jelentőségét, de a vizsgálatok egyénközpontúak maradtak, a társas vonatkozásokat személyiségjegyként kezelték. Moreno nem az egyén alkalmazkodási módját vagy kontaktuskészségét próbálta megragadni, hanem beilleszkedését a társas mezőbe, amelyben él. A beilleszkedést nem személyiségjegyekkel, hanem a személy társas pozíciójával határozta meg. A közösségek feltárására és leírására dolgozta ki a szociometriát.</p>
+<p>1925-ben Moreno megérkezik az USA-ba. Cooley, Allport és Sherif szociápszchológiai vizsgálatai is hatottak Morenora</p>
+<section id="a-hudson-i-elmélet" class="level4" data-number="6.1.1.1">
+<h4 data-number="6.1.1.1" class="anchored" data-anchor-id="a-hudson-i-elmélet"><span class="header-section-number">6.1.1.1</span> A Hudson-i elmélet</h4>
+<p>Moreno első nagyszabású vizsgálata a New York államban levő Hudson Intézet volt. Rendeltetését tekintve a mi egykori javítóintézeteinknek felelt meg. Serdülőkorú lányokat bírósági határozat alapján helyeztek oda többéves átnevelésre. A telepen 5-600 lány élt, 16 pavilonban, és mintegy 100 főnyi személyzet (nevelők, műhelyvezetők, szakmunkások stb.). Iskola, templom, kórház, műhelyek, mosoda, több gazdasági épület és egy majorság tartozott a telephez. Egy pavilonban átlagosan 30 lány élt, mintegy családot alkotva, egy családanya-nevelőnőnek (“gouvernante”-nak) a vezetésével. Minden pavilonnak saját háztartása volt; néhány lány egy közülük való vezetővel a házimunkát végezte, a többiek műhelyben dolgoztak vagy iskolába jártak. A fekete bőrű lányok külön pavilonokban laktak, de a munkahelyükön és az iskolában együtt voltak a fehérekkel.</p>
+<p>A szociometriai vizsgálat időpontjában 505 lány élt a telepen. Összehívták őket azzal az utasítással, hogy új lakásbeosztás készül, és maguk választhatják meg lakótársaikat. Írják fel rangsorban annak az öt lánynak a nevét, akivel együtt szeretnének lakni, tekintet nélkül arra, hogy azok éppen melyik pavilonban laknak. Valamennyi társuk jelen van, jól nézzenek körül, és így döntsék el, kikkel akarnak együtt élni.</p>
+<p>A válaszokat mindenekelőtt személyek szerint dolgozták fel. Minden lányról kartoték készült; ezen feltüntették az ő választásait, a rá eső választásokat, továbbá egy kikérdezés anyagát. A kikérdezésben a lány véleményt mondott azokról, akiket ő választott, és azokról, akik őt választották. Választását és véleményét meg kellett indokolnia. Ebből a kartotékrendszerből készült a “társas atomok” vázlata.</p>
+<p>Moreno rendszerének egyik alapfogalma a társas atom – egy személy valamennyi kölcsönös, tőle kiinduló és felé irányuló kapcsolata. Középpontja maga a vizsgált személy, határai a választások, töltése a motiváció. Ez a társas helyzet értelmezésének az alapanyaga. A Hudson-vizsgálat egyik társas atomját például Moreno így értelmezi: A leánynak (H. T.) a vonzereje igen nagy, 16 személyt vonz; közülük 10-et a saját csoportjából, 6-ot más csoportokból. Ő maga a saját csoportjából 6-ot választ, 5-öt elutasít, 1 közömbös neki. Feltűnő, hogy a saját csoportjának hozzá vonzódó tagjai közül sokat határozottan elutasít. Csoportjában kötődései szélsőségesek, tehát a csoportjához nehezen alkalmazkodik. Társas vonzereje nyilván jobban lenne értékesíthető egy másik pavilonban.</p>
+<p>A társas pozíciónak az “atomképlet” szerinti értelmezésében Moreno számos paramétert alkalmaz. Ezeknek alapanyaga a választásoknak és az elutasításoknak az aránya, ennek az aránynak a megoszlása a választó saját csoportja (saját lakóhelye, lakószobája, munkahelye, iskolai osztálya stb.) és a külső csoportok között. Moreno ebből olyan mutatókat fejt ki, mint az expanzivitás (a személy választási köre), a vonzerő (a rá eső választások száma), s főként ezek megoszlása a saját csoportja és az idegen csoportok között.</p>
+<p>Ezek a mutatók olyan skálán határozták meg a személy társas helyzetét, amelynek egyik végpontja a népszerűség, a sztárpozíció, másik végpontja a kitaszítottság volt. Moreno hajlott arra, hogy a szociometriai választást úgy tekintse, mint a társas helyzetek érvényes hierarchiájának a kifejezését.</p>
+<p>A népszerűség fokát azonosította a vezető szereppel.</p>
+<p>Az értelmezés második mozzanata a kölcsönösségek alapján felvázolt hálózatnak az elemzése. A Hudson-vizsgálatban a megkérdezetteknek közel 10%-a nem felelt a kérdésre, további 10%-nak a választása nem volt kölcsönös. A többi – 387 lány – a kölcsönös választások alapján összefüggő hálózatot alkotott. Kisebb-nagyobb csoportok rajzolódtak ki, ezeket láncok kötötték össze, s az elágazásokat csillagok jelezték. Ez a hálózat volt Moreno szerint az a csatornarendszer, amelyen végigfutottak a különféle áramlatok: a társadalmi eseményekre vonatkozó hírek, a munkával vagy az iskolával összefüggő várakozások, a konfliktusok és pletykák. Ezen a hálózaton futottak végig a szexuális csábítások, és jól követhető volt a faji kérdésekben való állásfoglalások útja is.</p>
+<p>Kísérletileg is valószínűsítették azt, hogy a szociometriai hálózat az indulati áramlásnak és a hírközlésnek a csatornarendszere. Egy pszichológus, a kísérleti tervnek megfelelően, az egyik munkahelyen összeszólalkozott egy lánnyal. Mivel ez volt az első ilyen konfliktus, alkalmasnak látszott arra, hogy híre elterjedjen. A lány egyébként nagyszámú kapcsolatával a telep társas életének egyik kulcsalakja volt. Az epizód után időről időre “próbafúrást” végeztek: beszélgetések során közvetett, terelő kérdésekkel igyekeztek megállapítani, hogy a hálózat különböző pontjain elhelyezkedő lányok tudnak-e már a konfliktusról. A hír a főszereplő csillagszerűen szétágazó, több mint 20 kapcsolatán át terjedt tovább. Nem volt ugrás! Az összeszólalkozás híre nem jutott el olyan személyhez, aki hálózati helye szerint még nem volt soron. Ugyancsak a vizsgálat időszakában az egyik lány, T. L. egy áruházba ment vásárolni. Ott lopott valamit, rajtakapták. Mivel az intézetből senki más nem volt az áruházban, amikor rajtacsípték, a hír csak rajta keresztül terjedhetett el. 24 óra múlva csak néhány közeli barátnője tudott az eseményről, 1 hét múlva már 86 vele egy csoportosulásba tartozó személy. A hálózaton távolabb elhelyezkedő csoportokhoz viszont nem jutott el az áruházi lopás híre.</p>
+<p>Moreno azt az álláspontját, hogy a hálózat az indulati áramlások csatornarendszere, a hudsoni szökések elemzésével is alátámasztotta. Egy időszakban két hét alatt 14 lány szökött meg (a szám rendkívül magas, mert a megelőző 7 hónapban összesen 10 szökés fordult elő). Kiderült, hogy a 14 lány ugyanabba a hálózati egységbe tartozott. A szökéssorozat azzal kezdődött, hogy az egyik lány megszökött, elfogták, visszavitték. A szökés ténye és története erősen fokozta a lány népszerűségét: az addig csaknem magányos lánynak négy jó barátnője lett. Összetartozásuk növelte népszerűségüket. A szökéshez tartozó vállalkozási kedv a szociogramon jól követhető kapcsolatok csatornáin át terjedt, abban a hálózati körben, amelybe az elfogott és visszahozott lány öttagú csoportja tartozott.</p>
+<p>Ilyen elemzések alapján állapítja meg Moreno, hogy “a hálózat a közvélemény boszorkánykonyhája; ennek csatornáin át befolyásolják, nevelik és pusztítják egymást az emberek”.</p>
+</section>
+</section>
+<section id="több-szempontú-szociogram" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="több-szempontú-szociogram"><span class="header-section-number">6.1.2</span> Több szempontú szociogram</h3>
+<p>Mérei Ferenc 132. oldal: “Olyan szociometriát igyekeztem kialakítani, amely a közösséget méri fel; nemcsak az egyén helyét mutatja meg a társas mezőben, hanem magát a közösséget jellemzi, …”</p>
+<p>Olyan kérdések megválaszolását tűzte ki célul:</p>
+<ul>
+<li>“van-e esály arra, hogy a vizsgált közösségben közvélemény alakuljon ki, és közös normák jöjjenek létre”</li>
+<li>“olyan-e a közösség, hogy a tagok örömmel tartoznak bele, és ragaszkodnak hozzá”</li>
+<li>“milyen indítékok vezérelhetik a kiscsoportokat, a párokat, az egész hálózatot a csoportdinamikai kérdésekben”</li>
+</ul>
+<p>Ezen célokkal alakította ki Mérei a több szempontú szociogram technikát. Az a célkitűzés vezetette, hogy a szociálpszichológia nyelvén tudjon leírni egy közösséget, s hogy a meghatározás paraméterei megfeleljenek a leírt közösség minőségrendjének. Olyan mikroszociológiai fogalomrendszert alakított ki, amelyben a szociometriai vizsgálatok megfogalmazhatók. Moreno, aki, mint láttuk, nem a közösséget, hanem az egyénnek a közösségben elfoglalt helyzetét határozta meg, nem is törekedett olyan mutatóknak a fogalmi kimunkálására, amelyek nem az egyénre jellemzőek, hanem a közösségre. Egyetlen kivétel ez alól a kohézió, amely a kapcsolódások sűrűségét, a tagoknak a kölcsönös kapcsolatok számával meghatározható összetartozását fejezi ki.</p>
+<p>A több szempontú szociogram kidolgozásához azonban ez a mutató nem volt elég. Továbbiakra volt szükség, amelyekkel a közösség funkciók szerinti tagolódása leírható, szerkezete, légköre, hierarchiája meghatározható, a közösségben kialakult ítéletek és vélemények elemezhetők.</p>
+<p>A több szempontú szociometriai felmérésben a vizsgált közösség minden tagja 10–40 kérdésből álló szavazólapot tölt ki. A rokonszenvi és az ellenszenvi választást kívánó kérdések mellett vannak olyanok is – s ez a lényeges eltérés Moreno technikájától –, amelyekre <strong>a közösségi rátermettség mérlegelésével kell felelni, továbbá olyan választások, amelyekkel valamilyen egyéni tulajdonság, készség, esetleg szakmai hozzáértés szempontjából kell elbírálni a közösség tagjait</strong>. Ezeket a kérdéseket is valóságos helyzetekhez kötve fogalmazzuk meg, és így a közösség tagjai áttételesen szavaznak arra, hogy ki az, aki egy bizonyos egyéni vagy társas tulajdonságot, közösségi rátermettséget magas fokon képvisel. (Például: “Ha az osztály erkölcsi kérdések elbírálására fegyelmi bizottságot alakítana, ki lenne a legalkalmasabb a vezetésére?” “Ha az edzőjük megbetegedne és egy csapattagnak kellene őt helyettesítenie, ki lenne erre a legalkalmasabb?”)</p>
+<p>A szociogramot, a kapcsolódások hálózatát Moreno mintájára a rokonszenvi választások (kikkel utazna egy fülkében, kinek mondaná el a titkát) kölcsönössége alapján rajzoljuk meg. De a választásokat kategóriánként is összegezzük. A választás ugyanis nemcsak páros kapcsolódást fejez ki, nemcsak azt mutatja meg, hogy kik tartoznak össze, ki kivel szeret együtt lenni, hanem azt is, hogy az adott közösségben kivel, hányan szeretnének együtt lenni, hány szavazatot kap egy-egy tag az egyes választási kategóriákban. A közösség álláspontjáról kapunk így információt: ha a választások szóródása nem túl nagy, ez a közvélemény egyik áramlatának felel meg; nagyon kis szóródás esetén magát a közvéleményt fejezi ki.</p>
+<p>A szervező, rendező készségekre vonatkozó szavazatok összesítése (kire bízná egy kirándulás, egy “Ki mit tud” vetélkedő megszervezését stb.) megmutatja, hogy a helyi közvélemény szerint ki a legjobb szervező a közösségben. Más kérdések összegezése megmutatja, hogy a közvélemény kiket tekint igazságosnak (fegyelmi bizottság, döntőbíró), műveltnek (“Ha olvasóköri tanácsadót szerveznének, ki látná el ezt a feladatot?”). Megint más kérdésekből megtudjuk, hogyan rangsorolják egymást a közösség tagjai a vonzó külső (melyik nő tetszik legjobban a férfiaknak, melyik férfi a nőknek), az értelmi fogékonyság (ki tudná legjobban megtanulni a modern üzemszervezésben szükséges matematikai módszereket), a fizikai adottságok (sport) stb. szempontjából.</p>
+<p>A kérdéseket úgy állítjuk össze, hogy a tagok a közösségük számára fontos helyzetekben mérlegeljék egymást. Például ki tudná helyettesíteni a rajvezetőt (úttörőknél), az edzőt (futballistáknál), a brigádvezetőt vagy műhelyvezetőt (üzemben), az osztályvezetőt vagy személyzeti előadót (vállalatnál).</p>
+<p><strong>A lényeges a többszempontúság elvének az érvényesítése. Ez azt jelenti, hogy a választási kritériumok különféle mérlegelési szempontoknak felelnek meg: 2-3 rokonszenvi kérdés mellett (kinek mondaná el a titkát, kivel jönne össze szívesen a hivatalon, az iskolán stb. kívül is) néhány közösségi funkcióra vonatkozó kérdés is van (vezető, bíró, képviselet magasabb szervek előtt); ezeket kiegészíthetik az egyéni képességekre, a készségekre, a fiziológiaik adottságokra, a népszerűségre, a sikerességre vonatkozó kérdések.</strong></p>
+<p>A választási kritériumok összeállítása is mutatja, hogy a több szempontú szociogram lényegbevágóan tér el Moreno szociometriájától. A közösségi funkciókra irányuló kérdések mindenképpen, a képességekre, a népszerűségre vonatkozóak pedig esetleg a spontán csoportosulásokon túl az intézményes (a formális) keret látható kapcsolódásairól is nyújthatnak értelmezhető adatot. Ez kitágítja a szociogram alkalmazási körét. A vezetéspszichológiában lehetővé teszi az intézményes hálózat illeszkedéseinek és egyensúlyának a megítélését, az iskolai osztályokban pedig az intézményes kiscsoportok (például úttörőőrsök) pedagógiai és társas hatékonyságairól is felvilágosítást ad. S főként támpontokat kapunk annak megítélésére, hogy az intézményes közösség látható és a spontán csoportosulás rejtett hálózata hogyan befolyásolják – hogyan segítik elő vagy hogyan akadályozzák – egymást.</p>
+<p>A szavazatokat gyakorisági táblázatra vezetjük rá. Ennek a táblázatnak a függőleges tengelyén a vizsgált közösség névsorát tüntetjük fel, a vízszintes tengelyre pedig a kérdéseket, melyeket az említett szempontok (rokonszenvi, funkció, népszerűség stb.) szerint csoportosítjuk. Az egyes mezőkbe az a szám kerül, amely mutatja, hogy az adott kérdésre ki hány szavazatot kapott. A vízszintes összesítéssel az egy személyre jutó pozitív és negatív szavazatok számát kapjuk meg, a függőleges oszlopok összesítése alapján pedig a szavazatok szóródását számíthatjuk ki (hány személy közt oszlanak meg egy-egy kritériumban).</p>
+<p>A kölcsönösségi vázlat (a szociogram) és a gyakorisági táblázat adataiból készülnek azok a mutatók, amelyekkel a vizsgált közösséget jellemezhetjük. Néhány ilyen mutatót ismertetünk.</p>
+<ul>
+<li><p>A szociogram központjának és peremének a viszonyát fejezi ki a <strong>CM - (centrális-marginális)</strong> mutató, a társas mező tagoltságának, szerkezeti színvonalának az egyik paramétere. Azt mérhetjük vele, hogy van-e az ábrázolt közösségnek központja – egy vagy több –, mekkora a központtal kapcsolatban levő, abból leágazó réteg, s végül, hogy milyen kiterjedésű a közösség pereme. A központnak mint zárt alakzatnak azért nagy a jelentősége, mert fokozza a közösségi történések feszültségét, és együttes aktusainak nagyobb felszólító jellegével terelheti, irányíthatja a közösséget – természetesen csak akkor, ha áttételeken, kommunikációs csatornákon át a közösségnek egy jó részét, legalább egynegyedét eléri. Peremnek tekintjük ebben a mutatóban a közösségnek azokat a tagjait, akik nincsenek kapcsolatban a társas mező központi alakzatával. A perem viszonyjelenség, csak a központhoz való viszonyában létezik. A CM-mutató azt fejezi ki, hogy a közösség tagjai milyen arányban oszlanak meg a központi alakzat (vagy alakzatok), az ennek befolyása alá vonható társas övezet és a perem között. A CM-mutató átlagértéke (%-ban) 20–50–30, azaz egy 40 tagú közösségben 8-an tartoznak egy vagy két központhoz, 20-an kapcsolatban vannak a központtal és 12-en alkotják a peremet.</p></li>
+<li><p>A <strong>jelentőségindex és a szerepmutató</strong>. A társas mező tagoltságát a közösség tagjainak a hierarchikus eloszlása és szerepszerű differenciálódása is mutatja. A hierarchikus tagolódást a jelentőségmutató fejezi ki. A szociometriai vizsgálatban a közösségnek azokat a tagjait tekintjük jelentőseknek, akik az egy személyre eső összesített szavazatok számának legalább másfélszeresét kapják. A jelentőségindex azt fejezi ki, hogy egy közösségben a tagoknak hány százaléka lépett túl ezen a küszöbön. Ezeknek a közösség fokozott társas jelentőséget tulajdonít. A szerepmutatót is a gyakorisági táblázatból számítjuk ki. Akit a társai egy bizonyos körben (például “olvasott”, “szervező”, “tetszik a férfiaknak”) az átlagnál lényegesen többször említenek, annak a közösség ezt a szerepet adta, azt ezzel az elkülönítő arculattal ruházta fel.</p></li>
+<li><p>A <strong>csoportlégkör</strong> mutatója. A szociometriai választások közösségi jelentősége nem egyforma. Egy közösség egyensúlyához hozzátartozik, hogy tagjai szubjektív vezérléssel, de nem a tárgyi feltételektől függetlenül tudják és merjék megválasztani intim kapcsolataikat: játszótársukat, padszomszédjukat, barátjukat. Egy közösség szociometriai választásai akkor adekvátak, ha a személyes viszonylatokban elsősorban a szubjektív motívumok irányítják a választásokat, míg a funkciók tekintetében a közösségi normákhoz igazodnak, illetve a kialakult közvélemény sugallja állásfoglalásukat. A csoportlégkör mutatójából azt olvashatjuk le, hogy egy közösségben mennyire valósult meg a választásnak ez az adekvációja, mennyiben szubjektívek a személyes és mennyiben objektívek a funkcióra vonatkozó választások. Ez oly módon jut kifejezésre, hogy szubjektív választás esetén nagy a szóródás, normavezérlésű választásnál pedig kicsi.</p></li>
+</ul>
+<p>A több szempontú szociogram lehetővé teszi a közösségi motivációs háttér elemzését. Feltárhatja azokat az értékeket, ítéleteket, normákat, amelyek a közösséget jellemezhetik. Ennek mutatóját a választási koincidenciák adják. Azt határozzuk meg, hogy az egyes kérdésekre adott válaszok milyen más kérdésre adott feleletekkel vágnak egybe, például a “Kivel laknál egy szobában?” kérdésre megadott neveket milyen más kérdésekre írta még be a személy a szavazólapján. Az egybevágásokat összegezzük, a magas koincidenciaértékeket jellegzetesnek tekintjük a közösségre. A több szempontú szociometriai technikával végzett egyéb hazai vizsgálatok is amellett szóltak, hogy az alkalmazott 15-20 mutató valóban értelmezhető.</p>
+<p>Vastagh Zoltán például longitudinális vizsgálatában azt találta, hogy a választási egybevágások, mint motivációs mutató, kifejezhetik az osztály közösségi fejlődését. Az 5. osztályban a közösségi funkciókra adott szavazatok motivációs háttere szubjektív volt: a csapatkapitány és a bíró a barátválasztással vágott egybe. A 7. osztályban a szubjektivitást implikáló egybevágás csökkent, és a funkcióválasztásban olyan koincidenciák mutatkoztak gyakorinak, amelyek az intellektuális tulajdonságokra, az ideálválasztásra és a konformizmusra utalnak. A motivációs áthangolódás megfelel az osztály változásának, közösségi fejlődésének.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-HoffmanTamas2022" class="csl-entry" role="listitem">
+Hoffman, T., Basa, B., &amp; N. Kollár, K. (2022). <em>Új sztenderdek a magyar szociometriai gyakorlatban</em>. <a href="https://doi.org/10.17627/ALKPSZICH.2022.1.67">https://doi.org/10.17627/ALKPSZICH.2022.1.67</a>
+</div>
+<div id="ref-Hoffmann2023" class="csl-entry" role="listitem">
+Hoffmann, T., Basa, B., &amp; N. Kollár, K. (2023). <em>A többszempontú szociometria és a csoportosító szociometriai módszer különbségei, előnyei és buktatói, valamint az együttes használatukban rejlő lehetőségek</em>. <a href="https://doi.org/10.17627/ALKPSZICH.2023.2.57">https://doi.org/10.17627/ALKPSZICH.2023.2.57</a>
+</div>
+<div id="ref-Keszi2022" class="csl-entry" role="listitem">
+Keszi, T., &amp; Lohner, K. (2022). A hálózatelemzés elmélete és rendőrségi gyakorlata. <em>Belügyi Szemle</em>, <em>70</em>(1), 69–86. <a href="https://doi.org/10.38146/bsz.2022.1.5">https://doi.org/10.38146/bsz.2022.1.5</a>
+</div>
+<div id="ref-kurtosi2011" class="csl-entry" role="listitem">
+Kürtösi, Z. (2011). <em>Társadalmi kapcsolathálózatok elemzése</em> (K. Takács, Szerk.; o. 19–31). BCE Szociológia és Társadalompolitika Intézet. <a href="https://unipub.lib.uni-corvinus.hu/4699/">https://unipub.lib.uni-corvinus.hu/4699/</a>
+</div>
+<div id="ref-Merei1998" class="csl-entry" role="listitem">
+Mérei, F. (1998). <em>Közösségek rejtett hálózata</em>. Osiris Kiadó.
+</div>
+<div id="ref-nkollar20171" class="csl-entry" role="listitem">
+N. Kollár, K. (2017). <em>Pedagógusok pszichológiaikézikönyve, 2</em> (K. N. Kollár &amp; É. Szabó, Szerk.; o. 134–192). Osiris Kiadó.
+</div>
+<div id="ref-SallayPerge2007" class="csl-entry" role="listitem">
+Sallay, H., &amp; Perge, J. (2007). <em>A szociometriai módszer alkalmazása alsó- és középfokúoktatási intézményekben</em> (Második, módosított kiadás). ELTE PPK.
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Sikeres másolás!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Sikeres másolás!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05_specialis_kapcsolatok.html" class="pagination-link" aria-label="Speciális kapcsolatok">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Speciális kapcsolatok</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./references.html" class="pagination-link" aria-label="Hivatkozások">
+        <span class="nav-page-text">Hivatkozások</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

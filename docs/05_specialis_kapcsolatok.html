@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="hu" xml:lang="hu"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.555">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Társas hálózatok elemzése - 5&nbsp; Speciális kapcsolatok</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06_kitekintes.html" rel="next">
+<link href="./04_halozat_szerkezete.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nincs találat",
+    "search-matching-documents-text": "egyező dokumentumok",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Mégse",
+    "search-submit-button-title": "OK",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05_specialis_kapcsolatok.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Speciális kapcsolatok</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Társas hálózatok elemzése</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/abarik/tarsas_halozatok_elemzese_2024_25_1" title="Forráskód" class="quarto-navigation-tool px-1" aria-label="Forráskód"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">A kurzusról</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tematika.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tematika</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_halozatok_R_ben.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Hálózatok az R-ben</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_alapfogalmak.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Alapfogalmak</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_fontos_csucsok.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Fontos csúcsok</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_halozat_szerkezete.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A hálózat szerkezete</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_specialis_kapcsolatok.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Speciális kapcsolatok</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06_kitekintes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Kitekintés</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Hivatkozások</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tartalomjegyzék</h2>
+   
+  <ul>
+  <li><a href="#a-fejezet-fogalmai" id="toc-a-fejezet-fogalmai" class="nav-link active" data-scroll-target="#a-fejezet-fogalmai"><span class="header-section-number">5.1</span> A fejezet fogalmai</a></li>
+  <li><a href="#szoros-kapcsolatok-asszortativitás-és-kölcsönösség" id="toc-szoros-kapcsolatok-asszortativitás-és-kölcsönösség" class="nav-link" data-scroll-target="#szoros-kapcsolatok-asszortativitás-és-kölcsönösség"><span class="header-section-number">5.2</span> Szoros kapcsolatok: asszortativitás és kölcsönösség</a>
+  <ul>
+  <li><a href="#feladat" id="toc-feladat" class="nav-link" data-scroll-target="#feladat"><span class="header-section-number">5.2.1</span> Feladat</a></li>
+  <li><a href="#feladat-1" id="toc-feladat-1" class="nav-link" data-scroll-target="#feladat-1"><span class="header-section-number">5.2.2</span> Feladat</a></li>
+  <li><a href="#feladat-2" id="toc-feladat-2" class="nav-link" data-scroll-target="#feladat-2"><span class="header-section-number">5.2.3</span> Feladat</a></li>
+  </ul></li>
+  <li><a href="#közösségek-felderítése" id="toc-közösségek-felderítése" class="nav-link" data-scroll-target="#közösségek-felderítése"><span class="header-section-number">5.3</span> Közösségek felderítése</a>
+  <ul>
+  <li><a href="#feladat-3" id="toc-feladat-3" class="nav-link" data-scroll-target="#feladat-3"><span class="header-section-number">5.3.1</span> Feladat</a></li>
+  <li><a href="#feladat-4" id="toc-feladat-4" class="nav-link" data-scroll-target="#feladat-4"><span class="header-section-number">5.3.2</span> Feladat</a></li>
+  </ul></li>
+  <li><a href="#interaktív-hálózatok" id="toc-interaktív-hálózatok" class="nav-link" data-scroll-target="#interaktív-hálózatok"><span class="header-section-number">5.4</span> Interaktív hálózatok</a>
+  <ul>
+  <li><a href="#feladat-5" id="toc-feladat-5" class="nav-link" data-scroll-target="#feladat-5"><span class="header-section-number">5.4.1</span> Feladat</a></li>
+  <li><a href="#feladat-6" id="toc-feladat-6" class="nav-link" data-scroll-target="#feladat-6"><span class="header-section-number">5.4.2</span> Feladat</a></li>
+  <li><a href="#feladat-7" id="toc-feladat-7" class="nav-link" data-scroll-target="#feladat-7"><span class="header-section-number">5.4.3</span> Feladat</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Speciális kapcsolatok</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Ebben a fejezetben tovább vizsgáljuk a hálózatok alhálózatokra való felosztását, és annak meghatározását, hogy mely csúcsok kapcsolódnak egymáshoz jobban, mint mások.</p>
+<section id="a-fejezet-fogalmai" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="a-fejezet-fogalmai"><span class="header-section-number">5.1</span> A fejezet fogalmai</h2>
+<dl>
+<dt>asszortativitás</dt>
+<dd>
+<p>Milyen valószínűséggel kapcsolódik egymáshoz két olyan csúcs, amelyek valamilyen közös tulajdonságon osztoznak.</p>
+</dd>
+<dt>reciprocitás</dt>
+<dd>
+<p>Egy irányított hálózat reciprocitása megegyezik a szimmetrikus élek arányával. Ez azon kimenő élek aránya, amelyeknek bejövő élük is van.</p>
+</dd>
+<dt>közösség</dt>
+<dd>
+<p>Azon csúcsok halmaza, amelyek szorosabban kapcsolódnak egymáshoz, mint a többi csúcshoz a hálózatban.</p>
+</dd>
+</dl>
+</section>
+<section id="szoros-kapcsolatok-asszortativitás-és-kölcsönösség" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="szoros-kapcsolatok-asszortativitás-és-kölcsönösség"><span class="header-section-number">5.2</span> Szoros kapcsolatok: asszortativitás és kölcsönösség</h2>
+<p>A fejezetben használt függvények:</p>
+<ul>
+<li><code>assortativity()</code> - asszortativitás kiszámolása a hálózatban egy adott tulajdonság alapján</li>
+<li><code>reciprocity()</code> - a reciprocitás kiszámítása irányított hálózatban</li>
+</ul>
+<p>Egy hálózatban a következő kérdés is érdekes lehet: a csúcsok véletlenszerűen társulnak más csúcsokhoz, vagy inkább a hasonló csúcsokhoz kapcsolódnak. Például az azonos nemű gyerekek nagyobb valószínűséggel jelölik-e egymást barátnak egy baráti hálózatban, illetve az azonos politikai meggyőződésű személyek nagyobb valószínűséggel válaszolnak-e egymás posztjára.</p>
+<p>Formálisabban a hálózatelemzésben az “asszortativitás” kifejezést annak meghatározására használják, hogy milyen valószínűséggel kapcsolódik egymáshoz két olyan csúcs, amelyek valamilyen közös tulajdonsággal rendelkeznek. Ezek a tulajdonságok lehetnek kategorikusak, például politikai párt vagy nem, de lehetnek számszerűek is, például életkor.</p>
+<p>A következő hálózatban két kategóriánk van: bátor és félénk.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>edges_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span>from,   <span class="sc">~</span>to,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"A"</span>, <span class="st">"B"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"B"</span>, <span class="st">"C"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"B"</span>, <span class="st">"D"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"C"</span>, <span class="st">"D"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"B"</span>, <span class="st">"E"</span>,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"D"</span>, <span class="st">"E"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"E"</span>, <span class="st">"F"</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"F"</span>, <span class="st">"G"</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"G"</span>, <span class="st">"H"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"F"</span>, <span class="st">"H"</span>,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">"H"</span>, <span class="st">"L"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"L"</span>, <span class="st">"J"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"D"</span>, <span class="st">"J"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                <span class="st">"G"</span>, <span class="st">"I"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"H"</span>, <span class="st">"I"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                <span class="st">"L"</span>, <span class="st">"M"</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                <span class="st">"K"</span>, <span class="st">"I"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                <span class="st">"I"</span>, <span class="st">"M"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                <span class="st">"M"</span>, <span class="st">"N"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                <span class="st">"M"</span>, <span class="st">"O"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                <span class="st">"N"</span>, <span class="st">"O"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                <span class="st">"O"</span>, <span class="st">"P"</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>nodes_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span>name,   <span class="sc">~</span>tipus,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>                <span class="st">"A"</span>, <span class="st">"bátor"</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>                <span class="st">"B"</span>, <span class="st">"bátor"</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                <span class="st">"C"</span>, <span class="st">"bátor"</span>,</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>                <span class="st">"D"</span>, <span class="st">"bátor"</span>,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>                <span class="st">"E"</span>, <span class="st">"bátor"</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>                <span class="st">"K"</span>, <span class="st">"bátor"</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>                <span class="st">"M"</span>, <span class="st">"bátor"</span>,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                <span class="st">"N"</span>, <span class="st">"bátor"</span>,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                <span class="st">"O"</span>, <span class="st">"bátor"</span>,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>                <span class="st">"F"</span>, <span class="st">"félénk"</span>,</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>                <span class="st">"G"</span>, <span class="st">"félénk"</span>,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>                <span class="st">"H"</span>, <span class="st">"félénk"</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>                <span class="st">"I"</span>, <span class="st">"félénk"</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>                <span class="st">"L"</span>, <span class="st">"félénk"</span>,</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>                <span class="st">"J"</span>, <span class="st">"félénk"</span>,</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>                <span class="st">"P"</span>, <span class="st">"félénk"</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(<span class="at">d =</span> edges_df, <span class="at">vertices =</span> nodes_df, <span class="at">directed =</span> F)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># alapértelmezés szerint minden címkéjének színe legyen sárga</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>vlc <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">"yellow"</span>, <span class="fu">vcount</span>(<span class="at">graph =</span> g))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># a megfelelő csúcsok címkéjének színe legyen piros</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>vlc[<span class="fu">V</span>(g)<span class="sc">$</span>tipus <span class="sc">%in%</span> <span class="st">'bátor'</span>] <span class="ot">&lt;-</span> <span class="st">"#FE8484"</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># induló megjelenés</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color =</span> vlc,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.cex =</span> .<span class="dv">9</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.color =</span> <span class="st">'black'</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.size =</span> <span class="dv">18</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">layout =</span> <span class="fu">layout_nicely</span>(g))</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A hálózat asszortativitását az <code>{igraph}</code> csomag <code>assortativity()</code> függvényével számolhatjuk ki. A függvény két bemenetet vár. Az első a gráf objektum, a második az egyes csúcsokhoz tartozó attribútumok vektora. Ha az attribútumok már numerikusak – például egy társas hálózatban egyének életkora vagy jövedelme –, akkor ezek az értékek közvetlenül használhatók. Ha az attribútumok kategorikusak, például nem vagy politikai párthovatartozás, akkor számokká kell konvertálni őket. Ez egyszerűen megtehető, ha minden attribútumszintet faktorszintekre konvertálunk: 1, 2, 3 stb. értékekké.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a "bátor" és "félénk" kategóriák kovertálása 1-re, és 2-re</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(<span class="fu">V</span>(g)<span class="sc">$</span>tipus))</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># az asszortativitás kiszámolása</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">assortativity</span>(<span class="at">graph =</span> g, <span class="at">types1 =</span> values)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.45</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Az asszortativitás értéke -1 és +1 között lehet. A 0 azt jelzi, hogy nincs általános preferenciális kötődési minta. A +1 azt jelzi, hogy az egyének csak hasonló egyedekhez kötődnek, a -1 pedig azt, hogy az egyének aktívan kerülik a hasonló egyéneket. A most kapott 0,45-ös érték viszonylag magas. Ahhoz, hogy megértsük, milyen jelentős mértékben magas, randomizációs tesztet kell végeznünk.</p>
+<p>Egy másik gyakran számolt asszortativitási mutató a fokszám asszortativitás. Azt mutatja, hogy a magas fokú csúcsok előszeretettel kapcsolódnak-e más magas fokú csúcsokhoz. Az <code>{igraph}</code> csomagban az <code>assortativity.degree()</code> függvényt használjuk a fokszám asszortativitás kiszámolására. Az első argumentum a gráfobjektum, a második pedig részletezi, hogy a gráf irányított vagy irányítatlan.</p>
+<p>A példában negatív értéket kapunk a fokszám asszortativitásra, ami azt jelzi, hogy a magas fokszámú egyének inkább nem kapcsolódnak más, magas fokszámú egyénekhez.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fokszám asszortativitás kiszámítása</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">assortativity.degree</span>(<span class="at">graph =</span> g, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -0.3134328</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A kapcsolatok szorosságának másik mércéje az irányított hálózatokban értelmezhető kölcsönösség (reciprocitás). Egy irányított hálózat reciprocitása megegyezik a szimmetrikus élek arányával. Ez azon kimenő élek aránya, amelyeknek bejövő élük is van.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">graph_from_literal</span>(A<span class="sc">--+</span>H, A<span class="sc">--+</span>D, A<span class="sc">+-+</span>E, A<span class="sc">+-+</span>B, C<span class="sc">--+</span>A, E<span class="sc">+-+</span>F, F<span class="sc">+-+</span>D, D<span class="sc">--+</span>G, B<span class="sc">--+</span>I, B<span class="sc">+-+</span>C, C<span class="sc">--+</span>L, C<span class="sc">--+</span>K, K<span class="sc">+-+</span>J, J<span class="sc">--+</span>L)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g2)<span class="sc">$</span>color <span class="ot">&lt;-</span> <span class="st">"#FE8484"</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g2,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.color =</span> <span class="st">"black"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.cex =</span> .<span class="dv">9</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.4</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.arrow.width =</span> <span class="fl">0.5</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.color =</span> <span class="st">'black'</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.size =</span> <span class="dv">18</span>)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># élek száma</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ecount</span>(g2)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 20</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A példahálózatban 20 él van. 8 közülük az egyetlen él két csúcs között. A B-től I-ig tartó él egy példa. A többi 12 él kölcsönös kapcsolatban van. Van egy él J-től K-ig és K-től J-ig. Ennek a gráfnak ezért 0,6 a reciprocitása (mivel az élek 60%-a (20-ból 12) ezekben a reciprok kapcsolatokban van). Az <code>{igraph}</code> csomagban a reciprocitás a <code>reciprocity()</code> függvény segítségével számítható ki.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># az irányított gráf reciprocitása</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">reciprocity</span>(g2)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.6</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="feladat" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="feladat"><span class="header-section-number">5.2.1</span> Feladat</h3>
+<p>Ebben a feladatban meghatározzuk egy korábban már használt baráti hálózat nemre vonatkozó asszertativitását. Tudjuk, ez annak a mértéke, hogy az azonos nemű csúcsok milyen mértékben kapcsolódnak egymáshoz. A fokszám asszortativitást is kiszámoljuk, amely meghatározza, hogy a csúcsok milyen mértékben kapcsolódnak más, hasonló fokú csúcsokhoz.</p>
+<p>Készítsünk egy feltáró ábrát a barátsági hálózat objektumról a <code>plot()</code> segítségével.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># adatok beolvasása</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>friends2_edges_df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="at">file =</span> <span class="st">"adat/friends2_edges_df.xlsx"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>friends2_nodes_df <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="at">file =</span> <span class="st">"adat/friends2_nodes_df.xlsx"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># igraph objektum létrehozása attribútumok felvitelével együtt</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>friends2_g <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(<span class="at">d =</span> friends2_edges_df, <span class="at">vertices =</span> friends2_nodes_df, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Feltáró ábra készítése:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># alapértelmezés szerint minden címkéjének színe legyen sárga</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>vlc <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">"#8484fe"</span>, <span class="fu">vcount</span>(<span class="at">graph =</span> friends2_g))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># a megfelelő csúcsok címkéjének színe legyen piros</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>vlc[<span class="fu">V</span>(friends2_g)<span class="sc">$</span>gender <span class="sc">%in%</span> <span class="st">'F'</span>] <span class="ot">&lt;-</span> <span class="st">"#FE8484"</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># induló megjelenés</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(friends2_g, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color =</span> vlc,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.cex =</span> .<span class="dv">9</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.color =</span> <span class="st">'black'</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.size =</span> <span class="dv">18</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">layout =</span> <span class="fu">layout_nicely</span>(friends2_g))</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Konvertáljuk az egyes csúcsok “nem” attribútumait számmá a <code>factor()</code>, majd az <code>as.numeric()</code> használatával.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a nem numerikussá konvertálása</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">factor</span>(<span class="fu">V</span>(friends2_g)<span class="sc">$</span>gender))</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Számítsuk ki a nemek alapján az asszortativitást az <code>assortativity()</code> függvény segítségével. Az első argumentum a gráfobjektum, a második paraméter a számokká konvertált nemek lesznek.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a nem alapján számolt asszortativitás kiszámítása</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">assortativity</span>(friends2_g, values)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1319444</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Számítsuk ki a hálózat fokszám asszortivitását az <code>assortativity.degree()</code> segítségével. Az első argumentum a gráf objektum lesz.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A fokszám asszortativitás kiszámítása</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">assortativity.degree</span>(friends2_g, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.4615385</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="feladat-1" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="feladat-1"><span class="header-section-number">5.2.2</span> Feladat</h3>
+<p>A randomizált megoldásokat az asszortativitás értékelésére is felhasználhatjuk.</p>
+<p>Használjuk az <code>assortativity()</code> függvényt a <code>friends2_g</code> gráfobjektum asszortativitásának kiszámításához nemek alapján. Rendeljük hozzá ezt az értéket a <code>observed.assortativity</code> objektumhoz.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># számoljuk ki a megfigyelt asszortativitást</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>observed.assortativity <span class="ot">&lt;-</span> <span class="fu">assortativity</span>(friends2_g, values)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Egy <code>for</code> cikluson belül számítsuk ki a <code>friends2_g</code> hálózat asszortativitását az <code>assortativity()</code> segítségével, miközben véletlenszerűen módosítjuk a <code>values</code> objektum értékét a <code>sample()</code> segítségével. A <code>sample()</code> használata véletlenszerűen módosítja az egyes csúcsok nemét (azaz a nemnek megfelelő numerikus értékeket).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># számoljunk ki 1000 nemre vonatkozó asszortativitást, amelyben a nem véletlenszerűen lett a személyekhez rendelve</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">vector</span>(<span class="st">'list'</span>, <span class="dv">1000</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>){</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  results[[i]] <span class="ot">&lt;-</span> <span class="fu">assortativity</span>(friends2_g, <span class="fu">sample</span>(values))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A fenti a permutációs eljárás után, ábrázoljuk az asszortativitási értékek eloszlását a <code>hist()</code> segítségével, és adjunk hozzá egy piros függőleges vonalat a megfigyelt asszortativitási értéknek megfelelően (<code>observed.assortativity</code>).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rajzoljuk meg az asszortativitás eloszlását, és adjuk hozzá a piros vonalként a megfigyelt asszortativitást</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(<span class="fu">unlist</span>(results))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> observed.assortativity, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">3</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="feladat-2" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="feladat-2"><span class="header-section-number">5.2.3</span> Feladat</h3>
+<p>Az irányított hálózat reciprocitása a szimmetrikus élek arányát tükrözi. Ez nem más, mint azon kimenő élek aránya, amelyeknek bejövő élük is van. Általában annak meghatározására használják, hogy az irányított hálózatok mennyire kapcsolódnak egymáshoz. Egy ilyen hálózatra példa lehet a csimpánzok ápolása. Egyes csimpánzok ápolgathatnak egy másikat, de az adott egyed nem ápolja őket, míg más csimpánzok ápolhatják egymást, és így kölcsönös kötelék alakul ki.</p>
+<p>Ebben a feladatban egymást ápoló csimpánzok hálózatát készítjük el (<code>chimp_g</code>). Készítsünk ábrát a <code>plot()</code> segítségével. Állítsa a nyíl méretét 0,4-re az <code>edge.arrow.size=</code> argumentum használatával, a nyíl szélességét pedig 0,5-re az <code>edge.arrow.width=</code> argumentum használatával.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>chimp_g <span class="ot">&lt;-</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">graph_from_data_frame</span>(<span class="at">directed =</span> T, <span class="at">d =</span> <span class="fu">tribble</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>from,  <span class="sc">~</span>to,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>         <span class="dv">1</span>,  <span class="dv">15</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>         <span class="dv">6</span>,   <span class="dv">1</span>,</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>         <span class="dv">8</span>,   <span class="dv">1</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>         <span class="dv">9</span>,   <span class="dv">1</span>,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="dv">11</span>,   <span class="dv">1</span>,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>        <span class="dv">12</span>,   <span class="dv">1</span>,</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>         <span class="dv">3</span>,   <span class="dv">2</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>         <span class="dv">5</span>,   <span class="dv">2</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>         <span class="dv">7</span>,   <span class="dv">2</span>,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>         <span class="dv">12</span>,  <span class="dv">2</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>          <span class="dv">2</span>,  <span class="dv">3</span>,</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>          <span class="dv">4</span>,  <span class="dv">3</span>,</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>          <span class="dv">5</span>,  <span class="dv">4</span>,</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>         <span class="dv">10</span>,  <span class="dv">4</span>,</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>         <span class="dv">13</span>,  <span class="dv">4</span>,</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>         <span class="dv">14</span>,  <span class="dv">4</span>,</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>          <span class="dv">3</span>,  <span class="dv">5</span>,</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>          <span class="dv">6</span>,  <span class="dv">5</span>,</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>          <span class="dv">9</span>,  <span class="dv">5</span>,</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>         <span class="dv">10</span>,  <span class="dv">5</span>,</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>         <span class="dv">13</span>,  <span class="dv">5</span>,</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>          <span class="dv">3</span>,  <span class="dv">6</span>,</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>          <span class="dv">8</span>,  <span class="dv">6</span>,</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>         <span class="dv">15</span>,  <span class="dv">6</span>,</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>          <span class="dv">1</span>,  <span class="dv">7</span>,</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>          <span class="dv">3</span>,  <span class="dv">7</span>,</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>          <span class="dv">9</span>,  <span class="dv">7</span>,</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>          <span class="dv">8</span>, <span class="dv">15</span>,</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>          <span class="dv">9</span>,  <span class="dv">8</span>,</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>         <span class="dv">13</span>,  <span class="dv">8</span>,</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>          <span class="dv">5</span>,  <span class="dv">9</span>,</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>         <span class="dv">12</span>,  <span class="dv">9</span>,</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>         <span class="dv">13</span>,  <span class="dv">9</span>,</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>         <span class="dv">14</span>,  <span class="dv">9</span>,</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>          <span class="dv">1</span>, <span class="dv">10</span>,</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>          <span class="dv">2</span>, <span class="dv">10</span>,</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>          <span class="dv">3</span>, <span class="dv">10</span>,</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>          <span class="dv">4</span>, <span class="dv">10</span>,</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>          <span class="dv">7</span>, <span class="dv">10</span>,</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>         <span class="dv">11</span>, <span class="dv">10</span>,</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>         <span class="dv">12</span>, <span class="dv">10</span>,</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>         <span class="dv">14</span>, <span class="dv">10</span>,</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>          <span class="dv">3</span>, <span class="dv">11</span>,</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>          <span class="dv">6</span>, <span class="dv">11</span>,</span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>         <span class="dv">14</span>, <span class="dv">11</span>,</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>         <span class="dv">15</span>, <span class="dv">11</span>,</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>          <span class="dv">4</span>, <span class="dv">12</span>,</span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a>          <span class="dv">6</span>, <span class="dv">12</span>,</span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true" tabindex="-1"></a>          <span class="dv">9</span>, <span class="dv">12</span>,</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true" tabindex="-1"></a>         <span class="dv">12</span>, <span class="dv">15</span>,</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true" tabindex="-1"></a>          <span class="dv">3</span>, <span class="dv">13</span>,</span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true" tabindex="-1"></a>          <span class="dv">7</span>, <span class="dv">13</span>,</span>
+<span id="cb17-56"><a href="#cb17-56" aria-hidden="true" tabindex="-1"></a>          <span class="dv">8</span>, <span class="dv">13</span>,</span>
+<span id="cb17-57"><a href="#cb17-57" aria-hidden="true" tabindex="-1"></a>         <span class="dv">12</span>, <span class="dv">13</span>,</span>
+<span id="cb17-58"><a href="#cb17-58" aria-hidden="true" tabindex="-1"></a>         <span class="dv">14</span>, <span class="dv">13</span>,</span>
+<span id="cb17-59"><a href="#cb17-59" aria-hidden="true" tabindex="-1"></a>          <span class="dv">3</span>, <span class="dv">14</span>,</span>
+<span id="cb17-60"><a href="#cb17-60" aria-hidden="true" tabindex="-1"></a>          <span class="dv">4</span>, <span class="dv">14</span>,</span>
+<span id="cb17-61"><a href="#cb17-61" aria-hidden="true" tabindex="-1"></a>         <span class="dv">10</span>, <span class="dv">14</span>,</span>
+<span id="cb17-62"><a href="#cb17-62" aria-hidden="true" tabindex="-1"></a>         <span class="dv">11</span>, <span class="dv">14</span>))</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># hálózat megjelenítése</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(chimp_g,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.color =</span> <span class="st">"black"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.arrow.size =</span> <span class="fl">0.4</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.arrow.width =</span> <span class="fl">0.5</span>)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Számoljuk ki a gráf reciprocitását a <code>reciprocity()</code> segítségével.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># reciprocitás kiszámítása</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">reciprocity</span>(chimp_g)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.2711864</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="közösségek-felderítése" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="közösségek-felderítése"><span class="header-section-number">5.3</span> Közösségek felderítése</h2>
+<p>A fejezetben használt függvények:</p>
+<ul>
+<li><code>cluster_fast_greedy()</code> - fast greedy modularitás eljárás</li>
+<li><code>cluster_edge_betweenness()</code> - él közöttiség modularitásai eljárás</li>
+</ul>
+<p>A klikkek azonosítása, valamint az asszortativitás és reciprocitás kiszámítása bizonyos információkkal szolgál számunkra a hálózat csúcs-kapcsolódási mintáiról. Ennek még formálisabb megközelítési módja a közösségek felderítése.</p>
+<p>Ha egy hálózatról azt mondják, hogy közösségi struktúrával rendelkezik, akkor lehetőség van egyedi csúcshalmazok azonosítására. Az egyes csúcshalmazokon belül a tagok közötti kapcsolatok sűrűbbek lesznek, mint ami a különböző csúcshalmazok közötti kapcsolatokra jellemző.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>edges_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span>from,   <span class="sc">~</span>to,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"A"</span>, <span class="st">"B"</span>,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">"A"</span>, <span class="st">"C"</span>,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"A"</span>, <span class="st">"D"</span>,</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"A"</span>, <span class="st">"E"</span>,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"A"</span>, <span class="st">"F"</span>,</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"A"</span>, <span class="st">"P"</span>,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"B"</span>, <span class="st">"C"</span>,</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">"B"</span>, <span class="st">"E"</span>,</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">"C"</span>, <span class="st">"D"</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">"C"</span>, <span class="st">"E"</span>,</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">"D"</span>, <span class="st">"J"</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>                <span class="st">"J"</span>, <span class="st">"H"</span>,</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>                <span class="st">"J"</span>, <span class="st">"G"</span>,</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>                <span class="st">"J"</span>, <span class="st">"K"</span>,</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>                <span class="st">"G"</span>, <span class="st">"H"</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>                <span class="st">"G"</span>, <span class="st">"K"</span>,</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>                <span class="st">"G"</span>, <span class="st">"I"</span>,</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>                <span class="st">"G"</span>, <span class="st">"L"</span>,</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>                <span class="st">"I"</span>, <span class="st">"L"</span>,</span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>                <span class="st">"K"</span>, <span class="st">"M"</span>,</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>                <span class="st">"L"</span>, <span class="st">"M"</span>,</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>                <span class="st">"M"</span>, <span class="st">"N"</span>,</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>                <span class="st">"M"</span>, <span class="st">"O"</span>,</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>                <span class="st">"M"</span>, <span class="st">"P"</span>,</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>                <span class="st">"P"</span>, <span class="st">"O"</span>,</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>                <span class="st">"N"</span>, <span class="st">"O"</span></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>nodes_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>                <span class="sc">~</span>name,   <span class="sc">~</span>tipus,</span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>                <span class="st">"A"</span>, <span class="st">"1"</span>,</span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>                <span class="st">"B"</span>, <span class="st">"1"</span>,</span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>                <span class="st">"C"</span>, <span class="st">"1"</span>,</span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>                <span class="st">"D"</span>, <span class="st">"1"</span>,</span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>                <span class="st">"E"</span>, <span class="st">"1"</span>,</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a>                <span class="st">"F"</span>, <span class="st">"1"</span>,</span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>                <span class="st">"J"</span>, <span class="st">"2"</span>,</span>
+<span id="cb20-43"><a href="#cb20-43" aria-hidden="true" tabindex="-1"></a>                <span class="st">"G"</span>, <span class="st">"2"</span>,</span>
+<span id="cb20-44"><a href="#cb20-44" aria-hidden="true" tabindex="-1"></a>                <span class="st">"H"</span>, <span class="st">"2"</span>,</span>
+<span id="cb20-45"><a href="#cb20-45" aria-hidden="true" tabindex="-1"></a>                <span class="st">"I"</span>, <span class="st">"2"</span>,</span>
+<span id="cb20-46"><a href="#cb20-46" aria-hidden="true" tabindex="-1"></a>                <span class="st">"K"</span>, <span class="st">"2"</span>,</span>
+<span id="cb20-47"><a href="#cb20-47" aria-hidden="true" tabindex="-1"></a>                <span class="st">"L"</span>, <span class="st">"2"</span>,</span>
+<span id="cb20-48"><a href="#cb20-48" aria-hidden="true" tabindex="-1"></a>                <span class="st">"M"</span>, <span class="st">"3"</span>,</span>
+<span id="cb20-49"><a href="#cb20-49" aria-hidden="true" tabindex="-1"></a>                <span class="st">"N"</span>, <span class="st">"3"</span>,</span>
+<span id="cb20-50"><a href="#cb20-50" aria-hidden="true" tabindex="-1"></a>                <span class="st">"O"</span>, <span class="st">"3"</span>,</span>
+<span id="cb20-51"><a href="#cb20-51" aria-hidden="true" tabindex="-1"></a>                <span class="st">"P"</span>, <span class="st">"3"</span></span>
+<span id="cb20-52"><a href="#cb20-52" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb20-53"><a href="#cb20-53" aria-hidden="true" tabindex="-1"></a>g3 <span class="ot">&lt;-</span> <span class="fu">graph_from_data_frame</span>(<span class="at">d =</span> edges_df, <span class="at">vertices =</span> nodes_df, <span class="at">directed =</span> F)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># alapértelmezés szerint minden címkéjének színe legyen sárga</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>vlc <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">"yellow"</span>, <span class="fu">vcount</span>(<span class="at">graph =</span> g3))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="co"># a megfelelő csúcsok címkéjének színe legyen piros</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>vlc[<span class="fu">V</span>(g3)<span class="sc">$</span>tipus <span class="sc">%in%</span> <span class="st">'3'</span>] <span class="ot">&lt;-</span> <span class="st">"#FE8484"</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>vlc[<span class="fu">V</span>(g3)<span class="sc">$</span>tipus <span class="sc">%in%</span> <span class="st">'1'</span>] <span class="ot">&lt;-</span> <span class="st">"#8484fe"</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co"># induló megjelenés</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(g3, </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.color =</span> vlc,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.label.cex =</span> .<span class="dv">9</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">edge.color =</span> <span class="st">'black'</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">vertex.size =</span> <span class="dv">18</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">layout =</span> <span class="fu">layout_nicely</span>(g3))</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A fenti hálózatban látható, hogy a 16 csúcs három csoportba sorolható. Az egyes csoportokon belül – piros, kék és sárga – a csúcsok sokkal nagyobb valószínűséggel kapcsolódnak más, azonos színű csúcsokhoz, mint a nem saját csoporthoz tartozó csúcshoz. Gyakran az ilyen típusú csoportokat „közösségeknek” nevezik, bár területtől függően „moduloknak”, „csoportoknak” vagy „klasztereknek” is nevezhetők. Valós hálózatokban a közösségi struktúrák nagyon gyakoriak, és a közösségek észlelés nagyon hasznos lehet, különösen nagy hálózatokban, mivel segít azonosítani a hálózat funkcionális alegységeit. Ilyenek például a középiskolai hálózatban működő klikkek is.</p>
+<p>A közösségészlelés mögött meghúzódó általános elv viszonylag egyszerű: azonosítani kell azokat a csúcsokat, amelyek szorosabban kötődnek egymáshoz, mint a többihez a hálózatban, Azonban közösségek megtalálása nagyon számításigényes, különösen nagy hálózatok esetén. Ennek ellenére számos algoritmust fejlesztettek ki, és az <code>{igraph}</code> csomag is több lehetőséget tartalmaz. Saját adataink alapján érdemes több módszert is kipróbálni hogy melyik tűnik a leghasznosabbnak, ugyanis mindegyik algoritmusnak más az erőssége és a gyengesége.</p>
+<p>Ebben a részben két különböző eljárást fogunk használni: a fast greedy modularitás eljárást és az él közöttiség modularitásai eljárást. A fast greedy úgy működik, hogy egyre nagyobb közösségeket próbál építeni úgy, hogy minden közösséghez egyenként hozzáadja a csúcsokat, és minden lépésnél modularitási pontszámot mér. A modularitási pontszám annak mutatója, hogy az egymással összefüggő élek hogyan viszonyulnak egymáshoz a közösségeken belül, illetve a közösségek között. Az <code>{igraph}</code> csomagban a <code>cluster_fast_greedy()</code> függvény a bemenő gráfobjektumra elvégzi a fenti eljárást.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fast greedy modularitás eljárást</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster_fast_greedy</span>(g3)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IGRAPH clustering fast greedy, groups: 3, mod: 0.5</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + groups:</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   $`1`</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] "A" "B" "C" "D" "E" "F"</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   </span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   $`2`</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] "J" "G" "H" "I" "K" "L"</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   </span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   $`3`</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] "M" "N" "O" "P"</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Az outputban láthatók az egyes közösségek, és az egyes csúcsok közösségi tagsága is.</p>
+<p>A fast greedy eljárással szemben az él közöttiség modularitásai eljárás egy felosztó módszer, amely úgy működik, hogy a hálózatot egyre kisebb darabokra osztja, amíg olyan éleket nem talál, amelyeket “hídnak” tekint a közösségek között.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># él közöttiség modularitásai eljárás</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cluster_edge_betweenness</span>(g3)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; IGRAPH clustering edge betweenness, groups: 3, mod: 0.5</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; + groups:</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   $`1`</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] "A" "B" "C" "D" "E" "F"</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   </span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   $`2`</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] "J" "G" "H" "I" "K" "L"</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   </span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   $`3`</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   [1] "M" "N" "O" "P"</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Az output a fentiekkel megegyezik.</p>
+<p>További függvényekkel a közösségre vonatkozó információk is kinyerhetők. Minden közösségészlelési eljárás több információt állít elő egy közösségi objektumban. A <code>length()</code>, <code>sizes()</code> és a <code>membership()</code> függvények segítségével gyorsan kinyerhető információ arról, hogy hány közösség van, hány eleműek a közösségek, és mely csúcsok tartoznak az adott közösséghez.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a fast greedy eljárás eredményének elmentése az x objektumba</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">cluster_fast_greedy</span>(g3)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># közösségek száma</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(x)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># az egyes közösségek létszáma</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sizes</span>(x)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Community sizes</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 2 3 </span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 6 4</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># az egyes csúcsok tagsága</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">membership</span>(x)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; A B C D E F J G H I K L M N O P </span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 1 1 1 1 1 2 2 2 2 2 2 3 3 3 3</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Az <code>{igraph}</code> csomagban lehetőség van a hálózatról egyszerű diagramok készítésére is, amelyek színnel mutatják meg a közösség minden csúcsát. Ehhez a közösségi objektumot és a gráfobjektumot kell szerepeltetni a <code>plot()</code> függvényben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># közösségek megjelenítése</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x, g3)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="feladat-3" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="feladat-3"><span class="header-section-number">5.3.1</span> Feladat</h3>
+<p>Az első közösségészlelési módszer, amelyet kipróbálunk, a fast greedy közösségészlelés. A Zachary Karate Club hálózatát fogjuk használni. Ez a közösségi hálózat 34 klubtagot és 78 élt tartalmaz. Mindegyik él azt jelzi, hogy az a két klubtag a karate klubon kívül és a klubban is érintkezett. A hálózat segítségével meghatározhatjuk, hogy hány alközösség van a hálózatban, és mely klubtagok melyik alcsoporthoz tartoznak. A hálózatokat a közösségi tagság alapján is megrajzolhatjuk.</p>
+<p>Hozzuk létre a hálózatot és jelenítsük meg.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>club_g <span class="ot">&lt;-</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">graph_from_data_frame</span>(<span class="at">directed =</span> F, <span class="at">d =</span> <span class="fu">tribble</span>(</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span>from,  <span class="sc">~</span>to,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="dv">2</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="dv">3</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="dv">4</span>,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="dv">5</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="dv">6</span>,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="dv">7</span>,</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="dv">8</span>,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>,  <span class="dv">9</span>,</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="dv">11</span>,</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="dv">12</span>,</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="dv">13</span>,</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="dv">14</span>,</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="dv">18</span>,</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="dv">20</span>,</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="dv">22</span>,</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    <span class="dv">1</span>, <span class="dv">32</span>,</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>,  <span class="dv">3</span>,</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>,  <span class="dv">4</span>,</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>,  <span class="dv">8</span>,</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>, <span class="dv">14</span>,</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>, <span class="dv">18</span>,</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>, <span class="dv">20</span>,</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>, <span class="dv">22</span>,</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>    <span class="dv">2</span>, <span class="dv">31</span>,</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>,  <span class="dv">4</span>,</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>,  <span class="dv">8</span>,</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>, <span class="dv">28</span>,</span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>, <span class="dv">29</span>,</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>, <span class="dv">33</span>,</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>, <span class="dv">10</span>,</span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>,  <span class="dv">9</span>,</span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>    <span class="dv">3</span>, <span class="dv">14</span>,</span>
+<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span>,  <span class="dv">8</span>,</span>
+<span id="cb29-37"><a href="#cb29-37" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span>, <span class="dv">13</span>,</span>
+<span id="cb29-38"><a href="#cb29-38" aria-hidden="true" tabindex="-1"></a>    <span class="dv">4</span>, <span class="dv">14</span>,</span>
+<span id="cb29-39"><a href="#cb29-39" aria-hidden="true" tabindex="-1"></a>    <span class="dv">5</span>,  <span class="dv">7</span>,</span>
+<span id="cb29-40"><a href="#cb29-40" aria-hidden="true" tabindex="-1"></a>    <span class="dv">5</span>, <span class="dv">11</span>,</span>
+<span id="cb29-41"><a href="#cb29-41" aria-hidden="true" tabindex="-1"></a>    <span class="dv">6</span>,  <span class="dv">7</span>,</span>
+<span id="cb29-42"><a href="#cb29-42" aria-hidden="true" tabindex="-1"></a>    <span class="dv">6</span>, <span class="dv">11</span>,</span>
+<span id="cb29-43"><a href="#cb29-43" aria-hidden="true" tabindex="-1"></a>    <span class="dv">6</span>, <span class="dv">17</span>,</span>
+<span id="cb29-44"><a href="#cb29-44" aria-hidden="true" tabindex="-1"></a>    <span class="dv">7</span>, <span class="dv">17</span>,</span>
+<span id="cb29-45"><a href="#cb29-45" aria-hidden="true" tabindex="-1"></a>    <span class="dv">9</span>, <span class="dv">31</span>,</span>
+<span id="cb29-46"><a href="#cb29-46" aria-hidden="true" tabindex="-1"></a>    <span class="dv">9</span>, <span class="dv">33</span>,</span>
+<span id="cb29-47"><a href="#cb29-47" aria-hidden="true" tabindex="-1"></a>    <span class="dv">9</span>, <span class="dv">34</span>,</span>
+<span id="cb29-48"><a href="#cb29-48" aria-hidden="true" tabindex="-1"></a>   <span class="dv">10</span>, <span class="dv">34</span>,</span>
+<span id="cb29-49"><a href="#cb29-49" aria-hidden="true" tabindex="-1"></a>   <span class="dv">14</span>, <span class="dv">34</span>,</span>
+<span id="cb29-50"><a href="#cb29-50" aria-hidden="true" tabindex="-1"></a>   <span class="dv">15</span>, <span class="dv">33</span>,</span>
+<span id="cb29-51"><a href="#cb29-51" aria-hidden="true" tabindex="-1"></a>   <span class="dv">15</span>, <span class="dv">34</span>,</span>
+<span id="cb29-52"><a href="#cb29-52" aria-hidden="true" tabindex="-1"></a>   <span class="dv">16</span>, <span class="dv">33</span>,</span>
+<span id="cb29-53"><a href="#cb29-53" aria-hidden="true" tabindex="-1"></a>   <span class="dv">16</span>, <span class="dv">34</span>,</span>
+<span id="cb29-54"><a href="#cb29-54" aria-hidden="true" tabindex="-1"></a>   <span class="dv">19</span>, <span class="dv">33</span>,</span>
+<span id="cb29-55"><a href="#cb29-55" aria-hidden="true" tabindex="-1"></a>   <span class="dv">19</span>, <span class="dv">34</span>,</span>
+<span id="cb29-56"><a href="#cb29-56" aria-hidden="true" tabindex="-1"></a>   <span class="dv">20</span>, <span class="dv">34</span>,</span>
+<span id="cb29-57"><a href="#cb29-57" aria-hidden="true" tabindex="-1"></a>   <span class="dv">21</span>, <span class="dv">33</span>,</span>
+<span id="cb29-58"><a href="#cb29-58" aria-hidden="true" tabindex="-1"></a>   <span class="dv">21</span>, <span class="dv">34</span>,</span>
+<span id="cb29-59"><a href="#cb29-59" aria-hidden="true" tabindex="-1"></a>   <span class="dv">23</span>, <span class="dv">33</span>,</span>
+<span id="cb29-60"><a href="#cb29-60" aria-hidden="true" tabindex="-1"></a>   <span class="dv">23</span>, <span class="dv">34</span>,</span>
+<span id="cb29-61"><a href="#cb29-61" aria-hidden="true" tabindex="-1"></a>   <span class="dv">24</span>, <span class="dv">26</span>,</span>
+<span id="cb29-62"><a href="#cb29-62" aria-hidden="true" tabindex="-1"></a>   <span class="dv">24</span>, <span class="dv">28</span>,</span>
+<span id="cb29-63"><a href="#cb29-63" aria-hidden="true" tabindex="-1"></a>   <span class="dv">24</span>, <span class="dv">33</span>,</span>
+<span id="cb29-64"><a href="#cb29-64" aria-hidden="true" tabindex="-1"></a>   <span class="dv">24</span>, <span class="dv">34</span>,</span>
+<span id="cb29-65"><a href="#cb29-65" aria-hidden="true" tabindex="-1"></a>   <span class="dv">24</span>, <span class="dv">30</span>,</span>
+<span id="cb29-66"><a href="#cb29-66" aria-hidden="true" tabindex="-1"></a>   <span class="dv">25</span>, <span class="dv">26</span>,</span>
+<span id="cb29-67"><a href="#cb29-67" aria-hidden="true" tabindex="-1"></a>   <span class="dv">25</span>, <span class="dv">28</span>,</span>
+<span id="cb29-68"><a href="#cb29-68" aria-hidden="true" tabindex="-1"></a>   <span class="dv">25</span>, <span class="dv">32</span>,</span>
+<span id="cb29-69"><a href="#cb29-69" aria-hidden="true" tabindex="-1"></a>   <span class="dv">26</span>, <span class="dv">32</span>,</span>
+<span id="cb29-70"><a href="#cb29-70" aria-hidden="true" tabindex="-1"></a>   <span class="dv">27</span>, <span class="dv">30</span>,</span>
+<span id="cb29-71"><a href="#cb29-71" aria-hidden="true" tabindex="-1"></a>   <span class="dv">27</span>, <span class="dv">34</span>,</span>
+<span id="cb29-72"><a href="#cb29-72" aria-hidden="true" tabindex="-1"></a>   <span class="dv">28</span>, <span class="dv">34</span>,</span>
+<span id="cb29-73"><a href="#cb29-73" aria-hidden="true" tabindex="-1"></a>   <span class="dv">29</span>, <span class="dv">32</span>,</span>
+<span id="cb29-74"><a href="#cb29-74" aria-hidden="true" tabindex="-1"></a>   <span class="dv">29</span>, <span class="dv">34</span>,</span>
+<span id="cb29-75"><a href="#cb29-75" aria-hidden="true" tabindex="-1"></a>   <span class="dv">30</span>, <span class="dv">33</span>,</span>
+<span id="cb29-76"><a href="#cb29-76" aria-hidden="true" tabindex="-1"></a>   <span class="dv">30</span>, <span class="dv">34</span>,</span>
+<span id="cb29-77"><a href="#cb29-77" aria-hidden="true" tabindex="-1"></a>   <span class="dv">31</span>, <span class="dv">33</span>,</span>
+<span id="cb29-78"><a href="#cb29-78" aria-hidden="true" tabindex="-1"></a>   <span class="dv">31</span>, <span class="dv">34</span>,</span>
+<span id="cb29-79"><a href="#cb29-79" aria-hidden="true" tabindex="-1"></a>   <span class="dv">32</span>, <span class="dv">33</span>,</span>
+<span id="cb29-80"><a href="#cb29-80" aria-hidden="true" tabindex="-1"></a>   <span class="dv">32</span>, <span class="dv">34</span>,</span>
+<span id="cb29-81"><a href="#cb29-81" aria-hidden="true" tabindex="-1"></a>   <span class="dv">33</span>, <span class="dv">34</span>))</span>
+<span id="cb29-82"><a href="#cb29-82" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(club_g)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Használjuk a <code>cluster_fast_greedy()</code> függvényt egy közösségi objektum létrehozásához. Rendeljük ezt a <code>kc</code> objektumhoz.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># fast greedy közösségészlelési eljárás</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>kc <span class="ot">&lt;-</span> <span class="fu">fastgreedy.community</span>(club_g)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Használjuk a <code>sizes()</code> függvényt a <code>kc</code> objektumon annak meghatározására, hogy hány közösséget észleltek, és hány klubtag van mindegyikben.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># közösségek száma és létszáma</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sizes</span>(kc)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Community sizes</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1  2  3 </span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8 17  9</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A <code>membership()</code> függvény segítségével jelenítsük meg, hogy mely klubtagok melyik közösséghez tartoznak.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># melyik klubtag, melyik közösséghez tartozik</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">membership</span>(kc)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1  2  3  4  5  6  7  9 10 14 15 16 19 20 21 23 24 25 26 27 2...</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1  3  3  3  1  1  1  2  3  3  2  2  2  1  2  2  2  2  2  2  ...</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 30 31 32 33  8 11 12 13 18 22 17 34 </span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  2  2  2  2  3  1  1  3  3  3  1  2</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Az alapértelmezett közösségi ábra létrehozásához az ismert <code>plot()</code> függvényt használhatjuk. Az első argumentum a <code>kc</code> objektum, a második argumentum pedig a <code>club_g</code> gráfobjektum.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a közösségeket tartalmazó hálózati ábra</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kc, club_g)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="feladat-4" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="feladat-4"><span class="header-section-number">5.3.2</span> Feladat</h3>
+<p>Alternatív közösségészlelési módszer az él közöttiség eljárás. Ebben a feladatban megismételjük a karate klub közösségészlelését, de most ezzel a módszerrel, majd vizuálisan összehasonlítjuk az eredményeket a fast greedy módszerrel kapott közösségekkel.</p>
+<p>Használjuk a <code>cluster_edge_betweenness()</code> függvényt a <code>club_g</code> gráf objektumon, és a <code>gc</code> objektumban tároljuk el az eredményt.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># él közöttiség eljárás futtatása</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>gc <span class="ot">&lt;-</span> <span class="fu">cluster_edge_betweenness</span>(club_g)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Határozzuk meg a közösségek nagyságát és számát.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a közösségek létszáma</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sizes</span>(gc)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Community sizes</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1  2  3  4  5 </span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10  6  5 12  1</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Két ábrát a <code>par(mfrow = c(1, 2))</code> segítségével tudunk egymás mellé helyezni. Az első diagram az előző <code>kc</code> közösségi objektumot, a második a jelen <code>gc</code> közösségi objektumot tartalmazza.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># közösségészlelés két módszerrel</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(kc, club_g)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(gc, club_g)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="05_specialis_kapcsolatok_files/figure-html/unnamed-chunk-37-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="interaktív-hálózatok" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="interaktív-hálózatok"><span class="header-section-number">5.4</span> Interaktív hálózatok</h2>
+<p>A fejezetben használt függvények:</p>
+<ul>
+<li><code>graphjs()</code> - interaktív vizualizáció a <code>{threejs}</code> csomagból</li>
+</ul>
+<p>Eddig ebben a kurzusban az <code>{igraph}</code> csomag segítségével készítettünk ábrákat a hálózatokról. Láttuk, ezek az ábrák gyorsan és viszonylag egyszerűen elkészíthetők. Sok más R csomag is létezik azonban, amelyek hálózatok vizualizációját segítik. Például <code>{statnet}</code>, <code>{ggnet}</code>, <code>{ggnetwork}</code>, <code>{ggraph}</code>, <code>{visNetwork}</code>, <code>{networkD3}</code>, <code>{sigma}</code> és a <code>{threejs}</code>. Mindegyiknek megvan a maga erőssége és gyengesége. Egyesek nagyobb hálózatokhoz, mások kisebb hálózatokhoz hasznosak. Egyesek nagyon jók statikus grafikonok készítésére, míg mások jobban alkalmasak olyan vizualizációk készítésére, amelyekkel a felhasználó interakcióba léphet. Például úgy, hogy a csúcsok fölé vihetjük az egérmutatót, és így további információkat kaphatunk az egyénekről, vagy akár dinamikusan mozgathatjuk a hálózatot. Fenti lehetőségek közül több integrálva van JavaScript-könyvtárakkal.</p>
+<p>Jelen alfejeztben megtudhatjuk, hogyan készíthetünk interaktív hálózati diagramokat a <code>{threejs}</code> csomag használatával. Ez a csomag különösen hasznos nagy hálózatok megjelenítéséhez, és nagyon jól integrálható az <code>{igraph}</code> csomaggal. Amikor létrehozzuk ezeket a vizualizációkat, használhatja az egeret a hálózat elforgatására, nagyítására és kicsinyítésére, valamint a csúcsok mozgatására. Ha a csúcsok fölé viszük az egeret, az egy felugró szövegen keresztül felfedi az egyén adatait.</p>
+<p>Alapvető vizualizáció létrehozásához alkalmazzuk a <code>graphjs()</code> függvényt egy igraph objektumra. Ez egy teljesen interaktív hálózatot hoz létre.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(threejs)</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co"># graphjs(g3)</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A csúcsok neveinek hozzáadásához és a színek megváltoztatásához mindössze annyit kell tennünk, hogy beállítja a megfelelő csúcsattribútumokat az igraph objektumban.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># csúcsnevek beállítása</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>g3 <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(g3, </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"label"</span>, </span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">value =</span> <span class="fu">V</span>(g3)<span class="sc">$</span>name)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="co"># csúcsok színeinek beállítása</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>g3 <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(g3, </span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                      <span class="st">"color"</span>, </span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">value =</span> <span class="st">'mistyrose'</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a><span class="co"># graphjs(g3, vertex.size = 1)</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A <code>graphjs()</code> függvényen belül az ábra sok aspektusa megváltoztatható. A fenti példában megváltoztatjuk a csúcsméretet. Ha a csúcs fölé visszük az egeret, meg fog jelenni a csúcs címkéje.</p>
+<section id="feladat-5" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="feladat-5"><span class="header-section-number">5.4.1</span> Feladat</h3>
+<p>Eddig kizárólag az <code>{igraph}</code> csomagot használtuk az alapvetően statikus hálózati diagramok elkészítéséhez. Számos csomag áll azonban rendelkezésre hálózati ábrák készítéséhez. Az egyik nagyon hasznos csomag a <code>{threejs}</code>, amely lehetővé teszi interaktív hálózati vizualizációk készítését. Ez a csomag is zökkenőmentesen integrálható az <code>{igraph}</code> csomaggal. Ebben a feladatban elkészítjük a karate klub hálózatának alapszintű interaktív hálózati megjelenését a <code>{threejs}</code> csomag segítségével. Miután elkészítettük a vizualizációt, mozgassuk a hálózatot az egérrel. Képesnek kell lennünk a hálózat kicsinyítésére és nagyítására, valamint a hálózat elforgatására.</p>
+<p>Először a <code>set_vertex_attr()</code> használatával hozzunk létre egy új csúcs attribútumot <code>color</code> néven, ami a <code>dodgerblue</code> értéket vegye fel.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(threejs)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># beállítjuk a csúcsok 'color' attribútumát 'dodgerblue'-re </span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>club_g <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(club_g, <span class="st">"color"</span>, <span class="at">value =</span> <span class="st">"dodgerblue"</span>)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ábrázoljuk a <code>club_g</code> hálózatot a <code>{threejs}</code> <code>graphjs()</code> függvényével. Az első argumentum a <code>club_g</code> gráfobjektum legyen. Állítsuk a csúcs méretét 1-re.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># rajzoljuk meg a hálózatot 1-es csúcsmérettel</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># graphjs(club_g, vertex.size = 1)</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="feladat-6" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="feladat-6"><span class="header-section-number">5.4.2</span> Feladat</h3>
+<p>A hálózatok megjelenítése során érdemes módosítani a csúcsok méretét, ezzel szemléltethetjük a relatív fontosságukat. Ez a <code>{threejs}</code> csomagban is elvégezhető. Ebben a feladatban létrehozunk egy interaktív <code>{threejs}</code> diagramot a karate klub hálózatról úgy, hogy a csúcsok méretét a relatív sajátvektor centralitásukra alapozzuk.</p>
+<p>Számítsa ki az egyes csúcsok sajátvektor centralitását az <code>eigen_centrality()</code> segítségével, és tároljuk az értékeket az <code>ec</code> objektumban.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sajátvektor centralitások vektora </span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ec <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">eigen_centrality</span>(club_g)<span class="sc">$</span>vector)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Az <code>sqrt()</code> használatával az <code>ec</code> értékeiből hozzunk létre egy új <code>v</code> vektort, amely egyenlő az eredeti sajátvektor centralitás négyzetgyökének ötszörösével.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># sajátvektor centralitások négyzetgyökének ötszörösét számoljuk</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> <span class="dv">5</span><span class="sc">*</span><span class="fu">sqrt</span>(ec)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ábrázoljuk a hálózatot a <code>{threejs}</code> csomag <code>graphjs()</code> függvényének használatával, és állítsuk be a <code>vertex.size=</code> argumentumot a <code>v</code> értékeire.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># interaktív megjelenítés</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a><span class="co"># graphjs(club_g, vertex.size = v)</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="feladat-7" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="feladat-7"><span class="header-section-number">5.4.3</span> Feladat</h3>
+<p>Végül ebben az utolsó feladatban egy olyan interaktív ábrát fogunk létrehozni, amely a közösségi tagságuk alapján színezi a csúcsokat. A közösségek észlelését a fast greedy módszerrel végezzük el.</p>
+<p>Használjuk a <code>membership()</code> függvényt a <code>kc</code> közösségi igraph objektumon, így létrehozzunk egy <code>i</code> vektort az egyes csúcsok közösségek tagságáról.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># az i objektum a csúcsok tagságát fogja tartalmazni</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span>  <span class="fu">membership</span>(kc)</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ellenőrizzük, hogy hány közösség van a <code>sizes()</code> függvény segítségével a <code>kc</code> közösségi igraph objektumban.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># meggyőződünk, hogy 3 csoport van, így 3 színre lesz szükségünk</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sizes</span>(kc)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Community sizes</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1  2  3 </span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  8 17  9</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A <code>set_vertex_attr()</code> segítségével adjunk hozzá egy <code>color</code> nevű csúcsattribútumot a <code>club_g</code> gráfobjektumhoz. A hozzáadandó értékek az <code>i</code> objektumhoz rendelt tagságon alapuló színek lesznek.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># a csúcsok színének beállítása a közösségi tagságuk alapján</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>club_g <span class="ot">&lt;-</span> <span class="fu">set_vertex_attr</span>(club_g, <span class="st">"color"</span>, <span class="at">value =</span> <span class="fu">c</span>(<span class="st">"yellow"</span>, <span class="st">"blue"</span>, <span class="st">"red"</span>)[i])</span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Ábrázolja a háromdimenziós gráfot a <code>graphjs()</code> függvény segítségével.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># interaktív megjelenítés</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="co"># graphjs(club_g)</span></span></code><button title="Másolás vágóasztalra" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Sikeres másolás!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Sikeres másolás!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./04_halozat_szerkezete.html" class="pagination-link" aria-label="A hálózat szerkezete">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">A hálózat szerkezete</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06_kitekintes.html" class="pagination-link" aria-label="Kitekintés">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Kitekintés</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
