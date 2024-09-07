@@ -1,0 +1,898 @@
+# Fontos csúcsok
+
+```{r}
+#| results: "asis"
+#| echo: false
+source("_common.R")
+```
+
+
+Egy hálózatban lényeges a kulcsfontosságú kapcsolatok és a fontos vagy befolyásos csúcsok azonosítása.
+
+## A fejezet fogalmai
+
+vonal
+
+: egymáshoz kapcsolódó élek tetszőleges sorozata
+
+
+zárt vonal
+
+: olyan vonal, ahol az első él kezdőcsúcsa megegyezik az utolsó él végpontjával
+
+
+séta 
+
+: olyan vonal, amelyben minden él különböző
+
+
+út (path)
+
+: olyan vonal, amelyben minden csúcs (és így persze minden él is) különböző
+
+
+kör
+
+: olyan vonal, amelyben a kezdőpont megegyezik a végponttal, de ettől eltekintve minden pont különböző
+
+Hamilton kör
+
+: a gráf minden pontját tartalmazó kör
+
+
+Hamilton út
+
+: a gráf minden pontját tartalmazó út
+
+vonal / út hossza
+
+: a vonalon / úton szereplő élek száma
+
+hálózat átmérője
+
+: a hálózat leghosszabb útja
+
+
+centralitás (központiság)
+
+: a csúcs fontosságát leíró számszerű mutató
+
+## Irányított gráfok
+
+
+A fejezetben használt `{igraph}` függvények:
+
+- `is.directed()` - a gráf irányítottságát vizsgáló függvény
+- `is.weighted()` - a gráf súlyozottságát vizsgáló függvény
+- `head_of()` - minden olyan csúcs lekérdezése, amely a paraméterben megadott élek végpontja
+- `tail_of()` - függvény a paraméterben szereplő élek kezdőpontját adja meg
+- `incident()` - azon élek listája, amelyek a paraméterben szereplő csúcsokat érinti
+
+Könnyen létrehozhatunk irányított gráfot adattáblából. Egy gráfobjektum lehet irányított vagy irányítatlan és az élek lehetnek súlyozottak vagy súlyozatlanok.
+
+Példaként a kanyaró terjedésének hálózatát fogjuk használni. Az adatok a németországi Hagelloch városából származnak 1861-ből. A hálózat minden egyes irányított éle azt jelzi, hogy egy gyermek megfertőződött kanyaróval, miután kapcsolatba került egy fertőzött gyermekkel.
+
+
+Adatok beolvasása.
+
+```{r}
+# adattábla létrehozása
+measles <- rio::import(file = "adat/measles.csv")
+head(measles) # az adattábla első 6 sora
+```
+
+Hozzuk létre az igraph objektumot, vagyis a hálózatot.
+
+```{r}
+library(igraph)
+# igraph objektum létrehozása
+g <- graph_from_data_frame(d = measles, directed = TRUE)
+```
+
+Jelenítsük meg a hálózatot a `plot()` segítségével. Ezt a megjelenítést később javítani fogjuk. Hasznos lehet a hálózat megjelenítése az elemzés előtt. A hálózat láthatóságát javítja, ha kezdetben a csúcsméretet 0 (`vertex.size = 0`), az él nyíl mérete pedig 0,1 (`edge.arrow.size = 0.2`).
+
+
+```{r}
+# induló megjelenés
+plot(g, 
+     vertex.label.color = "black", 
+     edge.color = 'gray77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g))
+```
+
+Vizsgáljuk meg, hogy a hálózat irányított vagy sem. Ehhez a `is.directed()` függvényt használjuk. A visszatérési érték `TRUE` vagy `FALSE`.
+
+```{r}
+# a gráf irányított?
+is.directed(g)
+```
+
+Amennyiben a `g` igraph objektumot kiíratjuk a képernyőre, akkor is felismerhetjük, hogy irányított gráfról van szó. Egyrészt a nyilakkal reprezentált élek, másrészt az első sorban szereplő `DN` jelzi a gráf irányítottságát.
+
+```{r}
+g # igrapgh objektum kiírása a képernyőre
+```
+
+Amennyiben súlyozott éleket tartalmazó gráfról van szó, akkor az `is.weighted()` függvénnyel meggyőződhetünk ennek tényéről. 
+
+```{r}
+is.weighted(g) # a gráf élei súlyozottak
+```
+
+Súlyozott éleket tartalmaz az a gráf, amelynek az élei tartalmaznak `weight` attribútumot.
+
+```{r}
+g2 <- g
+# véletlen súlyok hozzárendelése
+E(g2)$weight <- sample(x = c(1,2), size = gsize(g2), replace = T)
+is.weighted(g2) # a gráf élei súlyozottak
+```
+
+Az élek súlyozottsága a `g2` igraph objektum kilistázásából is látható.
+
+```{r}
+g2 # g2 kiírása
+```
+
+Súlyozott gráf megjelenítéséhez használjuk a `edge.width = E(g2)$weight` paramétert a `plot()` függvényben.
+
+```{r}
+plot(g2, 
+     vertex.label.color = "black", 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g),
+     edge.width = E(g2)$weight
+     )
+```
+
+### Az élek végpontjai
+
+Irányítatlan gráfok esetében, ha `e` egy él és az `a`, `b` csúcsok össze vannak kötve, akkor az `a` és `b` az `e` él végpontjai, míg irányított gráfban `a->b` irányított él esetén az `a` csúcs az `e` kezdőpontja (vagy töve) és `b` a végpontja (vagy feje). 
+
+Irányított gráfban a `head_of()` segítségével minden olyan csúcsot lekérdezhetünk, amely a paraméterben megadott élek végpontja. A `tail_of()` függvény a paraméterben szereplő élek kezdőpontját adja meg. A `head_of()` függvény tehát két argumentumot tartalmaz, az első a gráfobjektum, a második pedig az élek halmaza. Ha az összes élt el akarjuk érni, akkor az `E(g)`-t használjuk.
+
+```{r}
+ho_g <- head_of(g, E(g)) # a gráf összes élének végpontja
+ho_g
+```
+
+Hasonlóan használhatjuk a `tail_of()` függvényt azon csúcsok meghatározására, amelyekből él indul ki:
+
+```{r}
+to_g <- tail_of(g, E(g)) # a gráf összes élének kezdőpontja
+to_g
+```
+
+Érdekességként keressük meg azokat az éleket, amelyekből indul ki él, de egy él sem vezet. A `setdiff()` függvény a halmazelméleti különbséget valósítja meg, egészen pontosan a gráf összes élének kezdőpontjából (`to_g`) kivonjuk a gráf összes élének végpontját (`ho_g`). Ha a csomópontok címkéivel akarjuk elvégezni a műveletet, akkor a `name` argumentumot is használjuk a különbségképzés során.
+
+```{r}
+# olyan csúcsok, amelyekbe nem vezet be él
+setdiff(to_g$name, ho_g$name)
+```
+
+A fenti outputban látható, hogy 3 ilyen csúcsunk van. Amennyiben szeretnénk ezt a 3 csúcsot kiemelni a megjelenítés során, akkor a címkék színét állítsuk be.
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", gorder(graph = g))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[V(g)$name %in% setdiff(to_g$name, ho_g$name)] <- "red"
+
+plot(g2, 
+     vertex.label.color = vlc, 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g)
+     )
+```
+
+
+### Adott csúcs éleinek azonosítása
+
+Az egyes élek azonosítása is lehetséges. Megvizsgálhatjuk, hogy létezik-e él két csúcs között, valamint megkereshetjük az összes olyan csúcsot, amelyek bármelyik irányban kapcsolódnak egy adott csúcshoz.
+
+Először ellenőrizzük le, hogy vezet-e él egyik, illetve másik irányban a 184-es csúcs és a 178-as csúcs között. A csúcsok indexelésekor szögletes zárójelet (`[`) használjuk és a csúcs nevét idézőjelbe kell tenni, még akkor is, ha az szám. Ha az indexelés eredménye 1 (IGAZ), akkor az azt jelzi, akkor vezet irányított él. Ha 0-t (FALSE) kapunk, akkor nem vezet irányított él.
+
+```{r}
+# Van-e irányított él a 184-es csúcstól 178-as csúcshoz
+g['184', '178']
+```
+
+
+```{r}
+# Van-e irányított él a 178-as csúcstól 184-es csúcshoz
+g['178', '184']
+```
+
+Az `incident()` függvény segítségével azonosítjuk azokat az éleket, amelyek például a 184-es csúcsból bármelyik irányba mennek, vagy azokat, amelyek a 184-es csúcsból indulnak ki. Az első argumentum a gráf objektum, a második a vizsgálandó csúcs, a harmadik argumentum pedig a mód, amely az irányt jelzi.
+
+
+```{r}
+# Az összes olyan él, amiben a 184-es csúcs szerepel
+incident(g, '184', mode = "all")
+```
+
+
+```{r}
+# Az összes olyan él, amely a 184-es csúcsból indul ki
+incident(g, '184', mode = "out")
+```
+
+
+```{r}
+# Az összes olyan él, amely a 184-es csúcsba vezet
+incident(g, '184', mode = "in")
+```
+
+
+#### Feladat
+
+>Hozzuk létre a következő gráfot, írassuk ki a szomszédsági mátrixát, a `degree()` függvénnyel a fokszámokat, az átlagos fokszámot és a `degree.distribution()` függvénnyel a fokszámeloszlást.
+
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+friends <- tribble(
+                ~name1,   ~name2,
+                1, 2,
+                3, 1,
+                3, 2,
+                2, 4
+)
+friends.mat <- as.matrix(friends)
+gs1 <- graph.edgelist(friends.mat, directed = TRUE)
+# A hálózat megjelenítése
+plot(gs1)
+```
+
+
+Hozzuk létre a fenti irányított gráfot:
+
+```{r}
+friends <- tribble(
+                ~name1,   ~name2,
+                1, 2,
+                3, 1,
+                3, 2,
+                2, 4
+)
+friends.mat <- as.matrix(friends)
+gs1 <- graph.edgelist(friends.mat, directed = TRUE)
+# A hálózat megjelenítése
+plot(gs1)
+```
+
+Szomszédsági mátrix:
+
+```{r}
+as_adjacency_matrix(gs1)
+```
+
+
+```{r}
+V(gs1) # a csúcsok száma és megnevezése
+E(gs1) # az élek száma és az élek azonosítása csúcsokkal
+ecount(gs1) # élek száma
+vcount(gs1) # csúcsok száma
+is.directed(gs1) # irányított gráf?
+```
+
+
+A csúcsok fokszáma, a bemenő és kimenő éleket külön-külön is számolva:
+
+```{r}
+degree(gs1) 
+degree(gs1, mode = "all") 
+degree(gs1, mode = "in") 
+degree(gs1, mode = "out") 
+d_degree <- data.frame(degre_all=degree(gs1, mode = "all"),
+                       degre_in=degree(gs1, mode = "in"),
+                       degre_out=degree(gs1, mode = "out"))
+d_degree
+```
+
+A fokszámok átlaga:
+
+```{r}
+mean(degree(gs1)) 
+```
+
+A fokszámeloszlás:
+
+```{r}
+degree.distribution(gs1) 
+```
+
+
+## Csúcsok közötti kapcsolatok
+
+A fejezetben használt `{igraph}` függvények:
+
+- `neighbors()` - szomszédos csúcsok feltárása
+- `farthest_vertices()` - a hálózat átmérőjét meghatározó út első és utolsó csúcsa
+- `get_diameter()` - megmutatja az útvonalat a két egymástól legtávolabbi csúcs között
+- `diameter()` - a hálózat átmérője
+- `ego()` - azok a csúcsok, amelyek egy adott csúcstól $N$ kapcsolaton belül elérhetők
+
+A hálózatelemzés során a csúcsok közötti kapcsolatok mintázatának feltárása központi jelentőségű. Ennek egyik módja, hogy első lépésben azonosítjuk az egyes csúcsok szomszédos csúcsait, majd azt is meghatározhatjuk, hogy mely szomszédos csúcsokon osztoznak a nem összekapcsolt csúcsok. Ez utóbbi annak a lehetőségét mutatja meg, hogy két csúcsnak miként lehet közvetett kapcsolata más csúcsokon keresztül. 
+
+### Szomszédok
+
+A `neighbors()` függvény segítségével azonosíthatjuk azokat a csúcsokat, amelyek bármilyen módon kapcsolódnak például a 12-es csúcshoz, vagy azokat a csúcsokat, amelyek egy élt a 12-es csúcshoz irányítanak, és azokat is, amelyek a 12-es csúcsból indulnak. 
+
+```{r}
+# irányítottságtól függetlenül a 12 csúcs szomszédai
+neighbors(g, '12', mode = "all")
+
+# a 12-es csúcsba futó élek kiinduló csúcsai
+neighbors(g, '12', mode = "in")
+
+# a 12-es csúcsból kifelé vezető élek
+neighbors(g, '12', mode = "out")
+```
+
+
+Meghatározhatjuk azt is, hogy például a 42 és 124 csúcsoknak van-e közös szomszédjuk! Hozzunk létre egy `n1` vektort azoknak a csúcsoknak, amelyekbe él vezet a 42-es csúcsból, és egy `n2` vektort azoknak a csúcsoknak, amelyek egy élt a 124-es csúcshoz irányítanak.  Ezután használjuk az `intersection()` függvényt, amely meghatározza, hogy vannak-e közös csúcsok az `n1`-ben és az `n2`-ben.
+
+```{r}
+# az összes olyan csúcs, amely a 42-es csúcsból induló élen végpont és egyben a 124-es csúcshoz irányuló élek kezdőcsúcsa
+n1 <- neighbors(g, '42', mode = 'out')
+n2 <- neighbors(g, '124', mode = 'in')
+intersection(n1, n2)
+```
+
+Látható, hogy van egyetlen olyan csúcs (7), amelyen keresztül a 42-es csúcsból eljuthatunk a 124-es csúcsba. 
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", gorder(graph = g))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[V(g)$name %in% c('42', '7', '124')] <- "red"
+
+plot(g2, 
+     vertex.label.color = vlc, 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g)
+     )
+```
+
+
+### A csúcsok közötti távolságok
+
+Egy hálózat összekapcsoltságának egyik mutatója lehet, ha megállapítjuk az összes csúcspár közötti utak hosszát. Az út egyszerűen a csúcsok közötti kapcsolatok láncolata. A két csúcs közötti élek száma a csúcsok közötti távolságot jelenti. Ha egy csúcs elérhető a szomszédjától, akkor a köztük lévő úthossz 1, vagyis az egymáshoz kapcsolódó csúcsok távolsága 1. Azok a csúcsok, amelyeknek közös szomszédjuk van, de nem kapcsolódnak egymáshoz, a távolságuk 2 és így tovább. Irányított hálózatokban az élek iránya is figyelembe vehető. Ha két csúcsot nem lehet elérni egymást követő irányított éleken keresztül, akkor a távolság végtelen. 
+
+A hálózatelemzés során általában az érdekel bennünket, hogy az adott hálózatban melyik a leghosszabb ilyen út. Ezt a hálózat átmérőjének is nevezik. 
+
+Elsőként vizsgáljuk meg a hálózat csúcsai közötti leghosszabb útvonalakat, majd azokat a csúcsokat keressük, amelyek egy adott csúcs $n$ kapcsolatán belül vannak. A betegségátviteli hálózatok esetében (mint a példánkban szereplő kanyaró adatkészlet esetében) ez segít azonosítani, hogy milyen gyorsan terjed a betegség a hálózaton keresztül.
+
+A hálózat leghosszabb útvonalának hosszát a `farthest_vertices()` függvény segítségével kérhetjük el.
+
+```{r}
+# Melyik két csúcs van a legtávolabb egymástól a gráfban?
+farthest_vertices(g) 
+```
+
+Az outputban megjelenik a megtalált út kezdő- és végpontja, valamint az út hossza is.
+
+Az út hosszát a `diameter()` függvény külön is megmutatja.
+
+```{r}
+# a hálózat átmérője
+diameter(g)
+```
+
+
+Magát az útvonalat is azonosíthatjuk a `get_diameter()` függvény segítségével. Ez az út összes csúcspontját tartalmazza, így esetünkben azt az utat mutatja, amely a legtávolabb lévő gyermekekhez vezet, akikhez a betegség eljutott a hálózaton keresztül.
+
+```{r}
+# Megmutatja az útvonalat a két egymástól legtávolabbi csúcs között
+get_diameter(g)  
+```
+
+Jelenítsük meg ezt az utat.
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", gorder(graph = g))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[V(g)$name %in% get_diameter(g)$name] <- "red"
+
+plot(g2, 
+     vertex.label.color = vlc, 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g)
+     )
+```
+
+
+### N lépésben elérhető csúcsok azonosítása
+
+Az `ego()` függvény segítségével azonosítani tudjuk az összes olyan csúcsot, amely az adott csúcsból maximum $n$ lépésben elérhető. 
+
+Például az `ego()` segítségével keressük meg az összes olyan csúcsot, amely a 42-es csúcstól 2 távolságon belül elérhető, majd azokat, amelyek két távolságon belül elérhetik a 42-es csúcsot. Az `ego()` első argumentuma a gráfobjektum, a második argumentum a csúcsok közötti kapcsolatok maximális száma, a harmadik argumentum a kívánt csúcs, a negyedik argumentum pedig azt határozza meg, hogy kimenő vagy bejövő élről van szó.
+
+```{r}
+# Azok a csúcsok, amelyek a 42-es csúcstól két kapcsolaton belül elérhetők.
+ego(g, 2, '42', mode = 'out')
+
+# Azok a csúcsok, amelyek két kapcsolaton belül elérhetik a 42-es csúcsot.
+ego(g, 2, '42', mode = 'in')
+```
+
+
+Azok a csúcsok, amelyek a 42-es csúcstól két kapcsolaton belül elérhetők.
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", gorder(graph = g))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[V(g)$name %in% ego(g, 2, '42', mode = 'out')[[1]]$name] <- "red"
+
+plot(g2, 
+     vertex.label.color = vlc, 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g)
+     )
+```
+
+Azok a csúcsok, amelyek két kapcsolaton belül elérhetik a 42-es csúcsot.
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", gorder(graph = g))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[V(g)$name %in% ego(g, 2, '42', mode = 'in')[[1]]$name] <- "red"
+
+plot(g2, 
+     vertex.label.color = vlc, 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g)
+     )
+```
+
+
+## Fontos és befolyásos csúcsok
+
+A fejezetben használt `{igraph}` függvények:
+
+- `degree()` - fokszám centralitás kiszámítása az egyes csúcsokra
+- `betweenness()` - közöttiség centralitás kiszámítása az egyes csúcsokra
+- `closeness()` - közelség centralitás kiszámítása az egyes csúcsokra
+- `make_ego_graph()` - részgráf készítése egy csúcstól adott távolságra lévő csúcsokkal
+- `distances()` - a legrövidebb út két csúcs között
+
+
+A hálózatelemzésben különböző mérőszámok születtek a csúcsok fontosságának számszerűsítésére, ezeket centralitásnak vagy központiságnak nevezzük. Ezek segítségével olyan kérdésekre válaszolhatunk, hogy egy osztályközösségben ki a hangadó, mennyire értékes gey weboldal, mely gének törlése járhat hallos következménnyel egy génszabályozó hálózatban, mennyire kritikus az adott router egy internetes hálózatban.
+
+Itt 3 centralitási mutatóról lesz szó:
+
+- Fokszám centralitás (degree centrality)
+- Közöttiség centralitás (betweenness centrality)
+- Közelség centralitás (closeness centrality)
+
+Számos módszer létezik annak meghatározására, hogy mely csúcsok lehetnek a legfontosabbak vagy a legbefolyásosabbak. Például fontosnak tarthatunk egy olyan csúcsot, amelynek sok kapcsolata van, azaz magas a fokszáma van. Azokat a csúcsokat még nagyobb befolyásúnak tekinthetjük, amelyek olyan más csúcsokhoz kapcsolódnak, amelyek maguk is erősen összekapcsolódnak a hálózatban. Ezek olyan csúcsok, amelyek nagy sajátvektor-centralitásúak. Számos más módszer is létezik a befolyás kiszámítására, beleértve a közelség és a laprangsorok központiságát. A következő gyakorlatban ezek közül kettőre fogsz összpontosítani: a mértékre és a közöttiségre.
+
+
+### Fokszám centralitás
+
+A csúcs fontosságának talán legegyszerűbb mértéke a csúcs foka. Egy csúcs kifoka (out-degree) azoknak a csúcsoknak a száma, amelyekre egy csúcsnak kimenő éle van. A befok (in-degree) a többi egyedtől ide vezető élek száma. A kanyaróhálózatban azok az egyének, akik sok más egyedet megfertőznek, magas kifokkal rendelkeznek. 
+
+Érdekes kérdés lehet, hogy az egyének azonos mennyiségben fertőznek-e meg más gyerekeket, vagy vannak esetleg olyan kulcsfontosságú gyerekek is, akiknek magas a kifokuk, vagyis sok más gyereket is megfertőztek.
+
+Számítsuk ki az egyes csúcsok kimenő fokát `degree()` függvény segítségével. Az első argumentum a hálózati gráf objektum, a második argumentum pedig a mód (`out`, `in` vagy `all`). A függvény kimenetét a `g.outd` objektumhoz rendeljük.
+
+```{r}
+# Számítsuk ki az egyes csúcsok kimenő fokát
+g.outd <- degree(g, mode = "out")
+g.outd
+```
+
+Tekintsük meg az összes egyedi kimenő fokot `table()` függvény segítségével a `g.outd` vektorobjektum alapján.
+
+```{r}
+# gyakorisági táblázat
+table(g.outd)
+```
+
+
+Látható, hogy van egy olyan gyerek, aki 30 más gyermeket fertőzött meg.
+
+Készítsünk hisztogramot a kimenő fokokról a `hist()` függvény segítségével a `g.outd` vektorobjektum alapján.
+
+```{r}
+# Készítsünk hisztogramot a kimenő fokokról
+hist(g.outd, breaks = 30)
+```
+
+Határozzuk meg, hogy a `g.outd` vektorobjektumon a `which.max()` függvény segítségével melyik csúcsnak van a legmagasabb kimenő foka a hálózatban.
+
+
+```{r}
+# Keresse meg azt a csúcsot, amelyiknek a maximális kimenő foka van
+which.max(g.outd)
+```
+
+
+Jelenítsük meg ábrán is.
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", gorder(graph = g))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[V(g)$name %in% '45'] <- "red"
+
+plot(g2, 
+     vertex.label.color = vlc, 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g)
+     )
+```
+
+
+Jelenítsük meg a példa kedvéért az első három legmagasabb fokszámmal rendelkező csúcsot.
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", gorder(graph = g))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[V(g)$name %in% names(sort(degree(g, mode = "out"), decreasing = T)[1:3])] <- "red"
+
+plot(g2, 
+     vertex.label.color = vlc, 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g)
+     )
+```
+
+
+### Közöttiség centralitás
+
+Egy adott csúcs fontosságának másik mércéje a közöttiség centralitás. A mutató kifejezi, hogy egy csúcs milyen gyakran fekszik a hálózat bármely két csúcsa közötti legrövidebb úton. Könnyen elképzelhető, hogy egy ilyen csúcs mennyire kritikus a hálózaton keresztüli információáramlás szempontjából. A nagy közöttiség centralitással rendelkező egyének kulcsfontosságú hidak a hálózat különböző részei között. A kanyaróátviteli hálózatunkban magas értékkel rendelkeznek azok a gyerekek, akik központi szerepet játszottak a betegség átvitelében a hálózat más részeire. 
+
+Határozzuk meg a közöttiség centralitás értékét minden csúcsra a `betweenness()` függvény segítségével. Az argumentumban meg kell adnunk, hogy most irányított hálózatról van szó: `directed = TRUE`. Az eredményt mentsük el a `g.b` objektumba.
+
+```{r}
+# Közöttiség centralitás minden csúcsra
+g.b <- betweenness(g, directed = TRUE)
+g.b
+```
+
+
+Ábrán is vizsgáljuk meg a közöttiség centralitás pontszámok eloszlását a `hist()` függvény segítségével.
+
+
+```{r}
+# Hisztogram közöttiség centralitásra
+hist(g.b, breaks = 80)
+```
+
+
+A `plot()` segítségével elkészíthetjük a hálózat diagramját a közöttiségi pontszámok alapján. A csúcscímkék megjelenését `NA`-val nyomjuk el. A csúcsméret attribútum induljon 1-ről, plusz a `g.b` közöttiségi pontszámok négyzetgyöke. A négyzetgyök függvényre azért van szükség (az egyszerű összegzés helyett), mert ebben a hálózatban óriási különbségek vannak a közöttiségi pontszámok között, a pontszámok ilyen módon történő normalizálása biztosítja, hogy minden csomópont áttakinthető maradjon, de relatív fontosságuk továbbra is azonosítható legyen.
+
+```{r}
+# ábra a közöttiségi mutató szemléltetésével
+plot(g, 
+     vertex.label = NA,
+     edge.color = 'black',
+     vertex.size = sqrt(g.b)+1,
+     edge.arrow.size = 0.05,
+     layout = layout_nicely(g))
+```
+
+A hagyományos megjelenítéssel is emeljük ki a 3 legnagyobb közöttiségi mutatóval rendelkező csúcsot.
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", gorder(graph = g))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[V(g)$name %in% names(sort(betweenness(g, directed = T), decreasing = T)[1:3])] <- "red"
+
+plot(g2, 
+     vertex.label.color = vlc, 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g)
+     )
+```
+
+
+### Közelség centralitás
+
+A közelségi mérőszám az összes többi csúcshoz való közelséggel ragadja meg a központiságot, vagyis az a "központi" csúcs, amely sok más csúcshoz "közel" van. A standard megközelítés szerint kiszámoljuk egy csúcs összesített távolságát az összes többi csúcstól, majd vesszük az összeg reciprokát.
+
+A közelségi mutatót a `closeness()` függvénnyel számítjuk ki, amelynek első paramétere a gráf, a második pedig a `mode=`, amelynek csak irányított gráfok esetén van jelentősége. Alapértelmezett értéke `out`, amely irányított gráfban a csúcsból kivezető élek segítségével méri csak a többi csúcshoz vezető élek távolságát. A legtöbbször erre van szükségünk, jelen esetben is.
+
+```{r}
+# Közelségi centralitás
+g.c <- closeness(g, mode = "out")
+g.c
+```
+
+Ne felejtsük, hogy közelségi mutató esetén a kisebb érték jelenti a nagyobb fontosságot. Emeljük ki a három befolyásos csúcsot, amelyet a közelségi mutató alapján határozunk meg.
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", gorder(graph = g))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[V(g)$name %in% names(sort(closeness(g, mode = "out"))[1:3])] <- "red"
+
+plot(g2, 
+     vertex.label.color = vlc, 
+     edge.color = 'grey77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g)
+     )
+```
+
+
+#### Feladat
+
+>Készítsük el a következő irányított gráfot. 
+> 
+>- Vizsgáljuk meg a gráf irányítottságát és súlyozottságát. 
+>- Tárjuk fel a fokszámokat, vegyük figyelembe a kifokokat és a befokokat is. 
+>- Vizsgáljuk meg, hogy van-e él A és E kozött. 
+>- Határozzuk meg az összes olyan élt, amely A-ból indul, vagy A-ba vezet.
+>- Határozzuk meg az összes kezdőcsúcsot a teljes hálózatban.
+>- Határozzuk meg az F összes szomszédját.
+>- Határozzuk meg az F és D összes közös szomszédját.
+>- Határozzuk meg a leghosszabb utat a gráfban. Emeljük ki ábrán.
+>- Határozzuk meg az F-től legfeljebb 2 távolságra lévő csúcsokat. Emeljük ki ábrán.
+>- Számoljuk ki a fokszám, közöttiségi és közelségi centralitást.
+
+
+```{r}
+#| echo: false
+
+gs1 <- graph_from_literal(B--+A--+E--+H--+F--+G, 
+                          I--+F, 
+                          F--+E, 
+                          F--+A, 
+                          J--+D--+A, 
+                          K--+D,
+                          L--+C--+A)
+V(gs1)$color <- "#FE8484"
+plot(gs1,
+     vertex.label.color = "black",
+     vertex.label.cex = .9,
+     edge.color = 'black',
+     vertex.size = 18,
+     edge.arrow.size = .5,
+     layout = layout_nicely(gs1))
+
+# rglplot(gs1)
+```
+
+Hozzuk létre a fenti irányított gráfot. Figyeljünk a színezésre is:
+
+```{r}
+gs1 <- graph_from_literal(B--+A--+E--+H--+F--+G, 
+                          I--+F, 
+                          F--+E, 
+                          F--+A, 
+                          J--+D--+A, 
+                          K--+D,
+                          L--+C--+A)
+V(gs1)$color <- "#FE8484"
+plot(gs1,
+     vertex.label.color = "black",
+     vertex.label.cex = .9,
+     edge.color = 'black',
+     vertex.size = 18,
+     edge.arrow.size = .5,
+     layout = layout_nicely(gs1))
+```
+
+
+Feltárjuk a fokszámokat:
+
+```{r}
+d_degree <- data.frame(degre_all=degree(gs1, mode = "all"),
+                       degre_in=degree(gs1, mode = "in"),
+                       degre_out=degree(gs1, mode = "out"))
+d_degree
+```
+
+
+Vizsgáljuk meg, hogy van-e él A és E kozött:
+
+```{r}
+gs1['A', 'E'] # van él?
+```
+
+
+Határozzuk meg az összes olyan élt, amely A-ból indul, vagy A-ba vezet.
+
+```{r}
+incident(gs1, 'A', mode = "all")
+```
+
+
+Határozzuk meg az összes kezdőcsúcsot a teljes hálózatban:
+
+```{r}
+tail_of(graph = gs1, es = E(gs1))
+```
+
+
+Határozzuk meg az F összes szomszédját:
+
+```{r}
+neighbors(gs1, "F", mode = "all")
+```
+
+
+Határozzuk meg az F és D összes közös szomszédját.
+
+```{r}
+x <- neighbors(gs1, "F", mode = "all")
+y <- neighbors(gs1, "D", mode = "all")
+intersection(x, y)
+```
+
+
+Határozzuk meg a leghosszabb utat a gráfban:
+
+```{r}
+farthest_vertices(gs1)
+get_diameter(gs1)
+```
+
+Emeljük ki a leghosszabb utat a gráfban:
+
+```{r}
+path <- shortest_paths(graph = gs1, from = farthest_vertices(gs1)$vertices[1],
+               to = farthest_vertices(gs1)$vertices[2], output = "both")
+E(gs1)$color <- ifelse(unlist(E(gs1)) %in% unlist(path$epath), 'blue', 'black')
+plot(gs1,
+     vertex.label.color = "black",
+     vertex.label.cex = 0.9,
+     vertex.size = 18,
+     edge.arrow.size = .5,
+     layout = layout_nicely(gs1))
+
+```
+
+
+Határozzuk meg az F-től legfeljebb 2 távolságra lévő csúcsokat:
+
+```{r}
+ego(gs1, 2, 'F', mode = 'all')
+```
+
+Emeljük ki az  F-től legfeljebb 2 távolságra lévő csúcsokat:
+
+```{r}
+# alapértelmezés szerint minden címkéjének színe legyen fekete
+vlc <- rep("black", vcount(graph = gs1))
+# a megfelelő csúcsok címkéjének színe legyen piros
+vlc[unlist(V(gs1)) %in% unlist(ego(gs1, 2, 'F', mode = 'all'))] <- "white"
+
+plot(gs1,
+     vertex.label.color = vlc,
+     vertex.label.cex = 0.9,
+     edge.color = 'black',
+     vertex.size = 18,
+     edge.arrow.size = .5,
+     layout = layout_nicely(gs1))
+```
+
+Számoljuk ki a fokszám, közöttiségi és közelségi centralitást:
+
+```{r}
+degree(graph = gs1)
+betweenness(graph = gs1, directed = T)
+round(betweenness(graph = gs1, directed = T, normalized = T), 2)
+closeness(graph = gs1, mode = "out")
+```
+
+
+
+### Fontos csomópontok és élek megjelenítése
+
+A kanyaró adatkészlettel kapcsolatos egyik probléma az, hogy három személyről nincs információ arról, hogy ki fertőzte meg őket. Úgy tűnik, hogy ezen egyedek egyike (184-es csúcs) végső soron felelős a betegség sok más egyedre való terjesztéséért (a legkisebb a közelségi mutatója), még akkor is, ha nem fertőzött meg közvetlenül túl sok egyedet. Mivel azonban a 184-es csúcsnak nincs bejövő éle a hálózatban, úgy tűnik, hogy kicsi a közöttiségi mutatója.
+
+```{r}
+# a 10 legbefolyásosabb csúcs a fokszám centralitás alapján
+sort(degree(g, mode = "out"), decreasing = T)[1:10]
+```
+
+
+```{r}
+# a 10 legbefolyásosabb csúcs a közöttiség centralitás alapján
+sort(betweenness(g, directed = T), decreasing = T)[1:10]
+```
+
+
+```{r}
+# a 10 legbefolyásosabb csúcs a közelség centralitás alapján
+sort(closeness(g, mode = "out"))[1:10]
+```
+
+A 184-es csúcs fontosságának feltárásának egyik módja az, ha vizualizáljuk az ettől az egyéntől kilépő kapcsolatok távolságait. Készítsünk ábrát, amely ezeket a távolságokat vizualizálja a legkorábban dokumentált betegtől (index eset).
+
+A `make_ego_graph()` függvény segítségével létrehozhatjuk a hálózatunk azon részhalmazát, amely a 184-es csúcshoz kapcsolódó csúcsokból áll. Az első argumentum az eredeti `g` gráf. A második paraméter a kapcsolatok maximális száma, amelyet a `diameter()` segítségével állítunk a hálózat átmérőjére. A harmadik paraméter a kívánt csúcs, amely  most a 184. Az utolsó argumentum a mód, amely ebben az esetben iránytól függetlenül minden csatlakozást engedélyez.
+
+
+```{r}
+# részgráf készítése
+g184 <- make_ego_graph(graph = g, order = diameter(g), nodes = '184', mode = "all")[[1]]
+```
+
+Jelenítsük meg a kapott részgráfot.
+
+```{r}
+plot(g184, 
+     vertex.label.color = "black", 
+     edge.color = 'gray77',
+     vertex.size = 0,
+     edge.arrow.size = 0.2,
+     layout = layout_nicely(g184))
+
+```
+
+
+Hozzunk létre egy `dists` objektumot, amely minden csúcs távolságát tartalmazza a 184-es csúcstól. Használjuk a `distances()` függvényt ennek kiszámításához.
+
+```{r}
+# távolságokat tartalmazó objektum a 184 csúcstól
+dists <- distances(g184, "184")
+dists
+```
+
+Hozzunk létre egy színpalettát, amely összesen hat színt tartalmaz. Az index esetnek is biztosítsunk színt (fekete), majd az egyes távolságoknak is adjunk egy-egy színt (tudjuk, a maximális távolság 5, ezért van szükség összesen hat színre). A célunk az, hogy az azonos távolságra lévő csúcsok azonos színnel legyenek ábrázolva, az index eset színe pedig legyen fekete. 
+
+```{r}
+# színpaletta az egyes távolságoknak, plusz a 184-es csúcsnak
+colors <- c("black", "red", "orange", "blue", "dodgerblue", "cyan")
+```
+
+Adjuk meg a csúcsok `color` attribútumát, amely épp a 184-es csúcstól való távolságnak megfelelő színkód legyen. Tudjuk, hogy a `dists` objektumban a legkisebb érték 0 (ez épp a 184-es csúcs távolsága önmagától), legnagyobb értéke pedig 5. Ennek megfelelően a `colors[dists+1]` indexelés segítségével épp a megfelelő 6 színkódot tudjuk elérni a színpalettából. 
+
+```{r}
+# Set color attribute to vertices of network g184.
+V(g184)$color <- colors[dists+1]
+```
+
+
+A `plot()` segítségével már könnyen megjeleníthetjük a gráfot. A csúcscímke legyen minden esetben a távolság (`dists`). Adjunk ábracímet is `main=` argumentum segítségével. 
+
+
+```{r}
+# a 184-es esettől (index eset) kinduló részgráf megjelenítése a távolságok kiemelésével
+plot(g184, 
+     vertex.label = dists, 
+     vertex.label.color = "white",
+     vertex.label.cex = .8,
+     edge.color = 'black',
+     vertex.size = 8,
+     edge.arrow.size = .05,
+     main = "Távolságok az index esettől (184)"
+     )
+
+```
+
+
+
+

@@ -1,0 +1,789 @@
+# Alapfogalmak
+
+```{r}
+#| results: "asis"
+#| echo: false
+source("_common.R")
+```
+
+
+A **hálózatelemzés** különböző egységek, entitások, egyének között fennálló kapcsolatokat elemez.
+
+## A fejezet fontos fogalmai
+
+hálózat / gráf 
+
+:   csúcsok és élek együttese
+
+csúcs / csomópont
+
+:   tetszőleges egyed, személy, tárgy vagy fogalom
+
+él / kapcsolat / link
+
+:   Két csúcs közötti kapcsolat. Az élek lehetnek irányítottak és irányítatlanok.
+
+irányított él
+
+:   olyan él, amely határozottan egyik csúcsból a másik csúcsba mutató kapcsolatot reprezentál, például weboldalak között a linkek.
+
+irányítatlan él
+
+:   olyan él, amely nem reprezentál egy irányba mutató kapcsolatot, a két csúcs ilyenkor oda-vissza irányba kapcsolódik egymáshoz.
+
+N
+
+:   csúcsok száma a gráfban
+
+L
+
+:   élek száma a gráfban
+
+teljes gráf
+
+:   olyan gráf, amelynek minden csúcsa kapcsolódik az összes többi csúcshoz. Teljes gráfban $L=\frac{N(N-1)}{2}$
+
+fokszám
+
+:   egy csúcs fokszáma az csúcshoz kapcsolódó élek száma. Jele: $k$
+
+átlagos fokszám
+
+:   Irányítatlan hálózatban az egyes csúcsok fokszámait összeadjuk és osztjuk a csúcsok számával: $\bar{k} = \frac{k_1+k_2+\dots+k_N}{N} = \frac{2L}{N}$. Irányított hálózatban külön vizsgáljuk a bejövő ($k_i^{be}$) és a kimenő éleket ($k_i^{ki}$). Egy csúcs összfokszáma: $k_i=k_i^{be} + k_i^{ki}$. Irányított gráfban $\bar{k^{be}} = \frac{k_1^{be}+k_2^{be}+\dots+k_N^{be}}{N}=\frac{L}{N}$, $\bar{k^{ki}} = \frac{k_1^{ki}+k_2^{ki}+\dots+k_N^{ki}}{N}=\frac{L}{N}$
+
+fokszámeloszlás
+
+:   annak a valószínűsége, hogy a gráfban egy véletlenszerűen kiválasztott pontnak éppen $k$ legyen a fokszáma. Jelölése: $p_k$. Véletlen gráfokban a fokszámeloszlás Poisson-eloszlást követ, skálafüggetlen hálózatokban hatványfüggvény szerinti eloszlást.
+
+
+## Hálózatok létrehozása
+
+Ebben a fejezetben tovább részletezzük a hálózatok létrehozását. A korábban látott R függvényeken túl, a következőkről lesz szó:
+
+- `as_adjacency_matrix()` - igraph objektum szomszédsági mátrixszá alakítása
+- `graph.adjacency()` - igraph objektum létrehozása szomszédsági mátrixból
+- `graph_from_literal()` - igraph objektum létrehozása literálból
+- `make_full_graph()` - teljes gráfok készítése
+- `make_ring()` - gyűrű létrehozása.
+- `make_star()` - csillag létrehozása
+- `make_tree()` -  fa létrehozása
+
+
+Alapvetően kétféle adatstruktúrából építhetünk hálózatot:
+
+- élek listájából és
+- szomszédsági mátrixból.
+
+
+### Élek listája 
+
+Korábban már láttuk, hogyan hozhatunk létre élek listájából gráfot. Most az `elek_listaja_7.xlsx`-ben rendeltünk össze 7 csúcsot 7 éllel.
+
+```{r}
+df <- rio::import(file = "adat/elek_listaja_7.xlsx")
+df
+```
+
+Készítsük el és ábrázoljuk a fenti hálózatot.
+
+```{r}
+library(igraph)
+g <- graph.edgelist(as.matrix(df), directed = F)
+plot(g)
+```
+
+A fontos információk könnyen lekérdezhetők.
+
+```{r}
+V(g)
+E(g)
+```
+
+Egy létező gráf szomszédsági mátrixa könnyen meghatározható.
+
+```{r}
+as_adjacency_matrix(g) # igraph objektum szomszédsági mátrixszá alakítása
+```
+
+Látható, hogy irányítatlan gráfok esetében szimmetrikus a szomszédsági mátrix. Ott van 1-es, ahol a két csúcs között él vezet, és ott 0 (az egyszerűbb olvashatóság miatt pont), ahol nem.
+
+### Szomszédsági mátrix
+
+Könnyen létrehozhatunk magunk is szomszédsági mátrixot, és abból igraph objektumot.
+
+Első esetben készítsünk 3 izolált csúcsból gráfot.
+
+```{r}
+node_name <- c("A", "B", "C")  # csúcsok nevei
+# mátrix létrehozása
+m1 <- matrix(data = c(0, 0, 0,
+                      0, 0, 0, 
+                      0, 0, 0), 
+             byrow = T,
+             nrow = length(node_name), ncol = length(node_name),
+             dimnames = list(node_name, node_name))
+m1
+```
+
+
+```{r}
+# gráf létrehozása
+g1 <- graph.adjacency(m1, mode = "undirected")
+plot(g1) # gráf megrajzolása
+```
+
+
+A 3 csúcsból kettő legyen összekötve
+
+```{r}
+node_name <- c("A", "B", "C")  # csúcsok nevei
+# mátrix létrehozása
+m2 <- matrix(data = c(0, 1, 0,
+                      1, 0, 0, 
+                      0, 0, 0), 
+             byrow = T,
+             nrow = length(node_name), ncol = length(node_name),
+             dimnames = list(node_name, node_name))
+m2
+```
+
+
+```{r}
+# gráf létrehozása
+g2 <- graph.adjacency(m2, mode = "undirected")
+plot(g2) # gráf megrajzolása
+```
+
+
+A 3 csúcsból két pár legyen összekötve
+
+```{r}
+node_name <- c("A", "B", "C")  # csúcsok nevei
+# mátrix létrehozása
+m3 <- matrix(data = c(0, 1, 0,
+                      1, 0, 1, 
+                      0, 1, 0), 
+             byrow = T,
+             nrow = length(node_name), ncol = length(node_name),
+             dimnames = list(node_name, node_name))
+m3
+```
+
+
+```{r}
+# gráf létrehozása
+g3 <- graph.adjacency(m3, mode = "undirected")
+plot(g3) # gráf megrajzolása
+```
+
+Minden csúcs össze legyen kötve.
+
+```{r}
+node_name <- c("A", "B", "C")  # csúcsok nevei
+# mátrix létrehozása
+m4 <- matrix(data = c(0, 1, 1,
+                      1, 0, 1, 
+                      1, 1, 0), 
+             byrow = T,
+             nrow = length(node_name), ncol = length(node_name),
+             dimnames = list(node_name, node_name))
+m4
+```
+
+
+```{r}
+# gráf létrehozása
+g4 <- graph.adjacency(m4, mode = "undirected")
+plot(g4) # gráf megrajzolása
+```
+
+### Literális létrehozás
+
+Kisebb hálózatok esetén nevekből is létrehozhatunk gráfot:
+
+```{r}
+gs1 <- graph_from_literal(A, B, C);plot(gs1)
+gs2 <- graph_from_literal(A-B, C);plot(gs2)
+gs3 <- graph_from_literal(A-B-C);plot(gs3)
+gs4 <- graph_from_literal(A-B-C, A-C);plot(gs4)
+```
+
+
+### Speciális gráfok 
+
+Speciális gráfok létrehozását is megkönnyíti az `{igraph}` csomag.
+
+
+Teljes gráfok készítése.
+
+```{r}
+# teljes gráfok készítése
+plot(make_full_graph(5, directed = FALSE, loops = FALSE))
+plot(make_full_graph(10, directed = FALSE, loops = FALSE))
+plot(make_full_graph(20, directed = FALSE, loops = FALSE))
+```
+
+Gyűrű létrehozása.
+
+```{r}
+# gyűrű létrehozása
+plot(print_all(make_ring(5)))
+plot(print_all(make_ring(10)))
+plot(print_all(make_ring(20)))
+```
+
+Csillag létrehozása.
+
+```{r}
+# csillag létrehozása
+plot(make_star(5, mode = "undirected"))
+plot(make_star(10, mode = "undirected"))
+plot(make_star(20, mode = "undirected"))
+```
+
+
+Fa létrehozása
+
+```{r}
+# fa létrehozása
+plot(make_tree(10, 3, mode = "undirected"))
+plot(make_tree(20, 3, mode = "undirected"))
+plot(make_tree(60, 3, mode = "undirected"))
+```
+
+
+## Hálózat attribútumai
+
+Ebben a fejezetben további jellemzőkkel látjuk el a hálózatokat. A korábban látott R függvényeken túl, a következőkről lesz szó:
+
+- `vertex_attr()` - csúcsok attribútumainak lekérdezése
+- `edge_attr()` - élek attribútumainak lekérdezése
+- `set_vertex_attr()` - csúcsok attribútumainak beállítása
+- `set_edge_attr()`- élek attribútumainak beállítása
+- `graph_from_data_frame()` - gráf létrehozása attribútumokkal adattáblák alapján.
+
+### Attribútumok hozzáadása
+
+Egy hálózatban a csúcsok és élek számos tulajdonsággal (vagy más néven attribútummal) rendelkezhetnek.
+
+A korábbi példában létrehozott `g` gráf egyetlen csúcs attribútummal rendelkezik. A csúcsok nevével vagy más néven címkéjével.
+ 
+
+```{r}
+g # az igraph objektum kiírása a képernyőre
+```
+
+A csúcsok és élek aktuális attribútumait könnyen meghatározhatjuk.
+
+```{r}
+vertex_attr(g) # csúcsok attribútumai
+```
+
+
+```{r}
+edge_attr(g) # élek attribútumai (jelenleg üres)
+```
+
+Ha szeretnénk életkort hozzáadni minden csúcshoz, akkor a `set_vertex_attr()` függvényt használjuk.
+
+```{r}
+g <- set_vertex_attr(graph = g, 
+                     name = "age", 
+                     value = c(20, 25, 21, 23, 24, 23, 22)
+                     )
+```
+
+Ha most ellenőrizzük a csúcsok jellemzőit, akkor már a neven kívül a kor attribútumot is láthatjuk a listában.
+
+```{r}
+vertex_attr(g) # csúcsok attribútumai
+```
+
+Ha szeretnénk a barátság erősségének egyfajta mérőszámaként a heti telefonhívások számt jellemzőként hozzáadni minden egyes élhez, akkor a `set_edge_attr()` függvényt használjuk.
+
+```{r}
+g <- set_edge_attr(graph = g, 
+                   name = "frequency", 
+                   value = c(2, 1, 1, 1, 3, 2, 4)
+                   )
+```
+
+Ha most ellenőrizzük az élek jellemzőit, akkor már nem üres listát kapunk.
+
+```{r}
+edge_attr(g) # élek attribútumai
+```
+
+Az attribútumok meghatározása történhet a gráf létrehozásával egyidőben. 
+
+Ha előkészítettük az attribútumokkal rendelkező csúcsok és élek adattábláit, akkor a `graph_from_data_frame()` függvénnyel egy lépéyben is létrehozhatjuk a hálózatot.
+
+```{r}
+nodes_df <- rio::import(file = "adat/vertices_df_7.xlsx")
+edges_df <- rio::import(file = "adat/edges_df_7.xlsx")
+
+g_from_df <- graph_from_data_frame(d = edges_df, vertices = nodes_df, directed = F)
+```
+
+
+```{r}
+plot(g_from_df) # hálózat kirajzolása
+```
+
+
+```{r}
+vertex_attr(g_from_df) # csúcsok attribútumai
+edge_attr(g_from_df) # élek attribútumai
+```
+
+
+Ahogyan a fenti outputok is utalnak rá a csúcs és él attribútumok a dollárjeles (`$`) hivatkozással is elérhetők.
+
+```{r}
+V(g)$name  # a csúcsok 'name' attribútuma
+V(g)$age # a csúcsok 'age' attribútuma
+E(g)$frequency # az élek 'frequency' attribútuma
+```
+
+
+### Élek szűrése
+
+Különösen nagy hálózatok esetében fontos lehet a számunkra érdekes élek lekérdezése vagy szűrése. A dupla szögletes zárójelet (`[[`) használhatjuk a kívánt élek eléréséhez. Az `.inc()` segítségével a csúcsok nevére tehetünk megszorítást, de egyszerűen használhatjuk az élek egyes attribútumait is.
+
+```{r}
+E(g)[[.inc('E')]] # azon élek leszűrése, ahol az egyik csúcs az 'E'
+```
+
+```{r}
+E(g)[[frequency >= 3]] # azon élek leszűrése, ahol az élek frequency attribútuma legalább 3
+```
+
+
+#### Feladat
+
+>A `friends.xlsx` éleket tartalmazó adattáblája alapján hozzunk létre egy új gráfot, majd az egyes csúcsokhoz rendre adjuk hozzá a következő attribútumokat:
+>
+>- genders: "M", "F", "F", "M", "M", "M", "F", "M", "M", "F", "M", "F", "M", "F", "M", "M"
+>- ages: 18, 19, 21, 20, 22, 18, 23, 21, 22, 20, 20, 22, 21, 18, 19, 20
+>
+>Az egyes élekhez adjuk hozzá, hogy a barátok hetente hány órát töltenek együtt, melyek rendre: 
+>
+> - hours: 1, 2, 2, 1, 2, 5, 5, 1, 1, 3, 2, 1, 1, 5, 1, 2, 4, 1, 3, 1, 1, 1, 4, 1, 3, 3, 4.
+>
+> Ezt követően kérdezzük le a csúcsok attribútumait, valamint az első 5 csúcs nevét.
+> Majd az élek attribútumait, valamint a Britt-et tartalmazó éleket, és azokat a barátokat, akik legalább 4 órát töltenek együtt hetente.
+
+
+Adatok beolvasása, előkészítése:
+
+```{r}
+friends_edges_df <- rio::import(file = "adat/friends.xlsx")
+
+# nemre vonatkozó információ 
+genders <- c("M", "F", "F", "M", "M", "M", "F", "M", "M", "F", "M", "F", "M", "F", "M", "M")
+
+# életkorra vonatkozó információ
+ages <- c(18, 19, 21, 20, 22, 18, 23, 21, 22, 20, 20, 22, 21, 18, 19, 20)
+```
+
+Gráf létrehozása:
+
+```{r}
+# mátrixszá alakítjuk
+friends_edges_mat <- as.matrix(friends_edges_df)
+
+# igraph objektum létrehozása
+friends_g <- graph.edgelist(friends_edges_mat, directed = FALSE)
+```
+
+Csúcsokra vonatkozó utasítások:
+
+```{r}
+# Létrehozunk egy 'gender' nevű új attribútumot a csúcsokhoz
+friends_g <- set_vertex_attr(friends_g, "gender", value = genders)
+
+# Létrehozunk egy 'age' nevű új attribútumot a csúcsokhoz
+friends_g <- set_vertex_attr(friends_g, "age", value = ages)
+
+# A csúcsok összes attribútumának lekérdezése, lista output
+vertex_attr(friends_g)
+
+# Az első 5 csúcs attribútumának lekérdezése, adattábla nézet
+V(friends_g)[[1:5]] 
+```
+  
+Élekre vonatkozó utasítások:
+
+```{r}
+# A barátok hetente hány órát töltenek együtt
+hours <- c(1, 2, 2, 1, 2, 5, 5, 1, 1, 3, 2, 1, 1, 5, 1, 2, 4, 1, 3, 1, 1, 1, 4, 1, 3, 3, 4)
+
+# Él attribútum (`hours`) hozzáadása
+friends_g <- set_edge_attr(friends_g, "hours", value = hours)
+
+# Az él attribútumok megjelenítése
+edge_attr(friends_g)
+
+# Azon élek megjelenítése, amelyek tartalmazzák a "Britt" nevet
+E(friends_g)[[.inc('Britt')]]  
+
+# Az összes olyan él (barát) megjelenítése, akik hetente 4 óránál többet vagy 4 órát töltenek együtt
+E(friends_g)[[hours>=4]]  
+```
+
+
+### Hálózat megjelenítése
+
+A hálózatok megjelenítésén is fejleszthetünk a csúcsra vonatkozó attribútumok segítségével.
+
+Adjunk egy új `color` attribútumot a csúcsokhoz. Minden csúcs színe vagy piros vagy fehér lesz az életkortól függően.
+
+```{r}
+V(g)$color <- ifelse(V(g)$age > 22, "red", "white") 
+```
+
+A `plot()` függvény felhasználja ezt az információt (a `V8g)$color`-t), de alapértelmezett (minden csúcsra vonatkozó) értékeket is beállíthatunk.
+
+```{r}
+plot(g, vertex.label.color="black")
+```
+
+A hálózatok megjelenése során a legfontosabb paraméterek:
+
+- csúcsok esetében:
+    - méret (például több kapcsolattal rendelkező csúcsok nagyobb méretben jelennek meg)
+    - címke (jelentős csúcsok azonosítása, de a sok szöveg zavaró lehet)
+    - szín (különböző kategóriák megjelenése, például nem)
+    - forma (különböző kategóriák megjelenése, például nem)
+
+- élek esetében:
+    - vastagság (az él súlya, fontossága)
+    - szín (kapcsolat kategorikus jellemzője)
+    - vonal típusa (kapcsolat kategorikus jellemzője).
+    
+A fentieken túl az `{igraph}` csomag számos elrendezést kínál a megjelenítés során, amelyek a legoptimálisabb vizualizációt biztosíthatják. Ezek mindegyike biztosítja:
+
+- minimalizálja az élek kereszteződését
+- a csúcsok nem lapolják át egymást
+- az élek hossza egyenlő, amennyire lehet
+- a gráf legyen szimmetrikus, amennyire lehet
+- a nagyobb hatású csúcsok legyenek a középpontban
+
+Ha szeretnénk speciális elrendezést választani, akkor a `layout=` argumentumot kell használnunk a `plot()` függvényben.
+
+```{r}
+plot(g, layout = layout_in_circle(g))
+```
+
+
+```{r}
+plot(g, layout = layout_with_fr(g))
+```
+
+
+```{r}
+plot(g, layout = layout_with_kk(g))
+```
+
+
+```{r}
+plot(g, layout = layout_on_grid(g))
+```
+
+
+```{r}
+plot(g, layout = layout_with_lgl(g))
+```
+
+
+```{r}
+plot(g, layout = layout_as_tree(g))
+```
+
+A legtöbb esetben a `layout_nicely()` megfelelő választás, amely maga választja ki az optimális megjelenést.
+
+```{r}
+plot(g, layout = layout_nicely(g))
+```
+
+
+#### Feladat
+
+>Hozzunk létre adattáblákból egy hálózatot. A `friends2_edges_df.xlsx` az éleket, a `friends2_nodes_df.xlsx` a csúcsokat tartalmazza, mindkét adattábla >tartalmaz attribútumokat is (az éleknél az `hours` (az egymással töltött heti óraszám), a csúcsoknál a `gender` (nem)).
+>
+>- Kérdezzük le az összes olyan élt (barátot), akik hetente 5 óránál többet vagy 5 órát töltenek együtt.
+>- Megjelenítéshez a csúcsok színét állítsuk be `"orange"`, illetve `"dodgerblue"` színekre.
+>- Próbáljuk ki a körhálózatot, a Fruchterman-Reingold elrendezésű hálózatot, a faszerkezet megjelenítését és a legjobban illeszkedő megjelenítést.
+>- Módosítsuk a hálózat éleinek vastagságát a súlyuk alapján. A súly legyen az együtt töltött órák száma. A `plot()` függvényben használjuk a >`edge.width=` argumentumot.
+>- Hozzunk létre egy új gráfobjektumot a meglévő alapján. Az új gráf minden éle két óránál nagyobb súlyú lesz. Ez a `delete_edges()` használatával >valósítható meg, amely két argumentumból áll. Az első a gráfobjektum, a második pedig az eltávolítandó élek részhalmaza. Ebben az esetben eltávolít >minden olyan élt, amelynek értéke kevesebb, mint két óra.
+
+Gráf létrehozása:
+
+```{r}
+friends2_edges_df <- rio::import(file = "adat/friends2_edges_df.xlsx")
+friends2_nodes_df <- rio::import(file = "adat/friends2_nodes_df.xlsx")
+
+# igraph objektum létrehozása attributumok felvitelével együtt
+friends2_g <- graph_from_data_frame(d = friends2_edges_df, vertices = friends2_nodes_df, directed = FALSE)
+```
+
+
+Kérdezzük le az összes olyan élt (barátot), akik hetente 5 óránál többet vagy 5 órát töltenek együtt:
+
+```{r}
+# Az összes olyan él (barát) megjelenítése, akik hetente 5 óránál többet vagy 5 órát töltenek együtt
+E(friends2_g)[[hours >= 5]]
+```
+
+
+Megjelenítéshez a csúcsok színét állítsuk be `"orange"`, illetve `"dodgerblue"` színekre:
+
+```{r}
+# A csúcsok színének beállítása nem alapján
+V(friends2_g)$color <- ifelse(V(friends2_g)$gender == "F", "orange", "dodgerblue")
+```
+
+
+```{r}
+# Az igraph ábra megjelenítése
+plot(friends2_g, vertex.label.color = "black")
+```
+
+Próbáljuk ki a körhálózatot, a Fruchterman-Reingold elrendezésű hálózatot, a faszerkezet megjelenítését és a legjobban illeszkedő megjelenítést:
+
+```{r}
+# Körhálózat megjelenítése
+plot(friends2_g, vertex.label.color = "black", layout = layout_in_circle(friends2_g))
+```
+
+
+```{r}
+# Fruchterman-Reingold elrendezésű hálózat
+plot(friends2_g, vertex.label.color = "black", layout = layout_with_fr(friends2_g))
+```
+
+
+```{r}
+# Faszerkezet megjelenítése
+m <- layout_as_tree(friends2_g)
+plot(friends2_g, vertex.label.color = "black", layout = m)
+```
+
+
+```{r}
+# a legjobban illeszkedő megjelenítés
+m1 <- layout_nicely(friends2_g)
+plot(friends2_g, vertex.label.color = "black", layout = m1)
+```
+
+
+Módosítsuk a hálózat éleinek vastagságát a súlyuk alapján. A súly legyen az együtt töltött órák száma. A `plot()` függvényben használjuk a `edge.width=` argumentumot.
+
+```{r}
+# Hozzunk létre egy `w1` vektort élsúlyozásokból a barátok együtt töltött órák száma alapján.
+w1 <- E(friends2_g)$hours
+
+# Ábrázoljuk a hálózatot úgy, hogy az `edge.width=` az imént létrehozott súlyvektorra legyen beállítva. 
+# Az edge.color = 'black' használata biztosítja, hogy minden él fekete legyen.
+m1 <- layout_nicely(friends2_g)
+plot(friends2_g, 
+        vertex.label.color = "black", 
+        edge.color = 'black',
+        edge.width = w1,
+        layout = m1)
+```
+
+
+Hozzunk létre egy új gráfobjektumot a meglévő alapján. Az új gráf minden éle két óránál nagyobb súlyú lesz. Ez a `delete_edges()` használatával valósítható meg, amely két argumentumból áll. Az első a gráfobjektum, a második pedig az eltávolítandó élek részhalmaza. Ebben az esetben eltávolít minden olyan élt, amelynek értéke kevesebb, mint két óra.
+
+```{r}
+# új gráf létrehozása élek törlésével
+friends2_g2 <- delete_edges(friends2_g, E(friends2_g)[hours < 2])
+```
+
+
+```{r}
+# Végül rajzoljuk meg az új `friends2_g2` hálózatot az élszélességek és az elrendezés megfelelő vektorával.
+w2 <- E(friends2_g2)$hours
+m2 <- layout_nicely(friends2_g2)
+
+plot(friends2_g2, 
+     vertex.label.color = "black", 
+     edge.color = 'black',
+     edge.width = w2,
+     layout = m2)
+```
+
+
+#### Feladat
+
+>Hozzuk létre a következő gráfot, írassuk ki a szomszédsági mátrixát, a `degree()` függvénnyel a fokszámokat, az átlagos fokszámot és a `degree.distribution()` függvénnyel a fokszámeloszlást.
+
+
+```{r}
+#| echo: false
+
+library(tidyverse)
+friends <- tribble(
+                ~name1,   ~name2,
+                1, 2,
+                1, 3,
+                2, 3,
+                2, 4
+)
+friends.mat <- as.matrix(friends)
+g <- graph.edgelist(friends.mat, directed = FALSE)
+# A hálózat megjelenítése
+plot(g)
+
+```
+
+
+Hozzuk létre a fenti irányítatlan gráfot az élek listájából:
+
+```{r}
+friends <- tribble(
+                ~name1,   ~name2,
+                1, 2,
+                1, 3,
+                2, 3,
+                2, 4
+)
+friends.mat <- as.matrix(friends)
+g <- graph.edgelist(friends.mat, directed = FALSE)
+```
+
+A hálózat megjelenítése:
+
+```{r}
+plot(g)
+```
+
+
+Szomszédsági mátrix:
+
+```{r}
+as_adjacency_matrix(g)
+```
+
+A gráf lekérdezése:
+
+```{r}
+V(g) # a csúcsok száma és megnevezése
+E(g) # az élek száma és az élek azonosítása csúcsokkal
+vcount(g) # élek száma
+ecount(g) # csúcsok száma
+```
+
+Az egyes csúcsok fokszámai:
+
+```{r}
+degree(g) 
+```
+
+A fokszámok átlaga:
+
+```{r}
+mean(degree(g)) 
+```
+
+A fokszámeloszlás:
+
+```{r}
+degree.distribution(g) 
+```
+
+
+
+## Königsbergi hidak problémája - 1736
+
+Haladjunk át minden hídon de csak pontosan egyszer. [Részletek.](https://hu.wikipedia.org/wiki/A_k%C3%B6nigsbergi_hidak_probl%C3%A9m%C3%A1ja)
+
+Két szempontból fontos:
+
+-   bizonyos problémák megoldása egyszerűbb, ha gráfként ábrázoljuk őket
+-   az adott gráf belső tulajdonságai meghatározóak lehetnek
+
+
+```{r}
+library(tidyverse)
+friends <- tribble(
+                ~name1,   ~name2,
+                "A","B",
+                "A","C", 
+                "A","D",
+                "B","A",
+                "B","D",
+                "C","A",
+                "C","D"
+)
+head(friends) # az első 6 sor
+```
+
+```{r}
+# install.packages("igraph")
+library(igraph)
+
+# mátrixszá alakítjuk
+friends.mat <- as.matrix(friends)
+
+# igraph objektum létrehozása
+g <- graph.edgelist(friends.mat, directed = FALSE)
+```
+
+Hogyan jeleníthetjük meg a hálózatot?
+
+```{r}
+# A hálózat megjelenítése
+plot(g)
+```
+
+
+```{r}
+has_eulerian_path(g)
+has_eulerian_cycle(g)
+```
+
+
+- 1875-ben a B és C terület között új hidat építettek, így pontosan 2 páratlan fokszámú csúcs keletkezett, és a probléma megoldhatóvá vált.
+
+```{r}
+library(tidyverse)
+friends <- tribble(
+                ~name1,   ~name2,
+                "A","B",
+                "A","C", 
+                "A","D",
+                "B","A",
+                "B","D",
+                "C","A",
+                "C","D",
+                "B","C"
+)
+head(friends) # az első 6 sor
+```
+
+```{r}
+# install.packages("igraph")
+library(igraph)
+
+# mátrixszá alakítjuk
+friends.mat <- as.matrix(friends)
+
+# igraph objektum létrehozása
+g <- graph.edgelist(friends.mat, directed = FALSE)
+```
+
+Hogyan jeleníthetjük meg a hálózatot?
+
+```{r}
+# A hálózat megjelenítése
+plot(g)
+```
+
+```{r}
+has_eulerian_path(g)
+has_eulerian_cycle(g)
+eulerian_path(g)
+```
+

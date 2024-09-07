@@ -1,0 +1,121 @@
+```{r}
+#| echo: false
+
+source("_common.R")
+```
+
+# Hálózatok az R-ben
+
+## Bevezetés az `igraph` csomagba
+
+Számos szoftver képes hálózati adatokat feldolgozni, kezelni és megjeleníteni. Ebben a kurzusban a *R/RStudio* `{igraph}` csomagját fogjuk használni.
+
+Egy hálózat (vagy gráf) egy igraph objektumnak feletethető meg. Az fogjuk bemutatni, hogyan hozható létre új igraph objektum közvetlenül nyers adatokból. A használt függvények:
+
+- `graph.edgelist()` - hálózat létrehozása élek listájából
+- `plot()` - hálózat megjelenítése
+- `V()` - a csúcsok száma és megnevezése
+- `E()` - az élek száma és az élek azonosítása csúcsokkal
+- `gsize()` / `ecount()` -  az élek száma
+- `gorder()` / `vcount()` - a csúcsok száma
+
+### `igraph` objektum létrehozása
+
+Hogyan hozzunk létre igraph objektumot élek listájából? A következő adatok egy diákcsoportban fennálló barátságokat tárja fel. A `friends` adattábla minden sora egy élt (vagyis a barátság jelenlétét a két személy között) jelöl a hálózatban.
+
+```{r}
+library(tidyverse)
+friends <- tribble(
+                ~name1,   ~name2,
+             "Jessie",  "Sidney",
+             "Jessie",   "Britt",
+             "Sidney",   "Britt",
+             "Sidney",  "Donnie",
+               "Karl",   "Berry",
+             "Sidney",    "Rene",
+              "Britt",    "Rene",
+             "Shayne",  "Sidney",
+             "Sidney",  "Elisha",
+             "Sidney", "Whitney",
+             "Jessie", "Whitney",
+             "Donnie",   "Odell",
+             "Sidney",   "Odell",
+               "Rene", "Whitney",
+             "Shayne",  "Donnie",
+             "Jessie",    "Lacy",
+               "Rene",    "Lacy",
+             "Elisha",  "Eugene",
+             "Eugene",    "Jude",
+              "Berry",   "Odell",
+              "Odell",  "Rickie",
+              "Odell",    "Karl",
+              "Britt",    "Lacy",
+             "Elisha",    "Jude",
+               "Lacy", "Whitney",
+              "Britt", "Whitney",
+               "Karl",   "Tommy"
+)
+head(friends) # az első 6 sor
+```
+
+
+Az `{igraph}` csomag telepítése és betöltése.
+
+```{r}
+# install.packages("igraph")
+library(igraph)
+```
+
+Szükséges technikai lépés, amely a `friends` adattáblát mátrixszá alakítja.
+
+```{r}
+# mátrixszá alakítjuk
+friends.mat <- as.matrix(friends)
+```
+
+Az igraph objektum létrehozása.
+
+```{r}
+# igraph objektum létrehozása
+g <- graph.edgelist(friends.mat, directed = FALSE)
+```
+
+
+Hogyan jeleníthetjük meg a hálózatot?
+
+```{r}
+# A hálózat megjelenítése
+plot(g)
+```
+
+
+### Csúcsok és élek számolása
+
+Egy hálózatról számos információt lekérhetünk. Megszámolhatjuk a hálózat csúcsait és éleit.
+
+Részletes információ a csúcsokról.
+
+```{r}
+V(g) # a csúcsok száma és megnevezése
+```
+
+Részletes információ az élekről.
+
+```{r}
+E(g) # az élek száma és az élek azonosítása csúcsokkal
+```
+
+Csak az élek száma.
+
+```{r}
+gsize(g) # élek száma
+ecount(g) # élek száma
+```
+
+Csak a csúcsok száma.
+
+```{r}
+gorder(g) # csúcsok száma
+vcount(g) # csúcsok száma
+```
+

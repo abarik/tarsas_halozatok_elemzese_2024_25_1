@@ -1,0 +1,30 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Tematika {.unnumbered}
+
+
+## Bevezetés, kedvcsináló
+
+- [Barabási Albert-László: Behálózva - a hálózatok csodálatos világa.](https://www.youtube.com/watch?v=AZ1BCScp_Pk)
+
+- [Behálózva 2.0 - Barabási Albert-László előadása.](https://www.digitalhungary.hu/e-volution/A-halozatok-fonntartanak-a-krizisben-is/16199/)
+
+- @Barabasi2011 [7-14] (*Bevezetés* fejezet)
+
+- @csanyi_szendrodi_2014
+
+## A kapcsolathálózati szemlélet. Gráfelméleti alapok.
+
+- @Barabasi2011 [15-47] (1-3. fejezet)
+
+- @Molnar2020
+
+## Irányított gráfok. Centralitás.
+
+- @kurtosi2011
+
+- @Barabasi2011 [48-89] (4-6. fejezet)

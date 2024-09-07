@@ -1,0 +1,94 @@
+---
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+# Tematika {.unnumbered}
+
+
+## Bevezetés, kedvcsináló
+
+- [Barabási Albert-László: Behálózva - a hálózatok csodálatos világa.](https://www.youtube.com/watch?v=AZ1BCScp_Pk)
+
+- [Behálózva 2.0 - Barabási Albert-László előadása.](https://www.digitalhungary.hu/e-volution/A-halozatok-fonntartanak-a-krizisben-is/16199/)
+
+- @Barabasi2011 [7-14] (*Bevezetés* fejezet)
+
+- @csanyi_szendrodi_2014
+
+## A kapcsolathálózati szemlélet. Gráfelméleti alapok.
+
+- @Barabasi2011 [15-47] (1-2. fejezet)
+
+- @Molnar2020
+
+- Molnár László (2020). A hálózatelemzés alapfogalmai – gráfok, centralitás, szomszédosság, hidak és a kis világ. In Sasvári Péter szerk.: *Rendszerelmélet.* Budapest, Dialóg Campus. 123–140. DOI: <https://doi.org/10.36250/00734.07>
+
+- Barabási Albert-László (2008): Behálózva. A hálózatok új tudománya. Budapest: Helikon. 1. és 2. fejezet: 7-31. o Takács Károly (szerk.):
+
+- Társadalmi kapcsolathálózatok elemzése. Budapest, 2011: BCE Szociológia és Társadalompolitika Intézet. 1-10.
+
+- http://linkgroup.semmelweis.hu/weaklinks_HU.php
+
+## A kisvilág koncepció. 
+
+- Barabási Albert-László (2008): Behálózva. A hálózatok új tudománya. Budapest: Helikon. 3. fejezet: 32-47.
+
+- Kürtösi Zsófia (2011): A Társadalmi kapcsolathálózat-elemzés módszertani alapjai. In: Takács Károly (szerk.): Társadalmi kapcsolathálózatok elemzése. Budapest, BCE Szociológia és Társadalompolitika Intézet. 19-30
+
+## Gyenge és erős kötések
+
+- Granovetter, M. (1982): A gyenge kötések ereje: A hálózatelmélet felülvizsgálata In: Angelusz, Róbert -- Éber, Már Áron -- Gecser, Ottó (szerk.): Társadalmi rétegződés olvasókönyv. Budapest, 2010: ELTE TáTK. 315-331.
+
+- Barabási Albert-László (2008): Behálózva. A hálózatok új tudománya. Budapest: Helikon. 4. fejezet: 48-62.
+
+## Teljes hálók, skála függetlenség
+
+- Barabási Albert-László (2008): Behálózva. A hálózatok új tudománya. Budapest: Helikon. 7. fejezet: 90-105. 
+
+- Takács Károly (szerk): Takács Károly (szerk.): Társadalmi kapcsolathálózatok elemzése. Budapest, 2011: BCE Szociológia és Társadalompolitika Intézet. 81-104. 
+
+## Innovációk a hálózatban 
+
+- Vedres B. -- Stark, D. (2010): Structural Folds: Generative Disruption in  Overlapping Groups. American Journal of Sociology, 115(4): 1150--1190. 
+
+- Vedres B. (2012): Strukturális gyűrődések: a hálózatok innovatív feszültségei. In: Kmetty Z. -- Koltai J. (szerk.): Változó képletek, változatos perspektívák. Tanulmánykötet Tardos Róbert 65. születésnapjára. Budapest: Háttér Kiadó, 92-110. 
+
+## Mérési dilemmák mikro szinten I: Névgenerátor 
+
+- McCallister, L. -- Fischer, C. S. (1978): A Procedure for Surveying Personal Networks. Sociological Methods and Research, 7(2): 131-148. 
+
+- Kmetty Zoltán, Koltai Júlia Anna (2015): Kapcsolathálózatok mérése -- elméleti és gyakorlati dilemmák, lehetőségek. Socio.hu: Társadalomtudományi Szemle 2015(4) pp. 34-49. 
+
+- Kmetty Zoltán, Kolta Júlia, Tardos Róbert (2017): Core Ties Homophily and Sociocultural Divides in Hungary from 1987 to 2015 International Journal of Sociology 47:(3) pp. 228-249 
+
+## Mérési dilemmák mikro szinten II: Pozíció-generátor, erőforrás generátor 
+
+- Lin, N. -- Dumin, M. (1986): Access to Occupations through Social Ties. Social Networks, 8(4): 365--85. o Van der Gaag, M. P. J. -- Snijders, T.
+A. B. -- Flap, H. D. (2008): Position Generator measures and their relationship to other social capital measures. In: Lin, N. -- Erickson, B. H. (szerk.): Social capital: An International Research Program. Oxford: Oxford University Press, 185-205. 
+
+- Kmetty Zoltán, Koltai Júlia Anna (2015): Kapcsolathálózatok mérése -- elméleti és gyakorlati dilemmák, lehetőségek. Socio.hu: Társadalomtudományi Szemle 2015:(4) pp. 34-49. 
+
+- Kmetty Zoltán, Tardos Róbert, Albert Fruzsina, Dávid Beáta (2018): Mapping social milieus and cohesion patterns between 1997 and 2014.: Exploiting the potential of the occupational position generator. Social Networks 55:(10) pp. 116-129. 
+
+## Mérési dilemmák mikro szinten III: Összegző módszer, napló 
+
+- DiPrete, T. A. -- Gelman, A -- McCormick, T -- Teitler, J -- Zheng, T. (2011): Segregation in Social Networks based on Acquaintanceship and Trust. American Journal of Sociology, 116(4): 1234-1283. 
+
+- Kmetty Zoltán, Koltai Júlia Anna (2015): Kapcsolathálózatok mérése -- elméleti és gyakorlati dilemmák, lehetőségek. Socio.hu: Társadalomtudományi Szemle 2015:(4) pp. 34-49.
+
+- Huszti Éva (2014): A negyedik út: Az egocentrikus kapcsolati háló vizsgálata a „network napló" módszer alkalmazásával. Socio.hu: Társadalomtudományi Szemle 4(3) pp. 70-99.
+
+- Huszti Éva (2013): Két módszer, egy minta: Az egocentrikus kapcsolati háló vizsgálata névgenerátorral és network napló módszerrel. Acta Medicina et Sociologica 4(11): 79-100.
+
+
+## Linkek
+
+http://www.phenotyping.com/software/sociogram.html
+https://osztalyfonok.hu/123/
+http://janus.ttk.pte.hu/tamop/tananyagok/meres_ertekeles/1_feladat9.html
+https://slideplayer.hu/slide/2196161/
+http://www.morenocentrum.hu/index.php/a-pszichodrama/szociometria
+https://www.fszek.hu/szociologia/szszda/hoffmann_tarsas.pdf
+http://ap.elte.hu/wp-content/uploads/2022/10/AP_2022_1_-3.pdf

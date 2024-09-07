@@ -1,0 +1,617 @@
+# A hálózat szerkezete
+
+```{r}
+#| results: "asis"
+#| echo: false
+source("_common.R")
+```
+
+Ebben a fejezetben a közösségi hálózatok szerkezetének és alstruktúrájának leírására teszünk kísérletet.
+
+## A fejezet fogalmai
+
+Sajátvektor centralitás
+
+: azt méri, hogy egy csúcs mennyire jól kapcsolódik a többi csúcshoz.
+
+
+Hálózat sűrűsége
+
+: a csúcsok között ténylegesen létező és potenciálisan lehetséges kapcsolatok aránya.
+
+
+Átlagos úthossz
+
+: a hálózat összes csúcspárja közötti legrövidebb utak hosszának átlaga.
+
+
+## A hálózat összekapcsoltsága
+
+### Sajátvektor centralitás
+
+A fejezetben használt függvények:
+
+- `eigen_centrality()` - Sajátvektor-centralitás
+- `edge_density()` - hálózat sűrűsége
+
+
+Ebben az alfejezetben a hálózat megismeréséhez először azonosítjuk a kulcscsúcsokat az ún. sajátvektor centralitás segítségével, majd ábrázoljuk a hálózatot.
+
+A sajátvektor centralitás azt méri, hogy egy csúcs mennyire jól kapcsolódik a többi csúcshoz. A legmagasabb sajátvektor centralitású csúcsok azok, amelyek sok másik csúcshoz kapcsolódnak, de különösen olyan csúcsokhoz, amelyek maguk is erősen kapcsolódnak másokhoz. 
+
+Hozzunk létre egy irányítatlan gráfot:
+
+```{r}
+library(igraph)
+g <- graph_from_literal(A--B--J, 
+                        A--C--K, 
+                        A--D, 
+                        A--H,
+                        D--H,
+                        D--M,
+                        D--L,
+                        F--H,
+                        A--F--G,
+                        F--E--I,
+                        A--E)
+V(g)$color <- "#FE8484"
+plot(g,
+     vertex.label.color = "black",
+     vertex.label.cex = .9,
+     edge.color = 'black',
+     vertex.size = 18,
+     layout = layout_nicely(g))
+```
+
+Az `{igraph}` csomagban a sajátvektor-centralitás kiszámításához az `eigen_centrality()` függvényt használjuk.
+
+```{r}
+eigen_centrality(g)
+```
+
+A visszaadott objektum egy sokelemű lista, de az egyes csúcsokhoz tartozó tényleges centralitási pontszámok a `vector` nevű elemben találhatók. Amint ebben a példában látható, az irányítatlan hálózat, az "A", "D", "E", "F" és "H" csúcsok különösen magasak a sajátvektor-centralitásban.
+
+
+Korábban megismerkedtünk más csúcs-fontossági mutatókkal is (például a fokszám,  a közöttiség, és közelségi centralitás), ésmár is ismerjük  sajátvektor centralitást is. Létezik azonban egy olyan mutatócsalás is, amely elárul valamit a hálózatok általános mintájáról vagy szerkezetéről. A hálózat általános szerkezetének legegyszerűbb mértéke a hálózat sűrűsége. Ez megegyezik azoknak az éleknek az arányával, amelyek valóban léteznek egy hálózatban, azokhoz az élekhez képest, amelyek potenciálisan létezhetnének minden csúcspár között. 
+
+```{r}
+vcount(g) # csúcsok száma
+ecount(g) # élek száma
+```
+
+
+```{r}
+edge_density(g)
+```
+
+
+A 13 csúcsból álló hálózatokban potenciálisan 78 él lehet, ha minden csúcs össze van kötve minden csúccsal. A fenti hálózatban 15 él van, így a sűrűség 0,19, ami a potenciális élek 19%-ának felel meg. 
+
+A lenti hálózatnak már 30 éle van, ami 0,38 sűrűségű, vagyis az összes létező potenciális kapcsolat 38%-a. A sűrűség tehát annak mértéke, hogy egy hálózat mennyire össze van kötve. 
+
+Láthatjuk, az `edge_density()` függvényt hívtuk segítségül.
+
+```{r}
+library(igraph)
+g2 <- graph_from_literal(A--B--J, 
+                        A--C--K, 
+                        A--D, 
+                        A--H,
+                        D--H,
+                        D--M,
+                        D--L,
+                        F--H,
+                        A--F--G,
+                        F--E--I,
+                        A--E,
+                        G--I, E--G, F--L, H--L, M--C, 
+                        K--D, K--J, J--C, J--G, B--C, 
+                        B--D, A--M, H--L, F--L, E--H,
+                        E--B, K--M )
+V(g2)$color <- "#FE8484"
+plot(g2,
+     vertex.label.color = "black",
+     vertex.label.cex = .9,
+     edge.color = 'black',
+     vertex.size = 18,
+     layout = layout_nicely(g2))
+```
+
+
+
+```{r}
+vcount(g2) # csúcsok száma
+ecount(g2) # élek száma
+```
+
+
+```{r}
+edge_density(g2)
+```
+
+
+### Átlagos úthossz
+
+A hálózat összekapcsolhatóságának másik mértéke az átlagos úthossz. Ezt úgy számítjuk ki, hogy meghatározzuk a hálózat összes csúcspárja közötti legrövidebb utak hosszának átlagát. Az `{igraph}`-ban ezt úgy számítjuk ki, hogy a `mean_distance()` függvényt alkalmazzuk a gráfra, és azt is specifikáljuk, hogy a gráf irányítatlan-e vagy irányított. 
+
+```{r}
+mean_distance(g)
+mean_distance(g2)
+```
+
+
+A bal oldali hálózat átlagos úthossza 2,47, míg a jobb oldali hálózat átlagos úthossza 1,77. Ennek az az oka, hogy a csúcsok közötti átlagos legrövidebb út csökken. Például a bal oldali G és K között a legrövidebb út négy lépésből áll: G-F-A-C-K. A jobb oldalon két lépés található: G-J-K. Ez arra utal, hogy a jobb oldali hálózat jobban össze van kapcsolva, és ez jelentősen megkönnyíti a csúcsok közötti barangolást.
+
+
+### Feladat
+
+**Forrest Gump hálózat**
+
+Ebben a példában a Forrest Gump című filmen alapuló közösségi hálózatot fogjuk használni. A hálózat csúcsai a film sreplői, a hálózat minden éle pedig azt jelzi, hogy a két karakter együtt szerepelt a film legalább egy jelenetében. Ez a hálózat irányítatlan. 
+
+A hálózat megismeréséhez először létre kell hoznia a hálózati objektumot a nyers adatkészletből. Ezután azonosítja a kulcscsúcsokat egy sajátvektor-centralitásnak nevezett mértékkel. A magas sajátvektor-centralitású egyének azok, akik szorosan kapcsolódnak más, erősen kapcsolódó egyénekhez. Ezután feltáró vizualizációt készít a hálózatról.
+A Forrest Gump hálózati adatkészlettel fog dolgozni. A Forrest Gump hálózat minden éle azt jelzi, hogy a film ezen két karaktere együtt szerepelt a film legalább egy jelenetében. Világos, a hálózatunk irányítatlan.
+
+Olvassuk be a `forrest_gump.csv` vesszővel tagolt szöveges állományt és vizsgáljuk meg az adattábla első néhány sorát a `head()` segítségével.
+
+```{r}
+d <- rio::import(file = "adat/forrest_gump.csv")
+head(d)
+```
+
+Hozzunk létre egy irányítatlan hálózatot a `graph_from_data_frame()` használatával.
+
+```{r}
+library(igraph)
+g_forrest <- graph_from_data_frame(d, directed = FALSE)
+```
+
+Azonosítsuk a kulcscsúcsokat az `eigen_centrality()` függvény segítségével, és ennek eredményeit rendeljük hozzá a `g_forrest_ec` objektumhoz. Ezután határozzuk meg, hogy melyik szereplő rendelkezik a legmagasabb sajátvektor centralitással. A centralitási pontszámok értékeit a `g_forrest_ec$vector` tárolja.
+
+```{r}
+# sajátvektor centralitás kiszámítása
+g_forrest_ec <- eigen_centrality(g_forrest)
+```
+
+
+```{r}
+# a három legnagyobb sajátvektor centralitássú csúcs 
+g_forrest_ec$vector[order(g_forrest_ec$vector, decreasing = T)][1:3]
+```
+
+Készítsünk egy diagramot a Forrest Gump hálózatról a `plot()` segítségével. Állítsuk be a csúcsok méretét a `g_forrest_ec$vector` tárolt sajátvektor centralitásértékek 25-szörösére.
+
+```{r}
+# a hálózat kívánt megjelenítése
+plot(g_forrest, 
+     vertex.label.color = "black", 
+     vertex.label.cex = 0.6,
+     vertex.size = 25*(g_forrest_ec$vector),
+     edge.color = 'gray88',
+     main = "Forrest Gump Hálózat"
+)
+```
+
+
+**Hálózati sűrűség és átlagos úthossz**
+
+Az első hálózat szintű mérőszám, amelyet megvizsgálunk a gráf sűrűsége lesz. Ez lényegében a hálózatban ténylegesen létező élek és a csúcsok közötti potenciális élek aránya. Ez azt jelzi, hogy a gráf csúcsai milyen jól kapcsolódnak egymáshoz.
+
+A hálózat összekapcsoltságának másik mértéke az átlagos úthossz. Ezt úgy számítjuk ki, hogy meghatározzuk a hálózat összes csúcspárja közötti legrövidebb utak hosszának átlagát. A csúcspárok közötti leghosszabb úthosszt a hálózati gráf átmérőjének nevezzük. Számoljuk ki a az eredeti gráf átmérőjét és átlagos úthosszát is.
+
+Az `edge_density()` függvény segítségével számítsuk ki a gráf sűrűségét, és rendeljük hozzá ezt az értéket a `gd` vektorhoz.
+
+```{r}
+# a hálózat sűrűsége
+gd <- edge_density(g_forrest)
+gd
+```
+
+
+A `diameter()` segítségével számítsuk ki az eredeti gráf átmérőjét.
+
+```{r}
+# a gráf átmérője
+diameter(g_forrest, directed = FALSE)
+```
+
+Rendelje a gráf átlagos úthosszát a `g.apl` objektumhoz a `mean_distance()` függvénnyel.
+
+
+```{r}
+# az átlagos úthossz a gráfban
+g.apl <- mean_distance(g_forrest, directed = FALSE)
+g.apl
+```
+
+
+## Véletlen gráfok
+
+Bár egyszerű kiszámítani a hálózati mérőszámokat, például az átlagos úthosszat, nem mindig világos, hogy ezek az értékek mennyire magasak vagy alacsonyak. A hálózatkutatók gyakran véletlenszerű hálózati gráf technikákat alkalmaznak, hogy ezeknek a mérőszámoknak jelentést adjanak. 
+
+A véletlen gráf egy olyan hálózat, amelyet véletlenszerűen generálunk (egy algoritmus segítségével), miközben figyelünk arra, hogy a generált gráf az eredeti hálózathoz hasonló jellemzőkkel rendelkezzen. Például a legegyszerűbb véletlenszerű gráf, amelyet létrehozhat, az lenne, amelyiknek ugyanannyi csúcsa van, mint az eredeti gráfnak, és megközelítőleg ugyanolyan sűrűsége van, mint az eredeti gráfnak. 
+
+Tegyük fel, hogy a lenti hálózat az eredeti hálózat. 
+
+```{r}
+plot(g,
+     vertex.label.color = "black",
+     vertex.label.cex = .9,
+     edge.color = 'black',
+     vertex.size = 18,
+     layout = layout_nicely(g))
+```
+
+
+A lenti hálózat egy véletlenszerű gráf, amelyet az algoritmus állít elő. Mindkettőnek ugyanannyi csúcsa van, és megközelítőleg azonos a sűrűsége. Egy ilyen véletlenszerű hálózat létrehozásához az `{igraph}` csomag  az erdos-dot-renyi-dot-game() függvényt. Az első argumentum a hálózat csúcsainak száma - ehhez használhatod a gorder()-t. A grafikon sűrűségét a második p-pont-vagy-pont-m argumentummal kell használni. A típust 'gnp'-re kell állítani.
+
+```{r}
+# véletlen gráf generálása
+g_random <- erdos.renyi.game(n = vcount(g), p.or.m = edge_density(g), type="gnp")
+plot(g_random,
+     vertex.label.color = "black",
+     vertex.label.cex = .9,
+     edge.color = 'black',
+     vertex.size = 18,
+     layout = layout_nicely(g_random))
+```
+
+
+### Véletlenszerű gráfok és randomizációs tesztek
+
+Ha többször futtatjuk a véletlenszerű gráfot létrehozó algoritmust, akkor észre fogjuk venni, hogy minden alkalommal más gráfot hoz létre. Ez különösen akkor hasznos, ha meg akarjuk állapítani, hogy az eredeti hálózat valamely tulajdonsága – például az átlagos útvonalhossz – különösen szokatlan vagy figyelemre méltó-e. 
+
+A randomizációs teszttel kiszámolhatjuk az átlagos útvonalhosszat mondjuk 1000 olyan véletlenszerű hálózatra, amelyek az eredeti hálózaton alapulnak. Ezután megvizsgálhatjuk, hogy a megfigyelt eredeti értéke jelentősen eltérnek-e a véletlenszerű hálózatokon keresztül előállított értékektől. Ez a hálózati randomizációs tesztek alapelve.
+
+
+**Összefoglalva a randomizációs teszt lépései (például átlagos úthosszra**
+
+1. Hozzunk létre 1000 véletlen gráfot, amely paramétereiben megegyezik az eredeti gráffal (például a csúcsok számában és a hálózat sűrűségében)
+1. Számoljuk ki az eredeti gráf átlagos úthosszát
+1. Számoljuk ki az átlagos átlagos úthosszt az 1000 generált gráfra
+1. Határozzuk meg azoknak a véletlen gráfoknak a számát, amelyek az eredeti gráf átlagos úthosszánál kisebb és nagyobb átlagos úthosszal rendelkeznek
+
+A lenti kód létrehoz 1000 db véletlen gráfot. Az 1000 hálózatot a `gl` listaobjektum tárolja. 
+
+```{r}
+# 1000 elemű lista, melynek elemei NULL-ok (egyelőre üresek)
+gl <- vector('list', 1000)
+# az 1000 véletlen gráf létrehozása
+for (i in 1:1000) {
+  gl[[i]] <- erdos.renyi.game(n = vcount(g), 
+                               p.or.m = edge_density(g), 
+                               type="gnp")
+}
+
+```
+
+A `gl` listában szereplő egyes véletlenszerű hálózatok átlagos útvonalhosszának kiszámításához az `sapply()` segítségével alkalmazzuk a `mean_distance()` függvényt a lista minden hálózatára. Itt ezek az értékek a `gl_apls` objektumként kerülnek tárolásra.
+
+```{r}
+# eltároljuk az 1000 db átlagos úthosszt
+gl_apls <- sapply(gl, mean_distance, directed = FALSE)
+```
+
+A fentiek birtokában már elvégezhetjük a szükséges összehasonlítást:
+
+```{r}
+# hány véletlen gráfnak nagyobb az átlagos úthossza az eredeti gráfhoz képest?
+table(mean_distance(g)<gl_apls)
+```
+
+Az eredeti hálózat és a véletlenszerű hálózatok átlagos útvonalhosszának összehasonlítása történhet az adatok ábrázolásával is. A `hist()` segítségével megismerhetjük a véletlen hálózatok átlagos úthosszainak eloszlását. Ha hozzáadunk egy piros pontozott vonalat az `abline()` függvénnyel, amely az eredeti hálózat átlagos úthossz-értékénél metszi az x-tengelyt, akkor közvetlen összehasonlítást végezhetünk. 
+
+```{r}
+hist(gl_apls)
+abline(v=mean_distance(g), col="red", lty=3, lwd=2)
+```
+
+Itt is jól látható, hogy az eredeti hálózatban megfigyelt átlagos úthossz elfogadható mértékben jellemzőnek mondható egy ilyen méretű és sűrűségű véletlen hálózatra is. 
+
+
+### Feladat
+
+A véletlen gráfok generálása fontos módszer annak vizsgálatára, hogy az eredeti gráf bizonyos tulajdonságai mellett mennyire valószínű vagy valószínűtlen más hálózati metrikák előfordulása. A legegyszerűbb véletlen gráf az, amelyiknek ugyanannyi csúcsa van, mint az eredeti gráfnak, és megközelítőleg ugyanolyan sűrűsége van, mint az eredeti gráfnak. Vizsgáljuk meg ezt a kérdést az eredeti Forrest Gump hálózaton keresztül.
+
+Hozzunk létre egy Véletlen gráfot az `erdos.renyi.game()` függvény segítségével. Az első argumentum (`n=`) a gráf csomópontjainak számát jelenti, amely a `vcount()` segítségével számítható ki. A második argumentum (`p.or.m=`) pedig a gráf sűrűsége, az utolsó argumentum (`type='gnp'`) pedig azt jelzi, hogy a hálózat sűrűségét használjuk egy véletlenszerű gráf létrehozásához. Az új gráfot `g_random` objektumban tároljuk el.
+
+```{r}
+# véletlen gráf létrehozása
+g_random <- erdos.renyi.game(n = vcount(g_forrest), p.or.m = edge_density(g_forrest), type = "gnp")
+# információk a véletlen gráfról
+g_random
+```
+
+
+```{r}
+# a véletlen gráf megjelenítése
+plot(g_random)
+```
+
+Számoljuk ki a véletlen hálózat sűrűségét. Többször elvégezve a generálást ez az érték kissé változhat, de megközelítőleg megegyezik az erdeti gráf sűrűségével.
+
+```{r}
+
+# a véletlen gráf sűrűsége`
+edge_density(g_random)
+```
+
+Számítsuk ki a véletlen gráf átlagos úthosszát is.
+
+```{r}
+# a véletlen gráf átlagos úthossza
+mean_distance(g_random, directed = FALSE)
+```
+
+
+```{r}
+# az eredeti gáf átlagos úthossza
+mean_distance(g_forrest, directed = FALSE)
+```
+
+Látható, hogy a Forrest Gump hálózat átlagos úthossza kisebb, mint a véletlen hálózat átlagos úthossza. Ha néhányszor lefuttattjuk a kódot, akkor észrevetjük, hogy a Forrest Gump hálózatban szinte mindig alacsonyabb értéket kapunk. Ez azt sugallja, hogy a Forrest Gump hálózat jobban össze van kapcsolva, mint a véletlen hálózatok, annak ellenére, hogy a véletlen hálózatoknak ugyanannyi csúcsuk van, és megközelítőleg azonos sűrűséggel rendelkeznek. 
+
+Generáljunk 1000 véletlenszerű gráfot az eredeti gráfból.
+
+```{r}
+# 1000 elemű lista
+gl_forrest <- vector('list',1000)
+for(i in 1:1000){
+  gl_forrest[[i]] <- erdos.renyi.game(n = vcount(g_forrest), p.or.m = edge_density(g_forrest), type = "gnp")
+}
+
+```
+
+Számítsuk ki az 1000 véletlen gráf átlagos úthosszát az `sapply()` segítségével. Hozzunk létre egy új `gl_apls` vektort.
+
+```{r}
+# 1000 véletlen gráfra az átlagos úthossz megállapítása
+gl_apls <- sapply(gl_forrest, mean_distance, directed = FALSE)
+```
+
+Ábrázoljuk az 1000 véletlen gráf átlagos úthosszának hisztogramját a `hist()` segítségével. Adjunk hozzá egy piros szaggatott függőleges vonalat is, amelynek az x metszéspontja az eredeti gráf átlagos úthosszának felel meg.
+
+```{r}
+hist(gl_apls, xlim = range(c(1.5, 6)))
+abline(v = mean_distance(g_forrest), col = "red", lty = 3, lwd = 2)
+```
+
+Számítsuk ki, hogy a véletlen gráfok átlagos úthosszának értékei hány esetben kisebbek az eredeti gráf átlagos úthosszánál. Ez lényegében annak a valószínűsége, hogy véletlenül ilyen úthosszt kapunk..
+
+```{r}
+# annak az aránya, hogy a véletlen gráfok átlagos úthossza kisebb, mint az eredeti gráf átlagos úthossza 
+mean(gl_apls < mean_distance(g_forrest))
+```
+
+Láthatjuk, a Forrest Gump hálózat sokkal jobban össze van kapcsolva, mint azt véletlenül várnánk, mivel nulla annak az esélya, hogy a véletlenszerű hálózat átlagos úthossza kisebb, mint a Forrest Gump hálózat átlagos úthossza.
+
+
+## Hálózati alstruktúrák
+
+Az előző részben a hálózat szerkezetének néhány általános jellemzőjére figyeltünk, mint például a sűrűség és az átlagos úthossz. A következő részben a közösségi hálózatok mikrostrukturális jellemzőit tárgyaljuk, amelyek fontos szerepet játszhatnak a hálózat működését illetően.
+
+### Tranzitivitás
+
+A helyi kapcsolat fontos mércéje a hálózatban létező háromszögek (más néven triádok) vizsgálata. Egy hálózatban minden három csúcsból álló csoporthoz három potenciális él tartozik. Ha minden él létezik, akkor a triádot zártnak mondjuk. 
+
+```{r}
+plot(g)
+```
+
+A fenti hálózatot nézve három zárt háromszöget azonosíthatunk. Az A-E-F, A-F-H és A-D-H háromszögek zártak, mindhárom élükkel. Néhány háromszögnek két éle van, például az E-F-G, vagy az A-B-C. Néhány háromszögnek csak egy éle van, ilyen a C-K-M, vagy G-E-I. Néhány háromszögnek nincs éle, például a H-L-M. Az `{igraph}` csomagban a hálózat összes zárt háromszöge megtalálható a `triangles()` függvény segítségével.
+
+```{r}
+triangles(g)
+```
+
+### Globális tranzitivitás
+
+Egy hálózat tranzitivitásának kiszámításával formálisan felmérhetjük, hogy egy három csúcsból álló csoport mennyire kapcsolódik egymáshoz. A tranzitivitás azt méri, hogy egy adott csúcs szomszédos csúcsai milyen valószínűséggel kapcsolódnak össze. Az `{igraph}` csomagban a `transitivity()` függvény segítségével számítható ki.
+
+```{r}
+transitivity(g, type = "global")
+```
+
+
+### Helyi tranzitivitás
+
+Megszámolhatjuk az egyes csúcsokhoz tartozó zárt háromszögek számát a `count_triangles()` segítségével. Ez a függvény a gráf objektumot, majd a csúcsazonosítók vektorát tartalmazza. 
+
+```{r}
+count_triangles(g, vids = c('A', 'F'))
+```
+
+Lehetőség van az egyes csúcsok helyi szintű tranzitivitásának meghatározására is. Ez a mérőszám kiszámítja a ténylegesen létező zárt háromszögek arányát (amelyeknek a csúcs része) az elméleti zárt háromszögek számához képest (amelynek a csúcs szintén a része). 
+
+A helyi tranzitivitás kiszámítható a `transitivity()` használatával. A `type='local'` argumentumot is használjuk.
+
+```{r}
+# lokális tranzitivitás kiszámítása
+transitivity(g, type = "local", vids = c('A', 'F'))
+```
+
+A példában látható, hogy az 'F' lokális tranzitivitása valamivel nagyobb, mint az 'A'-é. Ennek az az oka, hogy 'F' kapcsolatainak nagyobb hányada vezet zárt háromszögekbe, mint az 'A' kapcsolataié.
+
+### Klikkek
+
+A klikkek azonosítása egy másik gyakran használt módszer a hálózati alstruktúra értékelése során. Egy klikkben minden csúcs minden másik csúcshoz kapcsolódik. A gyakorlatban nagyon ritka, hogy egy teljes hálózat egy klikket alkosson (vagyis teljes gráf legyen). A hálózatokon belül azonban annál gyakrabban léteznek klikkek, mint például a lenti példában.
+
+```{r}
+g3 <- graph_from_literal(A--E--G, 
+                        A--B--E--F--I--K,
+                        F--H,
+                        I--J,
+                        A--B--C--I,
+                        C--D,
+                        E--C,
+                        B--F,
+                        E--C,
+                        C--F)
+V(g3)$color <- "#FE8484"
+plot(g3,
+     vertex.label.color = "black",
+     vertex.label.cex = .9,
+     edge.color = 'black',
+     vertex.size = 18)
+```
+
+Ebben a hálózatban a létező legnagyobb klikknek négy csúcsa van - B, C, E és F. Ez a négy csúcs mind összekapcsolódik egymással. Egy másik megközelítés az, hogy az általuk alkotott összes háromszög zárt.
+
+### A klikkek azonosítása
+
+A hálózat legnagyobb klikkje azonosítható az `{igraph}` csomagban a `largest_cliques()` függvény segítségével. A függvény Visszaadja, hogy hány csúcs van az adott klikkben, és ezeknek a csúcsoknak az azonosítóit is listázza. 
+
+```{r}
+# a hálózat legnagyobb klikkje
+largest_cliques(g3)
+```
+
+A `max_cliques()` függvény segítségével a kettőtől a legnagyobb klikkméretig bármilyen méretű klikk azonosítható. Ez a függvény az egyes méretű klikkek listáját adja vissza. A példahálózatban látható, hogy két 3-as méretű klikk létezik: az A, B, E és I, C, F. Bennük minden csúcs összekapcsolódik, és nem részei egy nagyobb klikknek.
+
+
+```{r}
+# az összes klikk
+max_cliques(g3)
+```
+
+
+### Feladat
+
+**Háromszögek és tranzitivitás**
+
+A helyi kapcsolódások másik fontos mértéke a hálózati gráfokban a háromszögek (más néven triádok) vizsgálata. Ebben a feladatban a cél az összes olyan zárt háromszög megtalálása, amely egy hálózatban létezik. A zárt háromszög azt jelenti, hogy a három megadott csúcs között minden él létezik. 
+
+Ezután kiszámíthatjuk a hálózat tranzitivitását. Ez megegyezik a hálózat összes lehetséges zárt háromszögének arányával. Újra megkíséreljük  azon zárt háromszögek számát megtalálni, amelyeknek egy adott csúcs része.
+
+Keressük meg a Forrest Gump hálózat összes lehetséges háromszögének mátrixát a `triangles()` függvény segítségével.
+
+```{r}
+# minden háromszög megmutatása a hálózaton belül
+options(max.print=999999)
+matrix(triangles(g_forrest), nrow = 3)
+```
+
+A `count_triangles()` függvény segítségével keressük meg, hány háromszögnek a része a "BUBBA" csúcs. 
+
+```{r}
+# a "BUBBA" csúcs mely háromszögnek része
+count_triangles(g_forrest, vids = 'BUBBA')
+```
+
+Számítsuk ki a Forrest Gump hálózat globális tranzitivitását.
+
+
+```{r}
+# globális tranzitivitás
+g.tr <- transitivity(g_forrest)
+g.tr
+```
+
+Keressük meg a "BUBBA" csúcs helyi tranzitivitását is. 
+
+```{r}
+# a BUBBA csúcs lokális tranzitivitása
+transitivity(g_forrest, vids = 'BUBBA', type = "local")
+```
+
+
+**Randomizációs teszt a tranzitívitásra**
+
+Ahogy az átlagos úthossz esetében, most is megvizsgálhatjuk, hogy a Forrest Gump hálózat globális tranzitivitása szignifikánsan magasabb-e, mint azt véletlenül várnánk az azonos méretű és sűrűségű hálózatok esetében. Összehasonlíthatja a Forrest Gump globális tranzitivitását 1000 másik véletlenszerű hálózattal. Ezer véletlenszerű hálózatot korábban már eltároltunk a `gl_forrest` listaobjektumban.
+
+```{r}
+# 1000 véletlen gráfra a globális tranztivitás megtalálása
+gl_trs <- sapply(gl_forrest, transitivity)
+```
+
+Vizsgálja meg a véletlenszerű hálózatok tranzitivitásainak összesített statisztikáit a `summary()` segítségével.
+
+```{r}
+# összesítő statisztika a véletlen hálózatok tranzitivitására
+summary(gl_trs)
+```
+
+Számítsa ki azoknak a véletlenszerű gráfoknak az arányát, amelyek tranzitivitása nagyobb, mint a Forrest Gump-hálózat tranzitivitása
+
+```{r}
+# Forrest Gump hálózatánál magasabb tranzitivitású grafikonok arányát
+mean(gl_trs > transitivity(g_forrest))
+```
+
+**Klikkek**
+
+A klikkek azonosítása általános gyakorlat az irányítatlan hálózatokban. Egy klikkben bármely két csomópont szomszédos, vagyis minden egyes csomópont kapcsolódik a klikk minden másik egyedi csomópontjához. Azonosítsuk a Forrest Gump hálózat legnagyobb klikkjeit. A különböző méretű klikkek maximális számát is meghatározhatjuk. Egy klikk akkor maximális, ha nem terjeszthető ki nagyobb klikkre.
+
+Azonosítsa a hálózat legnagyobb klikkjeit a `largest_cliques()` függvény segítségével.
+
+```{r}
+# a legnagyobb klikkek azonosítása
+largest_cliques(g_forrest)
+```
+
+Határozzuk meg a hálózat összes maximális klikkjét a `max_cliques()` függvény segítségével. Rendelje hozzá ennek a függvénynek a kimenetét a `clq` listaobjektumhoz.
+
+
+```{r}
+# az összes klikk azonosítása
+clq <- max_cliques(g_forrest)
+clq
+```
+
+Számítsuk ki az egyes maximális klikkek hosszát! Használjuk az `sapply()` függvényt a `clq` objektummal. A `table()` segítségével figyeljük meg, az egyes az egyes maximális klikk hosszak előfordulását.
+
+
+```{r}
+# az egyes maximális klikkek hossza
+table(sapply(clq, length))
+```
+
+
+
+**A legnagyobb klikk**
+
+A hálózat megjelenítése során a szükségünk lehet a hálózat egy részének megjelenítésére. Jelenítsük meg a Forrest Gump hálózat legnagyobb klikkjeit. Korábban láttuk, hogy két 9-es méretű klikk van. Ezeket egymás mellett fogjuk ábrázolni, miután két új igraph objektumot hozunk létre. Az új hálózatok az eredeti hálózat 9 nagyságú klikkjei lesznek. A `subgraph()` függvény lehetővé teszi, hogy kiválassza, mely csúcsokat kívánja megtartani egy új hálózati objektumban.
+
+
+Rendelje hozzá a hálózat legnagyobb klikkjeinek listáját az `lc` objektumhoz.
+
+```{r}
+# a legnagyobb klikkek a elmentése
+lc <- largest_cliques(g_forrest)
+```
+
+Hozzunk létre két új irányítatlan részgráfot a `subgraph()` függvény segítségével. Az első részgráf (`gs1`) csak az első legnagyobb klikk csúcsait tartalmazza. A második (`gs2`) csak a második legnagyobb klikk csúcsait tartalmazza. Ez a függvény az as.undirected()-be van csomagolva, így biztosítva, hogy az algráf is irányítatlan legyen.
+
+```{r}
+# két irányítatlan gráf lérehozás a két legnagyobb klikkből
+gs1 <- as.undirected(subgraph(g_forrest, lc[[1]]))
+gs2 <- as.undirected(subgraph(g_forrest, lc[[2]]))
+```
+
+
+Jelenítsük meg egymás mellett a két részgráfot a `plot()` segítségével. Győződjünk meg arról, hogy az elrendezés `layout.circle()` értékre legyen állítva, hogy az ábra könnyebben átlátható legyen.
+
+
+```{r}
+# az egyik legnagyobb klikk megjelenítése
+plot(gs1,
+     vertex.label.color = "black",
+     vertex.label.cex = 0.9,
+     vertex.size = 0,
+     edge.color = 'gray28',
+     layout = layout.circle(gs1)
+)
+```
+
+
+```{r}
+# a másik legnagyobb klikk megjelenítése
+plot(gs2,
+     vertex.label.color = "black",
+     vertex.label.cex = 0.9,
+     vertex.size = 0,
+     edge.color = 'gray28',
+     layout = layout.circle(gs2)
+)
+```
+

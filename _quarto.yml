@@ -1,0 +1,37 @@
+project:
+  type: book
+  output-dir: docs
+
+editor: source
+lang: hu
+language: hungarian.yml
+toc-depth: 4
+  
+
+book:
+  title: "Társas hálózatok elemzése"
+  author: "Abari Kálmán"
+  date: today
+  search: true
+  repo-url: https://github.com/abarik/tarsas_halozatok_elemzese_2024_25_1
+  chapters:
+    - index.qmd
+    - tematika.qmd
+    - 01_halozatok_R_ben.qmd
+    - 02_alapfogalmak.qmd
+    - 03_fontos_csucsok.qmd
+    - 04_halozat_szerkezete.qmd
+    - 05_specialis_kapcsolatok.qmd
+    - 06_kitekintes.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+csl: apa.csl
+

@@ -1,0 +1,104 @@
+### Hálózat létrehozása éllistából
+
+
+Ebben a gyakorlatban hálózatot hoz létre egy éllistából.
+
+Létrehoz egy igraph objektumot egy éllistában tárolt adatokból a graph_from_data_frame() függvény használatával. Az adatok az ügyfelek közösségi hálózata, és az edgeList adatkeret minden sora egy-egy élt jelent a hálózatban. Ebben a hálózatban az élek irányítatlanok, súlyuk 1. Ezt a függvény irányított argumentuma jelzi, ami logikus, tehát a FALSE érték azt jelenti, hogy a hálózat irányítatlan.
+
+
+Vizsgálja meg az edgeList adatkeret első sorait a head() függvény segítségével.
+Hozzon létre egy hálózat nevű igraph objektumot az edgeList adatkerettel a graph_from_dataframe() függvény segítségével. A logikai irányított argumentum segítségével adja meg, hogy a hálózat irányítatlan.
+Vizsgálja meg a nevének hívásával létrehozott igraph objektumot.
+
+```{r}
+edgeList <- rio::import(file = "adat/StudentEdgelist.RData")
+# Inspect edgeList
+head(edgeList)
+
+# Construct the igraph object
+network <- graph_from_data_frame(edgeList, directed = FALSE)
+
+# View your igraph object
+network
+```
+
+Great job! You have created a network from an edgelist. It has 956 nodes and 1663 edges.
+
+### Csomópontok címkézése
+
+
+Ebben a gyakorlatban felcímkézi a hálózat csomópontjait. Kap egy adatkeretet, amelyet ügyfeleknek hívnak, és ugyanazokkal az ügyfél-azonosítókkal, mint a hálózatban. Minden ügyfél rendelkezik 1-gyel vagy 0-val megadva, hogy lemorzsolódott-e vagy sem. Hozzá kell adnia a lemorzsolódási állapotot a hálózat csomópontjaihoz, és megjelenítheti azt.
+
+Vegye figyelembe, hogy egy hálózatnak lehetnek csomópont- és élattribútumai is. A csomópont attribútumait a V() függvény (a csúcshoz), az élattribútumokat pedig az E() függvény reprezentálja.
+A churn hálózat csomóponti attribútumai V(hálózat).
+
+Vizsgálja meg az ügyfelek adatkeretét a head() függvénnyel.
+Használja a table() függvényt a vásárlók adatkeretében lévő kiadók és nem kiadók számának megszámlálásához.
+Használja a V() függvényt egy churn nevű csomópont attribútum hozzáadásához a hálózathoz, és rendelje hozzá az ügyfelek adatkeretének churn oszlopát.
+Vizualizálja a hálózatot a plot() függvény meghívásával.
+
+
+```{r}
+customers <- rio::import(file = "adat/StudentCustomers.RData")
+# Inspect the customers dataframe
+head(customers)
+
+# Count the number of churners and non-churners
+table(customers$churn)
+
+# Add a node attribute called churn
+V(network)$churn <- customers$churn
+
+# Visualize the network
+plot(network, vertex.label = NA, edge.label = NA, 
+     edge.color = 'black', vertex.size = 2)
+```
+
+Great work adding the churn attribute to the network and visualizing it!
+
+
+### Színező csomópontok
+Ebben a gyakorlatban kiszínezi a hálózat csomópontjait a lemorzsolódási állapottól függően. A lemorzsolódó vásárlókat pirosra, a nem kiadókat fehérre színezzük. Ezután újra láthatóvá válik a hálózat.
+
+Adjon hozzá egy color nevű csomópont-attribútumot, amely megegyezik a V(network)$churn paraméterrel.
+A V(network)$color-ban használja a gsub() függvényt az "1" karakterlánc helyére a "red" karakterláncra.
+A V(network)$color-ban használja a gsub() függvényt a "0" karakterlánc helyére a "white" karakterláncra.
+Vizualizálja újra a hálózatot a plot() függvény segítségével.
+
+```{r}
+# Add a node attribute called color
+V(network)$color <- V(network)$churn
+
+# Change the color of churners to red and non-churners to white
+V(network)$color <- gsub("1","red",V(network)$color)
+V(network)$color <- gsub("0","white",V(network)$color)
+
+# Plot the network
+plot(network, vertex.label = NA, edge.label = NA,
+     edge.color = "black", vertex.size = 2)
+```
+
+
+Great work on getting the colors set up! However, in a large network like this it is difficult to see what is going on
+
+
+### Churnerek megjelenítése
+Az előző gyakorlatok során észrevette, hogy nehéz lehet elképzelni egy nagy hálózatot. Most csak a churnereket fogja megjeleníteni a hálózatban a lemorzsolódás attribútumának kondicionálásával.
+
+Hozzon létre egy új igraph objektumot churnerNetwork néven.
+Használja az induced_subgraph() függvényt a már meglévő hálózat részgráfjának létrehozásához.
+Válassza ki azokat a csomópontokat, amelyeknél a csomópont-attribútum churn 1.
+A churnerNetwork megjelenítése a plot() segítségével.
+
+```{r}
+# Create a subgraph with only churners
+churnerNetwork <- induced_subgraph(network, 
+                    v = V(network)[which(V(network)$churn == 1)])
+                    
+# Plot the churner network                     
+plot(churnerNetwork, vertex.label = NA, vertex.size = 2)
+```
+
+Nice! You have successfully made a network of churners! As you can see, some of them are connected!
+
+

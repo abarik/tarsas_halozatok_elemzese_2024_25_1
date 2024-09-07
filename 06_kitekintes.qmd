@@ -1,0 +1,124 @@
+# Kitekintés
+
+```{r}
+#| results: "asis"
+#| echo: false
+source("_common.R")
+```
+
+
+
+## Szociometria
+
+A következő összefoglaló nem teljes, a részletes áttekintésekért érdemes a szakirodalmat tanulmányozni:
+
+- @Merei1998
+- @Hoffmann2023
+- @HoffmanTamas2022
+- @SallayPerge2007
+- @nkollar20171   
+- @Keszi2022
+- @kurtosi2011
+
+A szociometria módszere alkalmas egy kis csoport tagjai közötti érzelmi kapcsolatok struktúrájának objektív felmérésére és a csoporttagok szociális pozíciójának feltérképezésére.
+
+Három változatát dolgozták ki:
+
+1. egy szempontú szociometria (Moreno 1934) – rokonszenvi kérdések.
+2. több szempontú szociometria (Mérei) – rokonszenvi, közösségi funkcióra, egyéni tulajdonságokra/készségekre/képességekre, népszerűségre/közösségi helyzetre/érvényesülésre vonatkozó kérdések.
+3. hiearchikus szociomteria (Járóka, Veres 1978)– még differenciáltabb kategória rendszer.
+
+A több szempontú szociometriai felmérés lépései
+
+1. Vizsgálandó csoport jellemzői
+
+    - A vizsgálat elvégzése előtt tájékozódunk a csoport életről: közös élmények, a csoportra váró fontos események, feladatok, az együttlétek lefolyása, stb.(A kérdések megfogalmazásánál ez fontos támpont lesz!)
+    - 10-20 fős csoport, akik minimum 1 hónapja, napi rendszerességgel vagy minimum 6 hónapja heti rendszerességgel vannak együtt(pl. idősek klubja, iskolai osztály, sportolói csapat, munkahelyi team stb.)
+
+2. Vizsgálat elvégzésének feltételei
+
+A csoport működésének helyszínén (pl. osztályterem, edzés helyszíne) minden tag legyen jelen a kérdőív kitöltésekor! 
+
+3. Szociometriai kérdéssor összeállításának kritériumai
+
+    - Az instrukcióban jelöljék meg, hogy:
+        - a tanulmányaikhoz kérik a kitöltő segítségét,
+        - az adott közösségre vonatkozó kérdéseket fognak feltenni,
+        - a kérdésekre a közösség tagjainak nevével kell a kitöltőnek válaszolnia, minden kérdésre legfeljebb 3 társanevét írhatja be azonosíthatóan(ezt a kérdéseket követő három pontozott sorral/vonallal lehet jelölni),
+        - ugyanakkor biztosítsák arról, hogy válaszait bizalmasanfogják kezelni, az anonimitás szabályait betartva a házi dolgozatban már nem lesznek beazonosíthatóak a megkérdezettek!
+    - A kérdések megfogalmazásakor konkretizálni kell a csoportra vonatkozóan a kérdések tartalmát (életkori sajátosságok + a csoport által reálisan átélhető és konkrét helyzetek). pl. Ha kisbusszal utazik a csapat egy-egy mérkőzés helyszínére, akkor ezt az információt építsük be a rokonszenvi kérdésbe: Ha a csapat egyik mérkőzése egy távolabbi településen van, az utazás során ki mellé ülne szívesen a buszon?
+
+
+### Moreno szociometriája
+
+Moreno vizsgálta először a társas alakzatokat, és abban határozta meg az egyén helyét. Előtte is felismerték már a kiscsoportok jelentőségét, de a vizsgálatok egyénközpontúak maradtak, a társas vonatkozásokat személyiségjegyként kezelték. Moreno nem az egyén alkalmazkodási módját vagy kontaktuskészségét próbálta megragadni, hanem beilleszkedését a társas mezőbe, amelyben él. A beilleszkedést nem személyiségjegyekkel, hanem a személy társas pozíciójával határozta meg. A közösségek feltárására és leírására dolgozta ki a szociometriát.
+
+1925-ben Moreno megérkezik az USA-ba. Cooley, Allport és Sherif szociápszchológiai vizsgálatai is hatottak Morenora
+
+
+#### A Hudson-i elmélet
+
+Moreno első nagyszabású vizsgálata a New York államban levő Hudson Intézet volt. Rendeltetését tekintve a mi egykori javítóintézeteinknek felelt meg. Serdülőkorú lányokat bírósági határozat alapján helyeztek oda többéves átnevelésre. A telepen 5-600 lány élt, 16 pavilonban, és mintegy 100 főnyi személyzet (nevelők, műhelyvezetők, szakmunkások stb.). Iskola, templom, kórház, műhelyek, mosoda, több gazdasági épület és egy majorság tartozott a telephez. Egy pavilonban átlagosan 30 lány élt, mintegy családot alkotva, egy családanya-nevelőnőnek (“gouvernante”-nak) a vezetésével. Minden pavilonnak saját háztartása volt; néhány lány egy közülük való vezetővel a házimunkát végezte, a többiek műhelyben dolgoztak vagy iskolába jártak. A fekete bőrű lányok külön pavilonokban laktak, de a munkahelyükön és az iskolában együtt voltak a fehérekkel. 
+
+A szociometriai vizsgálat időpontjában 505 lány élt a telepen. Összehívták őket azzal az utasítással, hogy új lakásbeosztás készül, és maguk választhatják meg lakótársaikat. Írják fel rangsorban annak az öt lánynak a nevét, akivel együtt szeretnének lakni, tekintet nélkül arra, hogy azok éppen melyik pavilonban laknak. Valamennyi társuk jelen van, jól nézzenek körül, és így döntsék el, kikkel akarnak együtt élni.
+
+A válaszokat mindenekelőtt személyek szerint dolgozták fel. Minden lányról kartoték készült; ezen feltüntették az ő választásait, a rá eső választásokat, továbbá egy kikérdezés anyagát. A kikérdezésben a lány véleményt mondott azokról, akiket ő választott, és azokról, akik őt választották. Választását és véleményét meg kellett indokolnia. Ebből a kartotékrendszerből készült a “társas atomok” vázlata. 
+
+Moreno rendszerének egyik alapfogalma a társas atom – egy személy valamennyi kölcsönös, tőle kiinduló és felé irányuló kapcsolata. Középpontja maga a vizsgált személy, határai a választások, töltése a motiváció. Ez a társas helyzet értelmezésének az alapanyaga. A Hudson-vizsgálat egyik társas atomját például Moreno így értelmezi: A leánynak (H. T.) a vonzereje igen nagy, 16 személyt vonz; közülük 10-et a saját csoportjából, 6-ot más csoportokból. Ő maga a saját csoportjából 6-ot választ, 5-öt elutasít, 1 közömbös neki. Feltűnő, hogy a saját csoportjának hozzá vonzódó tagjai közül sokat határozottan elutasít. Csoportjában kötődései szélsőségesek, tehát a csoportjához nehezen alkalmazkodik. Társas vonzereje nyilván jobban lenne értékesíthető egy másik pavilonban.
+
+A társas pozíciónak az “atomképlet” szerinti értelmezésében Moreno számos paramétert alkalmaz. Ezeknek alapanyaga a választásoknak és az elutasításoknak az aránya, ennek az aránynak a megoszlása a választó saját csoportja (saját lakóhelye, lakószobája, munkahelye, iskolai osztálya stb.) és a külső csoportok között. Moreno ebből olyan mutatókat fejt ki, mint az expanzivitás (a személy választási köre), a vonzerő (a rá eső választások száma), s főként ezek megoszlása a saját csoportja és az idegen csoportok között.
+
+Ezek a mutatók olyan skálán határozták meg a személy társas helyzetét, amelynek egyik végpontja a népszerűség, a sztárpozíció, másik végpontja a kitaszítottság volt. Moreno hajlott arra, hogy a szociometriai választást úgy tekintse, mint a társas helyzetek érvényes hierarchiájának a kifejezését. 
+
+A népszerűség fokát azonosította a vezető szereppel.
+
+Az értelmezés második mozzanata a kölcsönösségek alapján felvázolt hálózatnak az elemzése. A Hudson-vizsgálatban a megkérdezetteknek közel 10%-a nem felelt a kérdésre, további 10%-nak a választása nem volt kölcsönös. A többi – 387 lány – a kölcsönös választások alapján összefüggő hálózatot alkotott. Kisebb-nagyobb csoportok rajzolódtak ki, ezeket láncok kötötték össze, s az elágazásokat csillagok jelezték. Ez a hálózat volt Moreno szerint az a csatornarendszer, amelyen végigfutottak a különféle áramlatok: a társadalmi eseményekre vonatkozó hírek, a munkával vagy az iskolával összefüggő várakozások, a konfliktusok és pletykák. Ezen a hálózaton futottak végig a szexuális csábítások, és jól követhető volt a faji kérdésekben való állásfoglalások útja is.
+
+Kísérletileg is valószínűsítették azt, hogy a szociometriai hálózat az indulati áramlásnak és a hírközlésnek a csatornarendszere. Egy pszichológus, a kísérleti tervnek megfelelően, az egyik munkahelyen összeszólalkozott egy lánnyal. Mivel ez volt az első ilyen konfliktus, alkalmasnak látszott arra, hogy híre elterjedjen. A lány egyébként nagyszámú kapcsolatával a telep társas életének egyik kulcsalakja volt. Az epizód után időről időre “próbafúrást” végeztek: beszélgetések során közvetett, terelő kérdésekkel igyekeztek megállapítani, hogy a hálózat különböző pontjain elhelyezkedő lányok tudnak-e már a konfliktusról. A hír a főszereplő csillagszerűen szétágazó, több mint 20 kapcsolatán át terjedt tovább. Nem volt ugrás! Az összeszólalkozás híre nem jutott el olyan személyhez, aki hálózati helye szerint még nem volt soron. Ugyancsak a vizsgálat időszakában az egyik lány, T. L. egy áruházba ment vásárolni. Ott lopott valamit, rajtakapták. Mivel az intézetből senki más nem volt az áruházban, amikor rajtacsípték, a hír csak rajta keresztül terjedhetett el. 24 óra múlva csak néhány közeli barátnője tudott az eseményről, 1 hét múlva már 86 vele egy csoportosulásba tartozó személy. A hálózaton távolabb elhelyezkedő csoportokhoz viszont nem jutott el az áruházi lopás híre.
+
+Moreno azt az álláspontját, hogy a hálózat az indulati áramlások csatornarendszere, a hudsoni szökések elemzésével is alátámasztotta. Egy időszakban két hét alatt 14 lány szökött meg (a szám rendkívül magas, mert a megelőző 7 hónapban összesen 10 szökés fordult elő). Kiderült, hogy a 14 lány ugyanabba a hálózati egységbe tartozott. A szökéssorozat azzal kezdődött, hogy az egyik lány megszökött, elfogták, visszavitték. A szökés ténye és története erősen fokozta a lány népszerűségét: az addig csaknem magányos lánynak négy jó barátnője lett. Összetartozásuk növelte népszerűségüket. A szökéshez tartozó vállalkozási kedv a szociogramon jól követhető kapcsolatok csatornáin át terjedt, abban a hálózati körben, amelybe az elfogott és visszahozott lány öttagú csoportja tartozott.
+
+Ilyen elemzések alapján állapítja meg Moreno, hogy “a hálózat a közvélemény boszorkánykonyhája; ennek csatornáin át befolyásolják, nevelik és pusztítják egymást az emberek”.
+
+### Több szempontú szociogram
+
+Mérei Ferenc 132. oldal: "Olyan szociometriát igyekeztem kialakítani, amely a közösséget méri fel; nemcsak az egyén helyét mutatja meg a társas mezőben, hanem magát a közösséget jellemzi, ..."
+
+Olyan kérdések megválaszolását tűzte ki célul:
+
+- "van-e esály arra, hogy a vizsgált közösségben közvélemény alakuljon ki, és közös normák jöjjenek létre"
+- "olyan-e a közösség, hogy a tagok örömmel tartoznak bele, és ragaszkodnak hozzá"
+- "milyen indítékok vezérelhetik a kiscsoportokat, a párokat, az egész hálózatot a csoportdinamikai kérdésekben"
+
+Ezen célokkal alakította ki Mérei a több szempontú szociogram technikát. Az a célkitűzés vezetette, hogy a szociálpszichológia nyelvén tudjon leírni egy közösséget, s hogy a meghatározás paraméterei megfeleljenek a leírt közösség minőségrendjének. Olyan mikroszociológiai fogalomrendszert alakított ki, amelyben a szociometriai vizsgálatok megfogalmazhatók. Moreno, aki, mint láttuk, nem a közösséget, hanem az egyénnek a közösségben elfoglalt helyzetét határozta meg, nem is törekedett olyan mutatóknak a fogalmi kimunkálására, amelyek nem az egyénre jellemzőek, hanem a közösségre. Egyetlen kivétel ez alól a kohézió, amely a kapcsolódások sűrűségét, a tagoknak a kölcsönös kapcsolatok számával meghatározható összetartozását fejezi ki. 
+
+A több szempontú szociogram kidolgozásához azonban ez a mutató nem volt elég. Továbbiakra volt szükség, amelyekkel a közösség funkciók szerinti tagolódása leírható, szerkezete, légköre, hierarchiája meghatározható, a közösségben kialakult ítéletek és vélemények elemezhetők. 
+
+A több szempontú szociometriai felmérésben a vizsgált közösség minden tagja 10–40 kérdésből álló szavazólapot tölt ki. A rokonszenvi és az ellenszenvi választást kívánó kérdések mellett vannak olyanok is – s ez a lényeges eltérés Moreno technikájától –, amelyekre **a közösségi rátermettség mérlegelésével kell felelni, továbbá olyan választások, amelyekkel valamilyen egyéni tulajdonság, készség, esetleg szakmai hozzáértés szempontjából kell elbírálni a közösség tagjait**. Ezeket a kérdéseket is valóságos helyzetekhez kötve fogalmazzuk meg, és így a közösség tagjai áttételesen szavaznak arra, hogy ki az, aki egy bizonyos egyéni vagy társas tulajdonságot, közösségi rátermettséget magas fokon képvisel. (Például: “Ha az osztály erkölcsi kérdések elbírálására fegyelmi bizottságot alakítana, ki lenne a legalkalmasabb a vezetésére?” “Ha az edzőjük megbetegedne és egy csapattagnak kellene őt helyettesítenie, ki lenne erre a legalkalmasabb?”)
+
+A szociogramot, a kapcsolódások hálózatát Moreno mintájára a rokonszenvi választások (kikkel utazna egy fülkében, kinek mondaná el a titkát) kölcsönössége alapján rajzoljuk meg. De a választásokat kategóriánként is összegezzük. A választás ugyanis nemcsak páros kapcsolódást fejez ki, nemcsak azt mutatja meg, hogy kik tartoznak össze, ki kivel szeret együtt lenni, hanem azt is, hogy az adott közösségben kivel, hányan szeretnének együtt lenni, hány szavazatot kap egy-egy tag az egyes választási kategóriákban. A közösség álláspontjáról kapunk így információt: ha a választások szóródása nem túl nagy, ez a közvélemény egyik áramlatának felel meg; nagyon kis szóródás esetén magát a közvéleményt fejezi ki.
+
+A szervező, rendező készségekre vonatkozó szavazatok összesítése (kire bízná egy kirándulás, egy “Ki mit tud” vetélkedő megszervezését stb.) megmutatja, hogy a helyi közvélemény szerint ki a legjobb szervező a közösségben. Más kérdések összegezése megmutatja, hogy a közvélemény kiket tekint igazságosnak (fegyelmi bizottság, döntőbíró), műveltnek (“Ha olvasóköri tanácsadót szerveznének, ki látná el ezt a feladatot?”). Megint más kérdésekből megtudjuk, hogyan rangsorolják egymást a közösség tagjai a vonzó külső (melyik nő tetszik legjobban a férfiaknak, melyik férfi a nőknek), az értelmi fogékonyság (ki tudná legjobban megtanulni a modern üzemszervezésben szükséges matematikai módszereket), a fizikai adottságok (sport) stb. szempontjából.
+
+A kérdéseket úgy állítjuk össze, hogy a tagok a közösségük számára fontos helyzetekben mérlegeljék egymást. Például ki tudná helyettesíteni a rajvezetőt (úttörőknél), az edzőt (futballistáknál), a brigádvezetőt vagy műhelyvezetőt (üzemben), az osztályvezetőt vagy személyzeti előadót (vállalatnál).
+
+**A lényeges a többszempontúság elvének az érvényesítése. Ez azt jelenti, hogy a választási kritériumok különféle mérlegelési szempontoknak felelnek meg: 2-3 rokonszenvi kérdés mellett (kinek mondaná el a titkát, kivel jönne össze szívesen a hivatalon, az iskolán stb. kívül is) néhány közösségi funkcióra vonatkozó kérdés is van (vezető, bíró, képviselet magasabb szervek előtt); ezeket kiegészíthetik az egyéni képességekre, a készségekre, a fiziológiaik adottságokra, a népszerűségre, a sikerességre vonatkozó kérdések.**
+
+A választási kritériumok összeállítása is mutatja, hogy a több szempontú szociogram lényegbevágóan tér el Moreno szociometriájától. A közösségi funkciókra irányuló kérdések mindenképpen, a képességekre, a népszerűségre vonatkozóak pedig esetleg a spontán csoportosulásokon túl az intézményes (a formális) keret látható kapcsolódásairól is nyújthatnak értelmezhető adatot. Ez kitágítja a szociogram alkalmazási körét. A vezetéspszichológiában lehetővé teszi az intézményes hálózat illeszkedéseinek és egyensúlyának a megítélését, az iskolai osztályokban pedig az intézményes kiscsoportok (például úttörőőrsök) pedagógiai és társas hatékonyságairól is felvilágosítást ad. S főként támpontokat kapunk annak megítélésére, hogy az intézményes közösség látható és a spontán csoportosulás rejtett hálózata hogyan befolyásolják – hogyan segítik elő vagy hogyan akadályozzák – egymást.
+
+A szavazatokat gyakorisági táblázatra vezetjük rá. Ennek a táblázatnak a függőleges tengelyén a vizsgált közösség névsorát tüntetjük fel, a vízszintes tengelyre pedig a kérdéseket, melyeket az említett szempontok (rokonszenvi, funkció, népszerűség stb.) szerint csoportosítjuk. Az egyes mezőkbe az a szám kerül, amely mutatja, hogy az adott kérdésre ki hány szavazatot kapott. A vízszintes összesítéssel az egy személyre jutó pozitív és negatív szavazatok számát kapjuk meg, a függőleges oszlopok összesítése alapján pedig a szavazatok szóródását számíthatjuk ki (hány személy közt oszlanak meg egy-egy kritériumban).
+
+A kölcsönösségi vázlat (a szociogram) és a gyakorisági táblázat adataiból készülnek azok a mutatók, amelyekkel a vizsgált közösséget jellemezhetjük. Néhány ilyen mutatót ismertetünk. 
+
+- A szociogram központjának és peremének a viszonyát fejezi ki a **CM - (centrális-marginális)** mutató, a társas mező tagoltságának, szerkezeti színvonalának az egyik paramétere. Azt mérhetjük vele, hogy van-e az ábrázolt közösségnek központja – egy vagy több –, mekkora a központtal kapcsolatban levő, abból leágazó réteg, s végül, hogy milyen kiterjedésű a közösség pereme. A központnak mint zárt alakzatnak azért nagy a jelentősége, mert fokozza a közösségi történések feszültségét, és együttes aktusainak nagyobb felszólító jellegével terelheti, irányíthatja a közösséget – természetesen csak akkor, ha áttételeken, kommunikációs csatornákon át a közösségnek egy jó részét, legalább egynegyedét eléri. Peremnek tekintjük ebben a mutatóban a közösségnek azokat a tagjait, akik nincsenek kapcsolatban a társas mező központi alakzatával. A perem viszonyjelenség, csak a központhoz való viszonyában létezik. A CM-mutató azt fejezi ki, hogy a közösség tagjai milyen arányban oszlanak meg a központi alakzat (vagy alakzatok), az ennek befolyása alá vonható társas övezet és a perem között. A CM-mutató átlagértéke (%-ban) 20–50–30, azaz egy 40 tagú közösségben 8-an tartoznak egy vagy két központhoz, 20-an kapcsolatban vannak a központtal és 12-en alkotják a peremet.
+
+- A **jelentőségindex és a szerepmutató**. A társas mező tagoltságát a közösség tagjainak a hierarchikus eloszlása és szerepszerű differenciálódása is mutatja. A hierarchikus tagolódást a jelentőségmutató fejezi ki. A szociometriai vizsgálatban a közösségnek azokat a tagjait tekintjük jelentőseknek, akik az egy személyre eső összesített szavazatok számának legalább másfélszeresét kapják. A jelentőségindex azt fejezi ki, hogy egy közösségben a tagoknak hány százaléka lépett túl ezen a küszöbön. Ezeknek a közösség fokozott társas jelentőséget tulajdonít. A szerepmutatót is a gyakorisági táblázatból számítjuk ki. Akit a társai egy bizonyos körben (például “olvasott”, “szervező”, “tetszik a férfiaknak”) az átlagnál lényegesen többször említenek, annak a közösség ezt a szerepet adta, azt ezzel az elkülönítő arculattal ruházta fel. 
+
+- A **csoportlégkör** mutatója. A szociometriai választások közösségi jelentősége nem egyforma. Egy közösség egyensúlyához hozzátartozik, hogy tagjai szubjektív vezérléssel, de nem a tárgyi feltételektől függetlenül tudják és merjék megválasztani intim kapcsolataikat: játszótársukat, padszomszédjukat, barátjukat. Egy közösség szociometriai választásai akkor adekvátak, ha a személyes viszonylatokban elsősorban a szubjektív motívumok irányítják a választásokat, míg a funkciók tekintetében a közösségi normákhoz igazodnak, illetve a kialakult közvélemény sugallja állásfoglalásukat. A csoportlégkör mutatójából azt olvashatjuk le, hogy egy közösségben mennyire valósult meg a választásnak ez az adekvációja, mennyiben szubjektívek a személyes és mennyiben objektívek a funkcióra vonatkozó választások. Ez oly módon jut kifejezésre, hogy szubjektív választás esetén nagy a szóródás, normavezérlésű választásnál pedig kicsi.
+
+
+A több szempontú szociogram lehetővé teszi a közösségi motivációs háttér elemzését. Feltárhatja azokat az értékeket, ítéleteket, normákat, amelyek a közösséget jellemezhetik. Ennek mutatóját a választási koincidenciák adják. Azt határozzuk meg, hogy az egyes kérdésekre adott válaszok milyen más kérdésre adott feleletekkel vágnak egybe, például a “Kivel laknál egy szobában?” kérdésre megadott neveket milyen más kérdésekre írta még be a személy a szavazólapján. Az egybevágásokat összegezzük, a magas koincidenciaértékeket jellegzetesnek tekintjük a közösségre. A több szempontú szociometriai technikával végzett egyéb hazai vizsgálatok is amellett szóltak, hogy az alkalmazott 15-20 mutató valóban értelmezhető. 
+
+Vastagh Zoltán például longitudinális vizsgálatában azt találta, hogy a választási egybevágások, mint motivációs mutató, kifejezhetik az osztály közösségi fejlődését. Az 5. osztályban a közösségi funkciókra adott szavazatok motivációs háttere szubjektív volt: a csapatkapitány és a bíró a barátválasztással vágott egybe. A 7. osztályban a szubjektivitást implikáló egybevágás csökkent, és a funkcióválasztásban olyan koincidenciák mutatkoztak gyakorinak, amelyek az intellektuális tulajdonságokra, az ideálválasztásra és a konformizmusra utalnak. A motivációs áthangolódás megfelel az osztály változásának, közösségi fejlődésének.
+
+

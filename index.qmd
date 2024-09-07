@@ -1,0 +1,67 @@
+# A kurzusról {.unnumbered}
+
+A hálózatkutatás bár a 2000-es években futott fel igazán a társadalomtudományokban, de a gyökerei már a szociológia kezdeteitől jelen voltak. A kurzus azt a célt tűzi ki, hogy a hallgatókat megismertesse a kapcsolathálózati és hálózatkutatási gondolkodás legfontosabb elméleti és módszertani alapvetéseivel. A kurzus során megismerkedhetnek a hallgatók az alapvető gráfelméleti fogalmakkal és a
+teljes hálózatokat elemző módszerekkel, valamint a szociometriai kutatási irányokkal is.
+Hangsúlyosan olyan tanulmányokat dolgozunk fel, amik a leginkább releváns hálózatelemzési kérdésekkel foglalkoznak. A kurzuson belül kitérünk a hazai hálózatkutatás legfrissebb eredményeire is.
+
+
+## Elérhetőség
+
+Kérdés esetén email-ben vagyok elérhető, vagy fogadóórában állok
+rendelkezésre.\
+[abari.kalman\@arts.unideb.hu](mailto:abari.kalman@arts.unideb.hu){.email}
+
+## Jegyszerzés
+
+A félév során két ZH-t írnak a hallgatók. A két ZH alapján megajánlott jegyet kapnak. Aki nem írta meg a ZH-kat, vagy nem felel meg számára a megajánlott jegy, írásbeli vizsgát tehet a vizsgaidőszakban. Egyik ZH sem lehet elégtelen. A magyar nyelvű irodalmak kötelezők és tartalmuk a ZH-kon és a vizsgán számonkérhető, az angol nyelvű irodalmak csak ajánlottak.
+
+Ugyan a végső jegy összetételét a két ZH 50-50%-ban meghatározza, de plusz százalékpontok gyűjthetők például házi feladatok, kiselőadások és órai aktivitás alapján. A végső jegy meghatározása a következő táblázat alapján történik:
+
+
+| Eredmény   | Megajánlott jegy |
+|------------|------------------|
+| 0--50%     | elégtelen        |
+| 51--60%    | elégséges        |
+| 61--74%    | közepes          |
+| 75--85%    | jó               |
+| 86%--      | jeles            |
+
+: Jegyszerzés {.striped .hover .w-auto .mx-auto}
+
+## A kurzus formája
+
+A kurzus teljes mértékben gyakorlati jellegű, az önálló hálózatelemzéshez szükséges ismeretek elsajátítása a cél. A kurzus során az RStudio/R programcsomagot használjuk.
+
+## Szoftverek
+
+A számítógépünkre telepítsük a következő szoftvercsomagokat:
+
+- R - [https://www.r-project.org/](https://www.r-project.org/)
+- RStudio Desktop - [https://posit.co/products/open-source/rstudio/](https://posit.co/products/open-source/rstudio/)
+- R csomagok:
+
+```{r}
+#| eval: false
+
+install.packages("igraph")
+install.packages("qgraph")
+```
+
+
+## Olvasmányok
+
+- Kötelező:
+    - @Barabasi2011
+    - @Merei1998 [44-323]
+    - @Csermely2005 [1-4, 8 fejezetek]
+- Ajánlott olvasmányok
+    - @Molnar2020
+    - @HoffmanTamas2022
+    
+    
+## Linkek
+
+- <http://linkgroup.semmelweis.hu/docs/09-tarsadalmi-halok.pdf>
+- <http://szociogram.hu/blog/wp-content/uploads/2015/04/PedSzakpszichSzakdolgozatGyT.pdf>
+
+

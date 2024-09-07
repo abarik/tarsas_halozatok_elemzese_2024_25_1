@@ -1,0 +1,926 @@
+# Preface {.unnumbered}
+
+This is a Quarto book.
+
+To learn more about Quarto books visit <https://quarto.org/docs/books>.
+
+```{r}
+1 + 1
+```
+
+
+
+## Az `igraph` csomag alapjai
+
+
+### `igraph` objektum létrehozása
+
+Hogyan hozzunk létre `igraph` objektumot élek listájából?
+
+A következő adatok egy diákcsoportban fennálló barátságokat tárja fel. A `friends` adattábla minden sora egy élt jelöl a hálózatban.
+
+```{r}
+library(tidyverse)
+friends <- tribble(
+                ~name1,   ~name2,
+             "Jessie",  "Sidney",
+             "Jessie",   "Britt",
+             "Sidney",   "Britt",
+             "Sidney",  "Donnie",
+               "Karl",   "Berry",
+             "Sidney",    "Rene",
+              "Britt",    "Rene",
+             "Shayne",  "Sidney",
+             "Sidney",  "Elisha",
+             "Sidney", "Whitney",
+             "Jessie", "Whitney",
+             "Donnie",   "Odell",
+             "Sidney",   "Odell",
+               "Rene", "Whitney",
+             "Shayne",  "Donnie",
+             "Jessie",    "Lacy",
+               "Rene",    "Lacy",
+             "Elisha",  "Eugene",
+             "Eugene",    "Jude",
+              "Berry",   "Odell",
+              "Odell",  "Rickie",
+              "Odell",    "Karl",
+              "Britt",    "Lacy",
+             "Elisha",    "Jude",
+               "Lacy", "Whitney",
+              "Britt", "Whitney",
+               "Karl",   "Tommy"
+)
+head(friends) # az első 6 sor
+```
+
+
+```{r}
+# install.packages("igraph")
+library(igraph)
+
+
+# mátrixszá alakítjuk
+friends.mat <- as.matrix(friends)
+
+# igraph objektum létrehozása
+g <- graph.edgelist(friends.mat, directed = FALSE)
+```
+
+
+Hogyan jeleníthetjük meg a hálózatot?
+
+
+```{r}
+# A hálózat megjelenítése
+plot(g)
+```
+
+
+
+### Csúcsok és élek számolása
+
+Egy hálózatról számos információt szerezhetünk az `igraph` objektum segítségével. Megszámolhatjuk a hálózat csúcsait és éleit.
+
+```{r}
+V(g) # a csúcsok száma és megnevezése
+E(g) # az élek száma és az élek azonosítása csúcsokkal
+
+
+gsize(g) # élek száma
+gorder(g) # csúcsok száma
+```
+
+### Csúcsok attribútumai és a csúcsok indexelése
+
+Adjunk nemre és áletkorra vonatkozó információt a hálózat csúcsaihoz. Ezeket a plusz információkat attribútumoknak nevezzük.
+
+```{r}
+# nemre vonatkozó információ 
+genders <- c("M", "F", "F", "M", "M", "M", "F", "M", "M", "F", "M", "F", "M", "F", "M", "M")
+
+# életkorra vonatkozó információ
+ages <- c(18, 19, 21, 20, 22, 18, 23, 21, 22, 20, 20, 22, 21, 18, 19, 20)
+```
+
+
+```{r}
+# Létrehozunk egy 'gender' nevű új attribútumot a csúcsokhoz
+g <- set_vertex_attr(g, "gender", value = genders)
+
+# Létrehozunk egy 'age' nevű új attribútumot a csúcsokhoz
+g <- set_vertex_attr(g, "age", value = ages)
+
+# A csúcsok összes attribútumának lekérdezése, lista output
+vertex_attr(g)
+
+# Az első 5 csúcs attribútumának lekérdezése, adattábla nézet
+V(g)[[1:5]] 
+```
+
+### Élek attribútumai és élek indexelése
+
+Az egyes élekhez hozzáadjuk a `hours` információt, amely azt jelenti, hogy az egyes barátok hetente hány órát töltenek egymással.
+
+```{r}
+# A barátok hetente hány órát töltenek együtt
+hours <- c(1, 2, 2, 1, 2, 5, 5, 1, 1, 3, 2, 1, 1, 5, 1, 2, 4, 1, 3, 1, 1, 1, 4, 1, 3, 3, 4)
+
+# Él attribútum (`hours`) hozzáadáasa
+g <- set_edge_attr(g, "hours", value = hours)
+
+# Az él attribútumok megjelenítése
+edge_attr(g)
+
+# Azon élek megjelenítése, amelyek tartalmazzák a "Britt" nevet
+E(g)[[.inc('Britt')]]  
+
+# Az összes olyan él (barát) megjelenítése, akik hetente 4 óránál többet vagy 4 órát töltenek együtt
+E(g)[[hours>=4]]  
+```
+
+### Attribútumok alternatív felvitele
+
+```{r}
+friends1_edges <- tribble(
+      ~name1,      ~name2, ~hours,
+       "Joe",    "Ronald",      1,
+       "Joe",   "Michael",      3,
+       "Joe",      "Troy",      2,
+      "Erin",    "Kelley",      3,
+    "Kelley", "Valentine",      5,
+    "Ronald",      "Troy",      1,
+    "Ronald",     "Perry",      3,
+    "Ronald",   "Jasmine",      5,
+   "Michael",      "Troy",      2,
+   "Michael",   "Jasmine",      1,
+   "Michael",      "Juan",      3,
+ "Valentine",     "Perry",      5,
+      "Troy",   "Jasmine",      3,
+      "Troy",      "Juan",      2,
+   "Jasmine",      "Juan",      6,
+   "Jasmine",     "Carey",      1,
+      "Juan", "Demetrius",      2,
+     "Carey",   "Frankie",      2,
+   "Frankie",   "Micheal",      1,
+   "Frankie",     "Merle",      1,
+   "Micheal",     "Merle",      2,
+   "Micheal",      "Alex",      1,
+     "Keith",   "Gregory",      1,
+     "Keith",    "Marion",      3,
+   "Gregory",    "Marion",      2)
+  
+
+friends1_nodes <- tribble(
+        ~name,  ~gender,
+       "Joe",      "M",
+      "Erin",      "F",
+    "Kelley",      "F",
+    "Ronald",      "M",
+   "Michael",      "M",
+ "Valentine",      "F",
+      "Troy",      "M",
+   "Jasmine",      "F",
+      "Juan",      "M",
+     "Carey",      "F",
+   "Frankie",      "F",
+   "Micheal",      "M",
+     "Keith",      "M",
+   "Gregory",      "M",
+     "Perry",      "M",
+ "Demetrius",      "M",
+     "Merle",      "M",
+      "Alex",      "F",
+    "Marion",      "F")
+
+
+
+# igraph objektum létrehozása attributumok felvitelével együtt
+g1 <- graph_from_data_frame(d = friends1_edges, vertices = friends1_nodes, directed = FALSE)
+```
+
+
+### Attribútumok megjelenítése
+
+Ebben a gyakorlatban megtanuljuk, hogyan hozhatunk létre igraph objektumokat attribútumokkal közvetlenül az adatkeretekből, és hogyan lehet megjeleníteni az attribútumokat a plotokban. A hallgatók közötti baráti kapcsolatok második hálózatát fogjuk használni.
+
+```{r}
+# Az összes olyan él (barát) megjelenítése, akik hetente 5 óránál többet vagy 5 órát töltenek együtt
+E(g1)[[hours >= 5]]  
+
+# A csúcsok színének beállítása nem alapján
+V(g1)$color <- ifelse(V(g1)$gender == "F", "orange", "dodgerblue")
+
+
+# Az igraph ábra megjelenítése
+plot(g1, vertex.label.color = "black")
+```
+
+
+
+### Az `igraph` hálózatok elrendezései
+
+Az `igraph` csomag számos beépített elrendezési algoritmust kínál a hálózati megjelenítéshez. A hálózat méretétől függően egyes elrendezések hatékonyabbak lehetnek másoknál. Ideális esetben az a legjobb elrendezés, amely minimálisra csökkenti a hálózatban egymást keresztező élek számát. 
+
+A következő példában néhányat alapértelmezett elrendezési algoritmust mutatunk be. A kód újbóli végrehajtása minden egyes rajzhoz ugyanazon elrendezéstípus kissé eltérő verziójához vezet. Ha ezt néhányszor megteszi, akkor megtalálhatja a hálózata számára legjobban kinéző vizualizációt.
+
+- A `plot()` függvényben a `layout=` argumentumot `layout_in_circle()` értékre állítva körhálózatot hozzhatunk létre.
+- A `layout_with_fr()` argumentummal Fruchterman-Reingold elrendezésű hálózatot hozzunk létre.
+- Az elrendezést úgy is meghatározhatja, hogy minden csúcshoz megadunk egy (x, y) koordinátákból álló mátrixot. Itt a `layout_as_tree()` függvényt használhatjuk az `m` koordináták mátrixának előállításához. Ezután adhatjuk át az `m`-t a `plot()`-nak..
+- A megfelelő elrendezés kiválasztása zavarba ejtő lehet. Szerencsére az `igraph`-nak van egy `layout_nicely()` függvénye, amely megpróbálja kiválasztani a legmegfelelőbb elrendezési függvényt egy adott gráfobjektumhoz. Ezzel a funkcióval állítjuk elő az `m1` mátrixot, és így a hálózatot ezekkel a koordinátákkal fog megjelenni.
+
+```{r}
+# Körhálózat megjelenítése
+plot(g1, vertex.label.color = "black", layout = layout_in_circle(g1))
+
+# Fruchterman-Reingold elrendezésű hálózat
+plot(g1, vertex.label.color = "black", layout = layout_with_fr(g1))
+
+# Faszerkezet megjelenítése
+m <- layout_as_tree(g1)
+plot(g1, vertex.label.color = "black", layout = m)
+
+# a legjobban illeszkedő megjelenítés
+m1 <- layout_nicely(g1)
+plot(g1, vertex.label.color = "black", layout = m1)
+```
+
+
+### Élek megjelenítése
+
+Könnyen módosíthatja a hálózat éleinek méretét a súlyuk alapján. Sőt arra is lehetőségünk van, hogy eltávolítsunk éleket a hálózatból, ami néha hasznos lehet a nagy és erősen fürtözött hálózatok hatékonyabb megjelenítésében.
+
+```{r}
+# Hozzunk létre egy `w1` vektort élsúlyozásokból a barátok együtt töltött órák száma alapján.
+w1 <- E(g1)$hours
+
+# Ábrázoljuk a hálózatot úgy, hogy az `edge.width=` az imént létrehozott súlyvektorra legyen beállítva. 
+# Az edge.color = 'black' használata biztosítja, hogy minden él fekete legyen.
+m1 <- layout_nicely(g1)
+plot(g1, 
+        vertex.label.color = "black", 
+        edge.color = 'black',
+        edge.width = w1,
+        layout = m1)
+
+
+# Hozzunk létre egy új `g2` gráfobjektumot a `g1` alaján. A `g2` minden éle két óránál nagyobb súlyú lesze. Ez a `delete_edges()` használatával valósítható meg, amely két argumentumból áll. Az első a gráfobjektum, a második pedig az eltávolítandó élek részhalmaza. Ebben az esetben eltávolít minden olyan élt, amelynek értéke kevesebb, mint két óra.
+g2 <- delete_edges(g1, E(g1)[hours < 2])
+
+
+# Végül rajzoljuk meg az új `g2` hálózatot az élszélességek és az elrendezés megfelelő vektorával.
+w2 <- E(g2)$hours
+m2 <- layout_nicely(g2)
+
+plot(g2, 
+     vertex.label.color = "black", 
+     edge.color = 'black',
+     edge.width = w2,
+     layout = m2)
+```
+
+
+### Irányított `igraph` objektumok
+
+
+Könnyen létrehozhatunk irányított gráfot adattáblából. Egy gráfobjektum lehet irányított vagy irányítatlan és az élek lehetnek súlyozottak vgy súlyozatlanok.
+
+
+```{r}
+# adattábla létrehozása
+measles <- rio::import(file = "adat/measles.csv")
+head(measles) # az adattábla első 6 sora
+
+# igraph objektum létrehozása
+g <- graph_from_data_frame(measles, directed = TRUE)
+
+# a gráf iránnyított?
+is.directed(g)
+
+# A gréf súlyozott
+is.weighted(g)
+
+# Honnan erednek az egyes élek?
+# A `head_of()` segítségével minden olyan csúcsot lekérdezünk, ahonnan él származik. 
+# A `head_of()` függvény két argumentumot tartalmaz, az első a gráfobjektum, a második pedig az élek halmaza. 
+# Ha az összes élt el akarjuk érni, akkor az `E(g)`-t használjuk.
+head_of(g, E(g))
+table(head_of(g, E(g)))
+```
+
+## Az egyes csúcsok éleinek azonosítása
+
+Az egyes élek azonosítása is lehetséges. Megvizsgálhatjuk, hogy létezik-e él két csúcs között, valamint megkereshetjük az összes olyan csúcsot, amelyek bármelyik irányban kapcsolódnak egy adott csúcshoz.
+
+- Először elkészítjük hálózat vizualizációját a `plot()` segítségével. Ezt a megjelenítést később javítani fogjuk. Hasznos lehet a hálózat megjelenítése az elemzés előtt. A hálózat láthatóságát javítja, ha kezdetben a csúcsméretet 0 (`vertex.size = 0`), az él nyíl mérete pedig 0,1 (`edge.arrow.size = 0.1`).
+- Az `incident()` függvény segítségével azonosítjuk azokat az éleket, amelyek például a 184-es csúcsból bármelyik irányba mennek, vagy csak azokat, amelyek a 184-es csúcsból indulnak ki. Az első argumentum a gráf objektum, a második a vizsgálandó csúcs, a harmadik argumentum pedig a módot jelző az irány.
+
+
+```{r}
+# induló megjelenés
+plot(g, 
+     vertex.label.color = "black", 
+     edge.color = 'gray77',
+     vertex.size = 0,
+     edge.arrow.size = 0.1,
+     layout = layout_nicely(g))
+
+# Van-e irányított él a 184-es csúcstól 178-as csúcshoz
+g['184', '178']
+
+# Van-e irányított él a 178-as csúcstól 184-es csúcshoz
+g['178', '184']
+
+# Az összes olyan él, amiben a 184-es csúcs szerepel
+incident(g, '184', mode = c("all"))
+
+# Az összes olyan él, amely a 184-es csúcsból indul ki
+incident(g, '184', mode = c("out"))
+```
+
+
+### Szomszédok
+
+A hálózatelemzés során gyakran fontos a csúcsok közötti kapcsolatok mintázatának feltárása. Ennek egyik módja az egyes csúcsok szomszédos csúcsainak azonosítása. Ezt követően azt is meghatározhatjuk, hogy mely szomszédos csúcsokon osztoznak még a nem összekapcsolt csúcsok. Ez utóbbi azt tárja fel, hogy két csúcsnak miként lehet közvetett kapcsolata másokon keresztül. 
+
+A `neighbors()` függvény segítségével azonosíthatja azokat a csúcsokat, amelyek bármilyen módon kapcsolódnak például a 12-es csúcshoz, vagy azokat a csúcsokat, amelyek egy élt a 12-es csúcshoz irányítanak, és azokat is, amelyek a 12-es csúcstól indulnak. 
+
+Ezt a megfelelő érték kiválasztásával érhetjük el. az érvelési mód. Válasszon az összes közül, ki és be.
+Határozza meg, hogy a 42 és 124 csúcsoknak van-e közös szomszédjuk! Hozzon létre egy n1 vektort azoknak a csúcsoknak, amelyek élt kapnak a 42-es csúcsból, és egy n2 vektort azoknak a csúcsoknak, amelyek egy élt a 124-es csúcshoz irányítanak a szomszédok() segítségével. Ezután használja az intersection()-t annak meghatározására, hogy vannak-e csúcsok az n1-ben és az n2-ben is.
+
+
+
+
+```{r}
+# irányítottságtól függetlenül a 12 csúcs szomszédai
+neighbors(g, '12', mode = c('all'))
+
+# a 12-es csúcsba futó élek kiinduló csúcsai
+neighbors(g, '12', mode = c('in'))
+
+# az összes olyan csúcs, amely a 42-es csúcsból induló élen zárócsúcsa és egyben a 124-es csúcshoz irányuló élek kezdő csúcsa
+n1 <- neighbors(g, '42', mode = c('out'))
+n2 <- neighbors(g, '124', mode = c('in'))
+intersection(n1, n2)
+```
+
+
+### A csúcsok közötti távolságok
+
+Egy hálózat összekapcsolhatósága a csúcsok közötti utak számának és hosszának vizsgálatával értékelhető. 
+Az út egyszerűen a csúcsok közötti kapcsolatok láncolata. 
+A két csúcs közötti élek száma a csúcsok közötti távolságot jelenti. 
+Az egymáshoz kapcsolódó csúcsok távolsága 1. 
+Azok a csúcsok, amelyeknek közös szomszédjuk van, de nem kapcsolódnak egymáshoz, a távolságuk 2 és így tovább. 
+Irányított hálózatokban az élek iránya is figyelembe vehető. Ha két csúcsot nem lehet elérni egymást követő irányított éleken keresztül, akkor a távolság végtelen. 
+
+Elsőként megvizsgáljuk a hálózat csúcsai közötti leghosszabb útvonalakat, majd megpróbáljuk megkülönböztetni azokat a csúcsokat, amelyek a hálózaton belül vannak. A betegségátviteli hálózatok, például a kanyaró adatkészlet esetében ez segít azonosítani, milyen gyorsan terjed a betegség a hálózaton keresztül.
+  
+- Keressük meg a hálózat leghosszabb útvonalának hosszát a `farthest_vertices()` segítségével.
+- Azonosítsuk az útvonal sorrendjét a `get_diameter()` segítségével. Ez azt mutatja, hogy melyek azok a legtávolabb lévő gyermekek,  akikhez a betegség eljutott a hálózaton keresztül.
+- Az `ego()` segítségével keressük meg az összes olyan csúcsot, amely a 42-es csúcstól 2 távolságon belül elérhető, majd azokat, amelyek két távolságon belül elérhetik a 42-es csúcsot. Az `ego()` első argumentuma a gráfobjektum, a második argumentum a csúcsok közötti kapcsolatok maximális száma, a harmadik argumentum az érdeklődésre számot tartó csúcs, a negyedik argumentum pedig azt határozza meg, hogy kimenő vagy bejövő élről van szó.
+
+```{r}
+# Melyik két csúcs van a legtávolabb egymástól a gráfban?
+farthest_vertices(g) 
+
+# Megmutatja az útvonalsorozatot a két egymástól legtávolabbi csúcs között.
+get_diameter(g)  
+
+# Azok a csúcsok, amelyek a 42-es csúcstól két kapcsolaton belül elérhetők.
+ego(g, 2, '42', mode = c('out'))
+
+# Azok a csúcsok, amelyek két kapcsolaton belül elérhetik a 42-es csúcsot.
+ego(g, 2, '42', mode = c('in'))
+```
+
+## Kulcscsúcsok azonosítása
+
+A csúcs fontosságának talán legegyszerűbb mértéke a csúcs foka. Egy csúcs out-degree azoknak a többi egyednek a száma, amelyekre egy csúcsnak kimenő éle van. Az in-degre a többi egyedtől kapott élek száma. A kanyaróhálózatban azok az egyének, akik sok más egyedet megfertőznek, magas out-degree-vel rendelkeznek. 
+
+Ebben a gyakorlatban meg fogja határozni, hogy az egyének azonos mennyiségben fertőznek-e meg más gyerekeket, vagy vannak esetleg olyan  kulcsfontosságú gyerekek is, akiknek magas az out-degree-jük, vagyis sok más gyereket is megfertőznek.
+
+
+- Számítsa ki az egyes csúcsok kimenő fokát `degree()` függvény segítségével. Az első argumentum a hálózati gráf objektum, a második argumentum pedig a mód (`out`, `in` vagy `all`). A függvény kimenetét a `g.outd` objektumhoz rendeljük.
+- Tekintsük meg az összes egyed kimenő fokot `table()` függvény segítségével a `g.outd` vektorobjektum alapján.
+- Készítsünk hisztogramot a kimenő fokokról a `hist()` függvény segítségével a `g.outd` vektorobjektum alapján.
+- Határozzuk meg, hogy a `g.outd` vektorobjektumon a `which.max()` függvény segítségével melyik csúcsnak van a legmagasabb kiemnő foka a hálózatban.
+
+
+```{r}
+# Számítsuk ki az egyes csúcsok kimenő fokát
+g.outd <- degree(g, mode = c("out"))
+
+# gyakorisági táblázat
+table(g.outd)
+
+# Készítsünk hisztogramot a kimenő fokokról
+hist(g.outd, breaks = 30)
+
+# Keresse meg azt a csúcsot, amelyiknek a maximális kimenő foka van
+which.max(g.outd)
+```
+
+### Közöttiség
+
+Egy adott csúcs fontosságának másik mércéje a közötti kapcsolat. Ez egy index arra vonatkozóan, hogy a csúcs milyen gyakran fekszik a legrövidebb utakon a hálózat bármely két csúcsa között. Elképzelhető, hogy egy ilyen csúcs mennyire kritikus a hálózaton keresztüli információáramlás szempontjából. A nagy közötti kapcsolattal rendelkező egyének kulcsfontosságú hidak a hálózat különböző részei között. A kanyaró átviteli hálózatunkban a magas közötti csúcsok azok a gyerekek, akik központi szerepet játszottak a betegség átvitelében a hálózat más részeire. 
+
+Ebben a gyakorlatban azonosítja az egyes csúcsok közöttiségi pontszámot, majd készítsen egy új diagramot a hálózatról, amely a csúcsok méretét a közöttiségi pontszámával módosítja, hogy kiemelje ezeket a kulcspontokat.
+
+
+- Számítsa ki az egyes csúcsok közötti távolságot a `g` gráfobjektum közötti `betweenness()` függvény segítségével. Győződjön meg arról, hogy a pontszámok egy irányított hálózatra vonatkoznak. Ennek a funkciónak az eredményei `g.b`-ként lesznek hozzárendelve.
+- Vizuálisan vizsgálja meg a közöttiségi pontszámok eloszlását a `hist()` függvény segítségével.
+- A plot() segítségével elkészítheti a hálózat diagramját a közöttiségi pontszámok alapján. A csúcscímkéket NA-vá kell tenni, hogy ne jelenjenek meg. A csúcsméret attribútumnak egynek kell lennie, plusz a g.b objektum közötti közöttiségi pontszámok négyzetgyökének. Tekintettel arra, hogy ebben a hálózatban óriási különbségek vannak a köztességi pontszámok között, a pontszámok ilyen módon történő normalizálása biztosítja, hogy minden csomópont megtekinthető, de relatív fontosságuk továbbra is azonosítható.
+
+```{r}
+# Calculate betweenness of each vertex
+g.b <- betweenness(g, directed = TRUE)
+
+# Show histogram of vertex betweenness
+hist(g.b, breaks = 80)
+
+# Create plot with vertex size determined by betweenness score
+plot(g, 
+     vertex.label = NA,
+     edge.color = 'black',
+     vertex.size = sqrt(g.b)+1,
+     edge.arrow.size = 0.05,
+     layout = layout_nicely(g))
+```
+
+### Fontos csomópontok és élek megjelenítése
+
+
+A kanyaró adatkészlettel kapcsolatos egyik probléma az, hogy három személyről nincs információ arról, hogy ki fertőzte meg őket. Úgy tűnik, hogy ezen egyedek egyike (184-es csúcs) végső soron felelős a betegség sok más egyedre való terjesztéséért, még akkor is, ha nem fertőzött meg közvetlenül túl sok egyedet. Mivel azonban a 184-es csúcsnak nincs bejövő éle a hálózatban, úgy tűnik, hogy kicsi a közti kapcsolat. Ennek a csúcsnak a fontosságának feltárásának egyik módja az, ha vizualizáljuk az ettől az egyéntől kilépő kapcsolatok geodéziai távolságait. Ebben a gyakorlatban grafikont kell készítenie ezeknek a távolságoknak a páciens nullától való távolságára.
+
+
+se make_ego_graph() to create a subset of our network comprised of vertices that are connected to vertex 184. The first argument is the original graph g. The second argument is the maximal number of connections that any vertex needs to be connected to our vertex of interest. In this case we can use diameter() to return the length of the longest path in the network. The third argument is our vertex of interest which should be 184. The final argument is the mode. In this instance you can include all connections regardless of direction.
+Create an object dists that contains the geodesic distance of every vertex from vertex 184. Use the function distances() to calculate this.
+Assign the attribute color to each vertex. Each color will be selected based on its geodesic distance. The color palette colors is a length equal to the maximal geodesic distance plus one. This is so that vertices of the same distance are plotted in the same color and patient zero also has its own color.
+Use plot() to visualize the network g184. The vertex label should be the geodesic distances dists.
+
+
+
+```{r}
+# Make an ego graph
+g184 <- make_ego_graph(g, diameter(g), nodes = '184', mode = c("all"))[[1]]
+
+# Get a vector of geodesic distances of all vertices from vertex 184 
+dists <- distances(g184, "184")
+
+# Create a color palette of length equal to the maximal geodesic distance plus one.
+colors <- c("black", "red", "orange", "blue", "dodgerblue", "cyan")
+
+# Set color attribute to vertices of network g184.
+V(g184)$color <- colors[dists+1]
+
+# Visualize the network based on geodesic distance from vertex 184 (patient zero).
+plot(g184, 
+     vertex.label = dists, 
+     vertex.label.color = "white",
+     vertex.label.cex = .6,
+     edge.color = 'black',
+     vertex.size = 7,
+     edge.arrow.size = .05,
+     main = "Geodesic Distances from Patient Zero"
+     )
+```
+
+
+
+### Forrest Gump hálózat
+
+Ebben a fejezetben a Forrest Gump című filmen alapuló közösségi hálózatot fogod használni. A hálózat minden éle azt jelzi, hogy ez a két karakter együtt szerepelt a film legalább egy jelenetében. Ezért ez a hálózat irányítatlan. A hálózat megismeréséhez először létre kell hoznia a hálózati objektumot a nyers adatkészletből. Ezután azonosítja a kulcscsúcsokat egy sajátvektor-centralitásnak nevezett mértékkel. A magas sajátvektor-centralitású egyének azok, akik szorosan kapcsolódnak más, erősen kapcsolódó egyénekhez. Ezután feltáró vizualizációt készít a hálózatról.
+
+
+Vizsgálja meg a dataframe gump első néhány sorát a head() segítségével.
+Hozzon létre egy irányítatlan hálózatot a graph_from_data_frame() használatával.
+Azonosítsa a kulcscsúcsokat az eigen_centrality() függvény segítségével, és ennek eredményeit rendelje hozzá a g.ec objektumhoz. Ezután határozza meg, hogy melyik egyed rendelkezik a legmagasabb sajátvektor-centralitású a which.max() használatával. A centralitási pontszámok értékeit a g.ec$vector tárolja.
+Készítsen egy diagramot a Forrest Gump hálózatról a plot() segítségével. Állítsa a csúcsok méretét a g.ec$vectorban tárolt sajátvektor-centralitásértékek 25-szörösére.
+
+```{r}
+gump <- rio::import(file = "adat/forrest_gump.csv")
+# Inspect Forrest Gump Movie dataset
+head(gump)
+
+# Make an undirected network
+g <- graph_from_data_frame(gump, directed = FALSE)
+
+# Identify key nodes using eigenvector centrality
+g.ec <- eigen_centrality(g)
+which.max(g.ec$vector)
+
+# Plot Forrest Gump Network
+plot(g,
+vertex.label.color = "black", 
+vertex.label.cex = 0.6,
+vertex.size = 25*(g.ec$vector),
+edge.color = 'gray88',
+main = "Forrest Gump Network"
+)
+
+
+```
+
+### Hálózati sűrűség és átlagos úthossz
+
+Az első grafikon szintű mérőszám, amelyet megvizsgál, a grafikon sűrűsége. Ez lényegében a hálózati gráfban ténylegesen létező csúcsok közötti potenciál élek aránya. Ez azt jelzi, hogy a gráf csúcsai milyen jól kapcsolódnak egymáshoz.
+
+A hálózat összekapcsoltságának másik mértéke az átlagos úthossz. Ezt úgy számítjuk ki, hogy meghatározzuk a hálózat összes csúcspárja közötti legrövidebb utak hosszának átlagát. A csúcspárok közötti leghosszabb úthosszt a hálózati gráf átmérőjének nevezzük. Kiszámolja az eredeti gráf átmérőjét és átlagos úthosszát g.
+
+Az edge_density() függvénnyel számítsuk ki a gráf sűrűségét, és rendeljük hozzá ezt az értéket a gd vektorhoz.
+Az átmérő() segítségével számítsa ki az eredeti gráf átmérőjét g.
+Rendelje g átlagos úthosszát a g.apl-hez a mean_distance() függvénnyel.
+Assign the average path length of g to g.apl with the function mean_distance().
+
+```{r}
+# Get density of a graph
+gd <- edge_density(g)
+
+#Get the diameter of the graph g
+diameter(g, directed = FALSE)
+
+#Get the average path length of the graph g
+g.apl <- mean_distance(g, directed = FALSE)
+g.apl
+```
+
+
+### Véletlenszerű grafikonok
+
+A véletlenszerű gráfok generálása fontos módszer annak vizsgálatára, hogy az eredeti gráf bizonyos tulajdonságai mellett mennyire valószínű vagy valószínűtlen más hálózati metrikák előfordulása. A legegyszerűbb véletlen gráf az, amelyiknek ugyanannyi csúcsa van, mint az eredeti gráfnak, és megközelítőleg ugyanolyan sűrűsége van, mint az eredeti gráfnak. Itt létrehoz egy véletlenszerű grafikont, amely az eredeti Forrest Gump hálózaton alapul.
+
+Véletlenszerű gráf létrehozása az erdos.renyi.game() függvény segítségével. Az első n argumentum a g gráf csomópontjainak száma, amely a gorder() segítségével számítható ki, a második p.or.m argumentum pedig a g gráf sűrűsége, amelyet korábban gd objektumként tárolt. Az utolsó argumentum típus='gnp'-ként van beállítva, hogy jelezze a függvénynek, hogy a grafikon sűrűségét használja egy véletlenszerű gráf létrehozásához. Tárolja ezt az új gráfot g.random vektorként.
+Adja meg a véletlen gráf sűrűségét g.random. Észreveheti, ha néhányszor generál egy véletlenszerű grafikont, hogy ez az érték kissé változni fog, de megközelítőleg megegyezik a gd objektumban tárolt előző gyakorlatból származó eredeti g gráf sűrűségével.
+Számítsa ki a véletlen gráf átlagos úthosszát g.random.
+
+```{r}
+# Create one random graph with the same number of nodes and edges as g
+g.random <- erdos.renyi.game(n = gorder(g), p.or.m = gd, type = "gnp")
+
+g.random
+
+plot(g.random)
+
+# Get density of new random graph `g.random`
+edge_density(g.random)
+
+```
+
+
+You can also use average.path.length() to compute this value.
+
+
+### Hálózati véletlenszerűsítések
+
+Az előző gyakorlatban észrevehette, hogy a Forrest Gump hálózat átlagos úthossza kisebb volt, mint a véletlenszerű hálózat átlagos úthossza. Ha néhányszor lefuttatta a kódot, akkor észrevette, hogy a Forrest Gump hálózatban szinte mindig alacsonyabb, mint a véletlenszerű hálózatban. Ez azt sugallja, hogy a Forrest Gump hálózat jobban össze van kapcsolva, mint minden véletlenszerű hálózat, annak ellenére, hogy a véletlenszerű hálózatoknak ugyanannyi csúcsuk van, és megközelítőleg azonos gráfsűrűséggel rendelkeznek. A kód többszöri újrafuttatása helyett formálisabban kezelheti ezt úgy, hogy 1000 véletlenszerű gráfot hoz létre az eredeti Forrest Gump gráf csúcsainak száma és sűrűsége alapján. Ezután láthatja, hogy a véletlenszerű gráfok átlagos úthossza hányszor kisebb, mint az eredeti Forrest Gump hálózaté. Ezt randomizációs tesztnek nevezik.
+
+A g grafikon és átlagos úthossza (amelyet az előző gyakorlatban számított), g.apl a munkaterületén található.
+
+
+Generáljon 1000 véletlenszerű gráfot az eredeti g gráfból a gl listaobjektumot és a for ciklust létrehozó kód végrehajtásával.
+Számítsa ki az 1000 véletlenszerű gráf átlagos úthosszát a lapply() segítségével. Hozzon létre egy gl.apls vektort ebből az 1000 értékből az unlist() kódot használó kód végrehajtásával.
+Ábrázolja az 1000 véletlen gráf átlagos úthosszának hisztogramját a hist() segítségével a gl.apls vektoron. Adjon hozzá egy piros szaggatott függőleges vonalat a diagramhoz az abline() segítségével, ahol az x metszéspont az eredeti gráf átlagos úthosszának értéke, g.apl.
+Számítsa ki, hogy a gl.apls véletlen gráfok átlagos úthosszának értékei hányszor kisebbek az eredeti g.apl gráf értékénél. Ez lényegében annak a valószínűsége, hogy az eredeti gráf eredeti sűrűsége és csúcsainak száma alapján véletlenül várnánk a megfigyelt átlagos úthosszunkat.
+
+```{r}
+# Generate 1000 random graphs
+gl <- vector('list',1000)
+  
+for(i in 1:1000){
+  gl[[i]] <- erdos.renyi.game(n = gorder(g), p.or.m = gd, type = "gnp")
+}
+
+# Calculate average path length of 1000 random graphs
+gl.apls <- unlist(lapply(gl, mean_distance, directed = FALSE))
+
+# Plot the distribution of average path lengths
+hist(gl.apls, xlim = range(c(1.5, 6)))
+abline(v = g.apl, col = "red", lty = 3, lwd = 2)
+
+# Calculate the proportion of graphs with an average path length lower than our observed
+mean(gl.apls < g.apl)
+
+```
+
+
+Great work! As you can see, the Forrest Gump network is far more interconnected than we would expect by chance as zero random networks have an average path length smaller than the Forrest Gump network's average path length.
+
+
+
+### Háromszögek és tranzitivitás
+
+A helyi kapcsolódás másik fontos mértéke a hálózati gráfokban a háromszögek (más néven triádok) vizsgálata. Ebben a gyakorlatban megtalálja az összes zárt háromszöget, amely egy hálózatban létezik. Ez azt jelenti, hogy három megadott csúcs között él létezik. Ezután kiszámíthatja a hálózat tranzitivitását. Ez megegyezik a hálózat összes lehetséges háromszögének zárt arányával. Megtanulja azt is, hogyan lehet azonosítani azon zárt háromszögek számát, amelyeknek egy adott csúcs része, és annak lokális tranzitivitását – vagyis a zárt háromszögek arányát, amelyeknek a csúcs része a háromszögek elméleti számának függvényében. része.
+
+
+Mutassa meg a Forrest Gump hálózat összes lehetséges háromszögének mátrixát g a triangles() függvény segítségével.
+A count_triangles() függvény segítségével keresse meg, hány háromszögnek a része a "BUBBA" csúcs. A vids argumentum a csúcs azonosítójára vonatkozik.
+Számítsa ki a g hálózat globális tranzitivitását a tranzitivitás() segítségével.
+Keresse meg a "BUBBA" csúcs helyi tranzitivitását a tranzitív() függvény használatával is. A típus helyiként van definiálva, jelezve, hogy helyi, nem pedig globális tranzitivitást számít.
+
+```{r}
+
+# Show all triangles in the network.
+matrix(triangles(g), nrow = 3)
+
+# Count the number of triangles that vertex "BUBBA" is in.
+count_triangles(g, vids = 'BUBBA')
+
+# Calculate  the global transitivity of the network.
+g.tr <- transitivity(g)
+g.tr
+
+# Calculate the local transitivity for vertex BUBBA.
+transitivity(g, vids = 'BUBBA', type = "local")
+```
+
+
+
+### Tranzitív véletlenszerűsítések
+
+Ahogy az átlagos úthossz esetében, vizsgáljuk meg, hogy a Forrest Gump hálózat globális tranzitivitása szignifikánsan magasabb-e, mint azt véletlenül az azonos méretű és sűrűségű hálózatok esetében várnánk. Összehasonlíthatja a Forrest Gump globális tranzitivitását 1000 másik véletlenszerű hálózattal.
+
+Ezer véletlenszerű hálózatot tárol a gl listaobjektum. A lapply() és a tranzitivity() segítségével számítsuk ki ezen hálózatok globális tranzitivitását. Rendelje hozzá ezeket az eredményeket a gl.tr.
+Az unlist() segítségével konvertálja a gl.tr-t numerikus vektorrá gl.trs.
+Vizsgálja meg a véletlenszerű hálózatok tranzitivitásainak összesített statisztikáit summary() segítségével.
+Számítsa ki azoknak a véletlenszerű gráfoknak az arányát, amelyek tranzitivitása nagyobb, mint a Forrest Gump-hálózat tranzitivitása, amelyet korábban kiszámított és hozzárendelt a g.tr-hez.
+
+```{r}
+library(igraph)
+
+# Calculate average transitivity of 1000 random graphs
+gl.tr <- lapply(gl, transitivity)
+gl.trs <- unlist(gl.tr)
+
+# Get summary statistics of transitivity scores
+summary(gl.trs)
+
+# Calculate the proportion of graphs with a transitivity score higher than Forrest Gump's network
+mean(gl.trs > g.tr)
+
+
+
+```
+
+
+### Klikkek
+
+A klikkek azonosítása általános gyakorlat az irányítatlan hálózatokban. Egy klikkben minden két egyedi csomópont szomszédos - ez azt jelenti, hogy minden egyes csomópont kapcsolódik a klikk minden másik egyedi csomópontjához. Ebben a gyakorlatban azonosítja a Forrest Gump hálózat legnagyobb klikkjeit. A különböző méretű klikkek maximális számát is meghatározhatja. Egy klikk akkor maximális, ha nem terjeszthető ki nagyobb klikkre.
+
+Azonosítsa a hálózat legnagyobb klikkjeit a large_cliques() függvény segítségével.
+Határozza meg a hálózat összes maximális klikkjét a max_cliques() függvény segítségével. Rendelje hozzá ennek a függvénynek a kimenetét a clq listaobjektumhoz.
+Számítsa ki az egyes maximális klikkek hosszát! Használja a lapply()-t a clq objektumban való hurkoláshoz, meghatározva a listában szereplő egyes objektumok hosszát(). Ezután az unlist() és a table() segítségével figyelje meg, mekkora az egyes maximális klikk.
+
+```{r}
+library(igraph)
+
+# Identify the largest cliques in the network
+largest_cliques(g)
+
+# Determine all maximal cliques in the network and assign to object 'clq'
+clq <- max_cliques(g)
+
+# Calculate the size of each maximal clique.
+table(unlist(lapply(clq, length)))
+
+
+```
+
+
+### Képzeld el a legnagyobb klikkeket
+
+A hálózati vizualizáció során gyakran meg kell adnia a hálózat egy részét, hogy megvizsgálja bizonyos csúcsok összekapcsolását. Itt létrehozhatja a Forrest Gump hálózat legnagyobb klikkjeit. Az utolsó gyakorlatban megállapította, hogy két 9-es méretű klikk van. Ezeket egymás mellett fogja ábrázolni, miután két új igraph objektumot hozott létre úgy, hogy a fő hálózatból kijelöli ezeket a klikkeket. A subgraph() függvény lehetővé teszi, hogy kiválassza, mely csúcsokat kívánja megtartani egy új hálózati objektumban.
+
+
+Rendelje hozzá a hálózat legnagyobb klikkjeinek listáját az lc objektumhoz.
+Hozzon létre két új irányítatlan részgráfot a subgraph() függvény segítségével. Az első, a gs1, csak az első legnagyobb klikk csúcsait tartalmazza. A második, a gs2, csak a második legnagyobb klikk csúcsait tartalmazza. Ez a függvény az as.undirected()-be van csomagolva, így biztosítva, hogy az algráf is irányítatlan legyen.
+Képzeld el egymás mellett a két legnagyobb klikket a plot() segítségével. Először futtassa a kódot: par(mfrow=c(1,2)). Ez annak biztosítására szolgál, hogy a két vizualizáció egymás mellett legyen. Győződjön meg arról, hogy az elrendezés layout.circle() értékre van állítva, hogy a vizualizáció könnyebben látható legyen.
+
+```{r}
+# Assign largest cliques output to object 'lc'
+lc <- largest_cliques(g)
+
+# Create two new undirected subgraphs, each containing only the vertices of each largest clique.
+gs1 <- as.undirected(subgraph(g, lc[[1]]))
+gs2 <- as.undirected(subgraph(g, lc[[2]]))
+
+
+# Plot the two largest cliques side-by-side
+
+par(mfrow=c(1,2)) # To plot two plots side-by-side
+
+plot(gs1,
+     vertex.label.color = "black", 
+     vertex.label.cex = 0.9,
+     vertex.size = 0,
+     edge.color = 'gray28',
+     main = "Largest Clique 1",
+     layout = layout.circle(gs1)
+)
+
+plot(gs2,
+     vertex.label.color = "black", 
+     vertex.label.cex = 0.9,
+     vertex.size = 0,
+     edge.color = 'gray28',
+     main = "Largest Clique 2",
+     layout = layout.circle(gs2)
+)
+
+```
+
+### Válogatottság
+
+Ebben a gyakorlatban meghatározza a második baráti hálózat assortativitását() az első fejezetből. Ez annak mértéke, hogy a csúcsok hogyan kapcsolódnak preferenciálisan más, azonos attribútumokkal rendelkező csúcsokhoz. Azt is meg kell határoznia a fokválasztékot, amely meghatározza, hogy a csúcsok milyen előnyben kapcsolódnak más, hasonló fokú csúcsokhoz.
+
+
+Készíts egy feltáró ábrát a g1 barátsági hálózat objektumról a plot() segítségével.
+Konvertálja az egyes csúcsok gender attribútumait értékeknek nevezett számvektorokká faktorizálással, majd az as.numeric() használatával.
+Számítsa ki a nemek alapján az assortativitást az assortivity() függvény segítségével. Az első argumentum a g1 gráfobjektum legyen. A második érv az értékek.
+Számítsd ki a hálózat fokozatos asszortivitását az assortivity.degree() segítségével. Az első argumentumnak a gráf objektumnak kell lennie.
+
+
+```{r}
+# Plot the network
+plot(g1)
+
+# Convert the gender attribute into a numeric value
+values <- as.numeric(factor(V(g1)$gender))
+
+# Calculate the assortativity of the network based on gender
+assortativity(g1, values)
+
+# Calculate the assortativity degree of the network
+assortativity.degree(g1, directed = FALSE)
+
+
+```
+
+### Véletlenszerű besorolások alkalmazása az asszortativitás értékelésére
+
+Ebben a gyakorlatban egy randomizációs eljárással meghatározza, hogy a baráti hálózatban megfigyelt asszortativitás milyen valószínűséggel kapja meg a csúcsok nemét. Véletlenszerűen módosítja a hálózat csúcsainak nemét 1000-szer, és újraszámolja az egyes véletlenszerű hálózatok választékát.
+
+
+Használja az assortivity()-t a g1 gráfobjektum aszszortativitásának kiszámításához nemek alapján az előző gyakorlatban számított objektumértékek felhasználásával, és rendelje hozzá a megfigyelt objektumhoz.assortivity.
+A for cikluson belül számítsa ki a g1 hálózat asszortativitását az assortivity() segítségével, miközben véletlenszerűen módosítja az objektumértékeket a sample() segítségével.
+Ábrázolja az assortativitási értékek eloszlását ebből a permutációs eljárásból a hist() segítségével, és adjon hozzá egy piros függőleges vonalat az eredeti g1 hálózat megfigyelt assortativitási értékéhez, amely a megfigyelt.assortativitásban van tárolva.
+
+```{r}
+# Calculate the observed assortativity
+observed.assortativity <- assortativity(g1, values)
+
+# Calculate the assortativity of the network randomizing the gender attribute 1000 times
+results <- vector('list', 1000)
+for(i in 1:1000){
+  results[[i]] <- assortativity(g1, sample(values))
+}
+
+# Plot the distribution of assortativity values and add a red vertical line at the original observed value
+hist(unlist(results))
+abline(v = observed.assortativity, col = "red", lty = 3, lwd=2)
+
+```
+
+
+### Viszonosság
+Az irányított hálózat reciprocitása a szimmetrikus élek arányát tükrözi. Vagyis azon kimenő élek aránya, amelyeknek bejövő élük is van. Általában annak meghatározására használják, hogy az irányított hálózatok mennyire kapcsolódnak egymáshoz. Egy ilyen hálózatra példa lehet a csimpánzok ápolása. Egyes csimpánzok ápolgathatnak egy másikat, de az adott egyed nem ápolja őket, míg más csimpánzok ápolhatják egymást, és így kölcsönös kötelék lennének.
+
+Ebben a példában egymást ápoló csimpánzok hálózatában készítse el a g hálózat felfedező diagramját a plot() segítségével. Állítsa a nyíl méretét 0,3-ra az edge.arrow.size argumentum használatával, a nyíl szélességét pedig 0,5-re az edge.arrow.width argumentum használatával.
+Számítsa ki a gráf reciprocitását a reciprocity() segítségével.
+
+```{r}
+library(igraph)
+
+# Make a plot of the chimp grooming network
+plot(g,
+     edge.color = "black",
+     edge.arrow.size = 0.3,
+     edge.arrow.width = 0.5)
+
+
+# Calculate the reciprocity of the graph
+reciprocity(g)
+
+```
+
+
+### Gyors-kapzsi közösségészlelés
+
+Az első közösségészlelési módszer, amelyet kipróbálni fog, a gyors mohó közösségészlelés. A Zachary Karate Club hálózatot fogja használni. Ez a közösségi hálózat 34 klubtagot és 78 élt tartalmaz. Mindegyik él azt jelzi, hogy ez a két klubtag a karate klubon kívül és a klubban is érintkezett. A hálózat segítségével meghatározhatja, hogy hány alközösség van a hálózatban, és mely klubtagok melyik alcsoporthoz tartoznak. A hálózatokat a közösségi tagság alapján is megrajzolhatod.
+
+
+Használja a fastgreedy.community() függvényt egy közösségi objektum létrehozásához. Rendelje ezt a kc objektumhoz.
+Használja a sizes() függvényt a kc-n annak meghatározására, hogy hány közösséget észleltek, és hány klubtag van mindegyikben.
+A tagság() függvény segítségével jelenítse meg, hogy mely klubtagok melyik közösséghez tartoznak.
+Az alapértelmezett közösségi plot létrehozása a plot() függvény használatával. Az első argumentum a kc objektum, a második argumentum pedig a g gráfobjektum.
+
+```{r}
+# Perform fast-greedy community detection on network graph
+kc = fastgreedy.community(g)
+
+# Determine sizes of each community
+sizes(kc)
+
+# Determine which individuals belong to which community
+membership(kc)
+
+# Plot the community structure of the network
+plot(kc, g)
+
+```
+
+### Életközi közösség észlelése
+
+Alternatív közösségi kimutatási módszer az él-közöttség. Ebben a gyakorlatban megismétli a karate klub közösségi észlelését ezzel a módszerrel, és vizuálisan összehasonlítja az eredményeket a gyors mohó módszerrel.
+
+Használja az edge.betweenness.community() függvényt a g gráf objektumon a gc közösségi igraph objektum létrehozásához.
+Számítsa ki a közösségek méretét és számát a közösségi igraph objektumon található függvényméretek használatával.
+Az egyes közösségek ábrázolása a par() segítségével. Az első diagramnak tartalmaznia kell az előző gyakorlatból származó kc közösségi objektumot. A második parcellának tartalmaznia kell a gc közösségi objektumot.
+
+```{r}
+# Perform edge-betweenness community detection on network graph
+gc = edge.betweenness.community(g)
+
+# Determine sizes of each community
+sizes(gc)
+
+# Plot community networks determined by fast-greedy and edge-betweenness methods side-by-side
+par(mfrow = c(1, 2)) 
+plot(kc, g)
+plot(gc, g)
+
+
+
+```
+
+
+### Interaktív hálózatok threejs-sel
+Ebben a kurzusban kizárólag az igraph-ot használta az alapvető statikus hálózati diagramok elkészítéséhez. Számos csomag áll rendelkezésre hálózati tervek készítéséhez. Az egyik nagyon hasznos a threejs, amely lehetővé teszi interaktív hálózati vizualizációk készítését. Ez a csomag is zökkenőmentesen integrálható az igraph-val. Ebben a gyakorlatban elkészíti a karate klub hálózatának alapszintű interaktív hálózati tervét a threejs csomag segítségével. Miután elkészítette a vizualizációt, mozgassa a hálózatot az egérrel. Képesnek kell lennie a hálózatba való be- és kilépésre, valamint a hálózat elforgatására.
+
+Először a set_vertex_attr() használatával hozzunk létre egy új csúcs attribútumot color néven, ami a dodgerblue.
+Ábrázolja a g hálózatot a threejs graphjs() függvény segítségével. Az első argumentum a g gráfobjektum legyen. Tegye a csúcs méretét 1-gyel egyenlővé.
+
+```{r}
+
+library(igraph)
+library(threejs)
+
+# Set a vertex attribute called 'color' to 'dodgerblue' 
+g <- set_vertex_attr(g, "color", value = "dodgerblue")
+
+# Redraw the graph and make the vertex size 1
+graphjs(g, vertex.size = 1)
+
+```
+
+
+### Csúcsok méretezése threejs-ben
+Mint minden hálózati vizualizációnál, gyakran érdemes módosítani a csúcsok méretét, hogy szemléltesse relatív fontosságukat. Ez a threejs-ben is egyértelmű. Ebben a gyakorlatban létrehoz egy interaktív threejs diagramot a karate klub hálózatáról és méretcsúcsokról a relatív sajátvektor-centralitásuk alapján.
+
+Számítsa ki az egyes csúcsok sajátvektor-centralitását az eigen_centrality() segítségével, és tárolja az értékeket az ec objektumban.
+Az sqrt() használatával állítsa be az ec értékeit, hogy létrehozzon egy új v értékek vektorát, amely egyenlő az eredeti sajátvektor-centralitás négyzetgyökének ötszörösével.
+Ábrázolja a hálózatot a threejs graphjs függvény használatával, és állítsa a vertex.size argumentumot egyenlővé a v értékeivel.
+
+```{r}
+
+# Create numerical vector of vertex eigenvector centralities 
+ec <- as.numeric(eigen_centrality(g)$vector)
+
+# Create new vector 'v' that is equal to the square-root of 'ec' multiplied by 5
+v <- 5*sqrt(ec)
+
+# Plot threejs plot of graph setting vertex size to v
+graphjs(g, vertex.size = v)
+
+```
+
+
+
+### 3D közösségi hálózati grafikon
+Végül ebben a gyakorlatban egy interaktív threejs plot-t fogunk létrehozni a csúcsokkal a közösségi tagságuk alapján, a gyors mohó közösségészlelési módszerrel.
+
+Használja a member() függvényt a kc közösségi igraph objektumon, hogy létrehozzon egy vektort a közösség tagságáról minden csúcshoz.
+Ellenőrizze, hogy hány közösség van a sizes() függvény segítségével a kc közösségi igraph objektumon.
+A set_vertex_attr() segítségével adjunk hozzá egy color nevű csúcsattribútumot a g gráfobjektumhoz. A hozzáadandó értékek az i objektumhoz rendelt tagságon alapuló színek.
+Ábrázolja a háromdimenziós gráfot a graphjs() függvény segítségével a g hálózati objektumon.
+
+```{r}
+# Create an object 'i' containin the memberships of the fast-greedy community detection
+i <-  membership(kc)
+
+# Check the number of different communities
+sizes(kc)
+
+# Add a color attribute to each vertex, setting the color based on community membership
+g <- set_vertex_attr(g, "color", value = c("yellow", "blue", "red")[i])
+
+# Plot the graph using threejs
+graphjs(g)
+
+
+
+```
+
+
+
+
